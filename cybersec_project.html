@@ -18,7 +18,7 @@
     --border:    #1e2d45;
     --border2:   #2a3f5f;
     --text:      #cdd9f0;
-    --text-dim:  #6b7fa3;
+    --text-dim:  #9babc8;
     --text-bright: #eef2ff;
   }
 
@@ -44,7 +44,7 @@
   .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 12px rgba(0,0,0,0.4); }
   .card h2 { color: var(--text-bright); font-size: 18px; margin-bottom: 12px; }
   .card h3 { color: var(--accent); font-size: 15px; margin-bottom: 10px; }
-  .card p, .card li { color: var(--text-dim); line-height: 1.7; font-size: 14px; }
+  .card p, .card li { color: var(--text); line-height: 1.7; font-size: 14px; }
   .card ul, .card ol { padding-left: 20px; margin-top: 8px; }
   .card li { margin-bottom: 4px; }
 
@@ -219,7 +219,7 @@
   <button class="nav-btn" onclick="goTo(9)" id="nb9" style="margin-left:auto; color:#e3b341;"><span class="phase-num" style="background:#2d2a1b; color:#e3b341;">I</span>Instructor</button>
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
-  <span id="autosave-status" style="color:#8b949e; font-size:12px; flex:1;">Autosave active</span>
+  <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
   <button class="btn btn-gray" style="font-size:12px;" onclick="autoSave()">Save Now</button>
   <button class="btn btn-gray" style="font-size:12px;" onclick="saveMyWork()">Export .html</button>
   <button class="btn btn-gray" style="font-size:12px; color:#ff7b72;" onclick="clearSave()">Clear Progress</button>
@@ -230,7 +230,7 @@
   <div class="card" style="border-color:#da3633;">
     <div class="alert alert-red" style="margin-bottom:16px;">CONFIDENTIAL — FOR AUTHORIZED ANALYSTS ONLY</div>
     <h2 style="color:#ff7b72; font-size:22px;">Operation: Silent Pivot</h2>
-    <p style="color:#8b949e; margin-top:6px; font-size:13px;">SOC Analyst Final Assessment &mdash; Estimated time: 5&ndash;7 hours</p>
+    <p style="color:#a8b8d0; margin-top:6px; font-size:13px;">SOC Analyst Final Assessment &mdash; Estimated time: 5&ndash;7 hours</p>
   </div>
 
   <div class="card">
@@ -292,7 +292,7 @@
     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
       <div style="flex:1;">
         <p style="color:#e3b341; font-size:13px; font-weight:bold; margin-bottom:4px;">Saving Your Work</p>
-        <p style="color:#8b949e; font-size:13px;">This project will take several sessions to complete. Your progress saves automatically in this browser, but <strong style="color:#f0f6fc;">if you switch devices or browsers you will lose it.</strong> Use the <strong style="color:#f0f6fc;">Export .html</strong> button in the toolbar at the end of every session to take your work with you.</p>
+        <p style="color:#a8b8d0; font-size:13px;">This project will take several sessions to complete. Your progress saves automatically in this browser, but <strong style="color:#f0f6fc;">if you switch devices or browsers you will lose it.</strong> Use the <strong style="color:#f0f6fc;">Export .html</strong> button in the toolbar at the end of every session to take your work with you.</p>
       </div>
       <button class="btn btn-gray" style="font-size:12px; white-space:nowrap;" onclick="saveMyWork()">Export .html now</button>
     </div>
@@ -308,7 +308,7 @@
     <h2>Phase 1 — Stakeholder Interview</h2>
     <p>You are sitting across from <strong style="color:#f0f6fc;">Jordan Reyes</strong>, IT Manager at ClearPath Medical Billing. Jordan is cooperative but visibly stressed. Ask questions to understand the company's security posture before you begin your technical investigation.</p>
     <br>
-    <p style="color:#8b949e; font-size:13px;">Type your questions naturally. Jordan will respond based on what you ask. Try to uncover information about passwords, backups, MFA, logging, frameworks, the database, network setup, and more. You need this context for your final report.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Type your questions naturally. Jordan will respond based on what you ask. Try to uncover information about passwords, backups, MFA, logging, frameworks, the database, network setup, and more. You need this context for your final report.</p>
   </div>
 
   <div class="card" style="padding:16px;">
@@ -316,7 +316,7 @@
       <div style="width:48px; height:48px; border-radius:50%; background:#2d3748; border:2px solid #e3b341; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">J</div>
       <div>
         <div style="color:#f0f6fc; font-size:14px; font-weight:bold;">Jordan Reyes</div>
-        <div style="color:#8b949e; font-size:12px;">IT Manager, ClearPath Medical Billing</div>
+        <div style="color:#a8b8d0; font-size:12px;">IT Manager, ClearPath Medical Billing</div>
       </div>
       <div style="margin-left:auto;"><span class="badge badge-yellow">Interview in progress</span></div>
     </div>
@@ -343,12 +343,12 @@
       <div class="finding-item" id="jt-training"><span class="fi-label">Security training</span></div>
       <div class="finding-item" id="jt-vendor"><span class="fi-label">Third-party / vendors</span></div>
     </div>
-    <p id="jordan-debrief-score" style="margin-top:14px; font-size:13px; color:#8b949e;"></p>
+    <p id="jordan-debrief-score" style="margin-top:14px; font-size:13px; color:#a8b8d0;"></p>
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(0)">&larr; Back</button>
-    <span style="color:#8b949e; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
     <button class="btn btn-primary" onclick="showJordanDebriefAndProceed()">Proceed to SIEM &rarr;</button>
   </div>
 </div>
@@ -394,7 +394,7 @@
       <!-- Saved searches -->
       <div class="card" style="padding:16px; margin-bottom:16px;">
         <h3 style="margin-bottom:12px;">Saved Searches</h3>
-        <p style="color:#8b949e; font-size:12px; margin-bottom:10px;">Click to load into editor. You still need to run it.</p>
+        <p style="color:#a8b8d0; font-size:12px; margin-bottom:10px;">Click to load into editor. You still need to run it.</p>
         <div style="display:flex; flex-direction:column; gap:6px;">
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM events ORDER BY timestamp ASC;')">All events by time</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT event_type, COUNT(*) as count\nFROM events\nGROUP BY event_type\nORDER BY count DESC;')">Event type summary</button>
@@ -410,19 +410,19 @@
         <h3 style="margin-bottom:12px;">Schema Reference</h3>
         <div style="margin-bottom:12px;">
           <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">events</p>
-          <div style="font-size:11px; color:#8b949e; line-height:1.9;">
+          <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             id, timestamp, event_type<br>source_ip, username<br>description, severity
           </div>
         </div>
         <div style="margin-bottom:12px;">
           <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">db_query_log</p>
-          <div style="font-size:11px; color:#8b949e; line-height:1.9;">
+          <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             id, timestamp, username<br>query_text, rows_returned<br>flagged
           </div>
         </div>
         <div>
           <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">user_accounts</p>
-          <div style="font-size:11px; color:#8b949e; line-height:1.9;">
+          <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             username, created_at<br>last_login, is_admin<br>account_status
           </div>
         </div>
@@ -435,7 +435,7 @@
       <div class="card" style="padding:16px; margin-bottom:16px;">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
           <h3 style="margin-bottom:0;">Live Alert Feed</h3>
-          <span style="font-size:11px; color:#8b949e;">Most recent 10 alerts — use Query Editor for full data</span>
+          <span style="font-size:11px; color:#a8b8d0;">Most recent 10 alerts — use Query Editor for full data</span>
         </div>
         <div id="siem-alert-feed" style="display:flex; flex-direction:column; gap:6px; max-height:340px; overflow-y:auto;"></div>
       </div>
@@ -444,7 +444,7 @@
       <div style="background:#161b22; border:1px solid #30363d; border-radius:8px; overflow:hidden; margin-bottom:16px;">
         <div style="background:#1c2128; padding:10px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid #30363d;">
           <span style="color:#58a6ff; font-size:12px; font-weight:bold; letter-spacing:0.5px;">QUERY EDITOR</span>
-          <span style="color:#8b949e; font-size:11px;">MySQL syntax supported &mdash; read-only</span>
+          <span style="color:#a8b8d0; font-size:11px;">MySQL syntax supported &mdash; read-only</span>
           <div style="margin-left:auto; display:flex; gap:8px;">
             <button class="btn btn-blue" style="font-size:12px; padding:5px 14px;" onclick="runSiemQuery()">&#9654; Run</button>
             <button class="btn btn-gray" style="font-size:12px; padding:5px 10px;" onclick="clearSiemQuery()" title="Clear">&#10005;</button>
@@ -452,16 +452,16 @@
         </div>
         <textarea id="siem-input" style="width:100%; background:#010409; border:none; color:#c9d1d9; font-family:'Courier New',monospace; font-size:13px; padding:14px 16px; min-height:90px; outline:none; resize:vertical; border-bottom:1px solid #30363d;" placeholder="Write your SQL query here..." spellcheck="false">SELECT * FROM events LIMIT 20;</textarea>
         <div id="siem-results" style="padding:12px 16px; min-height:48px; font-size:12px; overflow-x:auto; background:#010409;">
-          <span style="color:#8b949e;">Run a query to see results.</span>
+          <span style="color:#a8b8d0;">Run a query to see results.</span>
         </div>
         <div style="background:#1c2128; padding:6px 16px; border-top:1px solid #30363d;">
-          <span id="siem-status-bar" style="color:#8b949e; font-size:11px;">Ready</span>
+          <span id="siem-status-bar" style="color:#a8b8d0; font-size:11px;">Ready</span>
         </div>
       </div>
 
       <!-- Hints -->
       <div class="card" style="padding:14px;">
-        <h3 style="margin-bottom:8px;">Hints <span style="color:#8b949e; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+        <h3 style="margin-bottom:8px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
         <div id="siem-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
         <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('siem-hints', siemHints)">Show Next Hint</button>
       </div>
@@ -477,7 +477,7 @@
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(1)">&larr; Back</button>
-    <span style="color:#8b949e; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
     <button class="btn btn-primary" onclick="goTo(3)">Proceed to Terminal &rarr;</button>
   </div>
 </div>
@@ -488,7 +488,7 @@
     <h2>Phase 3 — Linux Server Investigation</h2>
     <p>You have been given SSH access to ClearPath's primary Linux server (<code>clearpath-prod-01</code>, Ubuntu 22.04). The server was online during the incident. Investigate for attacker artifacts.</p>
     <br>
-    <p style="color:#8b949e; font-size:13px;">Use the terminal below. Try commands like <code>whoami</code>, <code>cat /etc/passwd</code>, <code>crontab -l</code>, <code>ls /tmp</code>, <code>cat ~/.bash_history</code>, <code>last</code>, <code>ps aux</code>, <code>netstat -an</code>, and more. Not everything is malicious — you have to determine what is.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Use the terminal below. Try commands like <code>whoami</code>, <code>cat /etc/passwd</code>, <code>crontab -l</code>, <code>ls /tmp</code>, <code>cat ~/.bash_history</code>, <code>last</code>, <code>ps aux</code>, <code>netstat -an</code>, and more. Not everything is malicious — you have to determine what is.</p>
   </div>
 
   <div class="card" style="padding:16px;">
@@ -496,7 +496,7 @@
       <div style="width:12px; height:12px; border-radius:50%; background:#3fb950;"></div>
       <div style="width:12px; height:12px; border-radius:50%; background:#d29922;"></div>
       <div style="width:12px; height:12px; border-radius:50%; background:#da3633;"></div>
-      <span style="color:#8b949e; font-size:12px; margin-left:8px;">clearpath-prod-01 &mdash; bash</span>
+      <span style="color:#a8b8d0; font-size:12px; margin-left:8px;">clearpath-prod-01 &mdash; bash</span>
     </div>
     <div id="terminal-output" onclick="document.getElementById('terminal-input').focus()"></div>
     <div id="terminal-input-row">
@@ -506,7 +506,7 @@
   </div>
 
   <div class="card">
-    <h3>Hints <span style="color:#8b949e; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <h3>Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
     <div id="terminal-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
     <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('terminal-hints', termHints)">Show Next Hint</button>
   </div>
@@ -519,7 +519,7 @@
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(2)">&larr; Back</button>
-    <span style="color:#8b949e; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
     <button class="btn btn-primary" onclick="goTo(4)">Proceed to Python Task &rarr;</button>
   </div>
 </div>
@@ -530,7 +530,7 @@
     <h2>Phase 4 — Python Automation Task</h2>
     <p>One of the key findings in this investigation is a <strong style="color:#f0f6fc;">brute force SSH attack</strong> that preceded the breach. A fellow analyst started writing a script to automatically detect this pattern in raw log files — but they left before finishing it, and it has bugs. Your job is to find and fix them so the script runs correctly.</p>
     <br>
-    <p style="color:#8b949e; font-size:13px;">This is the kind of script a SOC team would use as an ongoing detective control — run it against any auth.log to surface brute force activity automatically.</p>
+    <p style="color:#a8b8d0; font-size:13px;">This is the kind of script a SOC team would use as an ongoing detective control — run it against any auth.log to surface brute force activity automatically.</p>
   </div>
 
   <div class="card">
@@ -539,7 +539,7 @@
     <ol style="font-size:14px; line-height:2.2; margin-top:12px;">
       <li>Verify Python is installed. Open a terminal (Command Prompt / PowerShell on Windows, Terminal on Mac) and run:
         <div style="background:#010409; border:1px solid #30363d; border-radius:4px; padding:8px 12px; margin-top:4px; font-family:'Courier New',monospace; font-size:13px; color:#79c0ff;">python --version</div>
-        <p style="color:#8b949e; font-size:12px; margin-top:4px;">If that doesn't work, try <code>python3 --version</code>. You need version 3.6 or higher.</p>
+        <p style="color:#a8b8d0; font-size:12px; margin-top:4px;">If that doesn't work, try <code>python3 --version</code>. You need version 3.6 or higher.</p>
       </li>
       <li>Create a folder on your desktop called <code>clearpath_investigation</code>.</li>
       <li>Download <code>auth.log</code> using the button below and save it into that folder.</li>
@@ -551,25 +551,25 @@
 
   <div class="card">
     <h3>Step 2 — The Buggy Script</h3>
-    <p style="color:#8b949e; font-size:13px; margin-bottom:12px;">This script has <strong style="color:#ff7b72;">4 bugs</strong>. It will either crash, produce no output, or produce wrong output. Find and fix all of them.</p>
-    <pre style="background:#010409; border:1px solid #30363d; border-radius:6px; padding:14px; font-size:13px; color:#c9d1d9; overflow-x:auto; line-height:1.8;"><span style="color:#8b949e;"># log_parser.py — ClearPath SOC Analyst Tool</span>
-<span style="color:#8b949e;"># Find IPs with suspicious failed login activity</span>
+    <p style="color:#a8b8d0; font-size:13px; margin-bottom:12px;">This script has <strong style="color:#ff7b72;">4 bugs</strong>. It will either crash, produce no output, or produce wrong output. Find and fix all of them.</p>
+    <pre style="background:#010409; border:1px solid #30363d; border-radius:6px; padding:14px; font-size:13px; color:#c9d1d9; overflow-x:auto; line-height:1.8;"><span style="color:#a8b8d0;"># log_parser.py — ClearPath SOC Analyst Tool</span>
+<span style="color:#a8b8d0;"># Find IPs with suspicious failed login activity</span>
 
 failed_attempts = {}
 
 <span style="color:#ff7b72;">with</span> <span style="color:#79c0ff;">open</span>(<span style="color:#a5d6ff;">'auth.log'</span>, <span style="color:#a5d6ff;">'r'</span>) <span style="color:#ff7b72;">as</span> f:
     <span style="color:#ff7b72;">for</span> line <span style="color:#ff7b72;">in</span> f:
-        <span style="color:#ff7b72;">if</span> <span style="color:#a5d6ff;">'Accepted password'</span> <span style="color:#ff7b72;">in</span> line:  <span style="color:#8b949e;">                    # bug 1</span>
+        <span style="color:#ff7b72;">if</span> <span style="color:#a5d6ff;">'Accepted password'</span> <span style="color:#ff7b72;">in</span> line:  <span style="color:#a8b8d0;">                    # bug 1</span>
             parts = line.split()
-            ip = parts[<span style="color:#79c0ff;">11</span>]  <span style="color:#8b949e;">                                    # bug 2</span>
+            ip = parts[<span style="color:#79c0ff;">11</span>]  <span style="color:#a8b8d0;">                                    # bug 2</span>
             <span style="color:#ff7b72;">if</span> ip <span style="color:#ff7b72;">in</span> failed_attempts:
                 failed_attempts[ip] += <span style="color:#79c0ff;">1</span>
             <span style="color:#ff7b72;">else</span>:
                 failed_attempts[ip] = <span style="color:#79c0ff;">1</span>
 
 <span style="color:#ff7b72;">for</span> ip, count <span style="color:#ff7b72;">in</span> failed_attempts.items():
-    <span style="color:#ff7b72;">if</span> count <span style="color:#ff7b72;">&gt;</span> <span style="color:#79c0ff;">100</span>:  <span style="color:#8b949e;">                                        # bug 3</span>
-        <span style="color:#ff7b72;">print</span>(ip)  <span style="color:#8b949e;">                                          # bug 4</span></pre>
+    <span style="color:#ff7b72;">if</span> count <span style="color:#ff7b72;">&gt;</span> <span style="color:#79c0ff;">100</span>:  <span style="color:#a8b8d0;">                                        # bug 3</span>
+        <span style="color:#ff7b72;">print</span>(ip)  <span style="color:#a8b8d0;">                                          # bug 4</span></pre>
 
     <div class="alert alert-yellow" style="font-size:13px; margin-top:12px;">
       The comments mark where the bugs are — but not what the bug is or how to fix it. That's your job.
@@ -580,12 +580,12 @@ failed_attempts = {}
     <h3>Step 3 — Run It</h3>
     <p style="font-size:14px; line-height:2;">Once you think you've fixed all the bugs, open your terminal, navigate to your <code>clearpath_investigation</code> folder, and run:</p>
     <div style="background:#010409; border:1px solid #30363d; border-radius:4px; padding:10px 14px; font-family:'Courier New',monospace; font-size:13px; color:#79c0ff; margin:10px 0;">python log_parser.py</div>
-    <p style="color:#8b949e; font-size:13px;">On Mac/Linux you may need to use <code>python3 log_parser.py</code>. To navigate to your folder use <code>cd ~/Desktop/clearpath_investigation</code>.</p>
-    <p style="color:#8b949e; font-size:13px; margin-top:8px;">If it runs with no output, a bug is still present. The correct output will show at least one flagged IP address and its count.</p>
+    <p style="color:#a8b8d0; font-size:13px;">On Mac/Linux you may need to use <code>python3 log_parser.py</code>. To navigate to your folder use <code>cd ~/Desktop/clearpath_investigation</code>.</p>
+    <p style="color:#a8b8d0; font-size:13px; margin-top:8px;">If it runs with no output, a bug is still present. The correct output will show at least one flagged IP address and its count.</p>
   </div>
 
   <div class="card">
-    <h3>Hints <span style="color:#8b949e; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <h3>Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
     <div id="python-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
     <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('python-hints', pyHints)">Show Next Hint</button>
   </div>
@@ -615,7 +615,7 @@ failed_attempts = {}
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(3)">&larr; Back</button>
-    <span style="color:#8b949e; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
     <button class="btn btn-primary" onclick="goTo(5)">Proceed to Playbook &rarr;</button>
   </div>
 </div>
@@ -699,7 +699,7 @@ failed_attempts = {}
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(4)">&larr; Back</button>
-    <span style="color:#8b949e; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
     <button class="btn btn-primary" onclick="goTo(6)">Proceed to Final Report &rarr;</button>
   </div>
 </div>
@@ -710,7 +710,7 @@ failed_attempts = {}
     <h2>Phase 6 — Final Analyst Report</h2>
     <p>This is your portfolio deliverable. Write a professional incident analysis report that you could present to a client or include in a job application. Use your findings from all previous phases.</p>
     <br>
-    <p style="color:#8b949e; font-size:13px;">When complete, use your browser's Print function (<code>Ctrl+P</code> / <code>Cmd+P</code>) and select "Save as PDF" to export your report.</p>
+    <p style="color:#a8b8d0; font-size:13px;">When complete, use your browser's Print function (<code>Ctrl+P</code> / <code>Cmd+P</code>) and select "Save as PDF" to export your report.</p>
   </div>
 
   <div class="card">
@@ -728,19 +728,19 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>1. Executive Summary</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Write a non-technical summary (3-5 sentences) that a business owner could understand. What happened, how bad is it, and what needs to happen next?</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Write a non-technical summary (3-5 sentences) that a business owner could understand. What happened, how bad is it, and what needs to happen next?</p>
       <textarea class="report-field" id="rpt-exec" style="min-height:120px;"></textarea>
     </div>
 
     <div class="report-section">
       <h3>2. Attack Timeline</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Reconstruct the attacker's steps in chronological order based on your SIEM and terminal investigation.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Reconstruct the attacker's steps in chronological order based on your SIEM and terminal investigation.</p>
       <textarea class="report-field" id="rpt-timeline" style="min-height:140px;" placeholder="[01:52 AM] First failed SSH login attempt from 185.220.101.42&#10;[02:14 AM] Successful SSH login — brute force succeeded&#10;[02:14 AM] Attacker created backdoor account 'svc_backup'&#10;[02:17 AM] ..."></textarea>
     </div>
 
     <div class="report-section">
       <h3>3. Technical Findings</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Detail each finding. For each one, note: what you found, where you found it, and its significance.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Detail each finding. For each one, note: what you found, where you found it, and its significance.</p>
 
       <p class="field-label">Finding 1 — Brute Force SSH Attack</p>
       <textarea class="report-field" id="rpt-f1" style="min-height:80px;" placeholder="Describe the brute force evidence you found in the SIEM and/or Python task..."></textarea>
@@ -760,19 +760,19 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>4. NIST CSF Framework Mapping</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Map your findings to the five NIST CSF functions. Identify what failed and what was missing.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Map your findings to the five NIST CSF functions. Identify what failed and what was missing.</p>
       <textarea class="report-field" id="rpt-nist" style="min-height:160px;" placeholder="IDENTIFY: ...&#10;&#10;PROTECT: ...&#10;&#10;DETECT: ...&#10;&#10;RESPOND: ...&#10;&#10;RECOVER: ..."></textarea>
     </div>
 
     <div class="report-section">
       <h3>5. Control Gap Analysis</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created.</p>
       <textarea class="report-field" id="rpt-controls" style="min-height:160px;" placeholder="Control Gap 1: No multi-factor authentication on SSH&#10;Risk: Enabled brute force attack to succeed with only a password&#10;&#10;Control Gap 2: ..."></textarea>
     </div>
 
     <div class="report-section">
       <h3>6. Recommendations</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">Provide prioritized, actionable recommendations. Separate immediate actions from long-term improvements.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Provide prioritized, actionable recommendations. Separate immediate actions from long-term improvements.</p>
       <p class="field-label">Immediate (within 24-48 hours)</p>
       <textarea class="report-field" id="rpt-rec-imm" style="min-height:100px;"></textarea>
       <p class="field-label">Short-term (within 30 days)</p>
@@ -783,7 +783,7 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>7. Legal &amp; Ethical Considerations</h3>
-      <p style="color:#8b949e; font-size:12px; margin-bottom:8px;">This company handles PHI and is subject to HIPAA. Answer the following:</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">This company handles PHI and is subject to HIPAA. Answer the following:</p>
 
       <p class="field-label">Does this incident trigger HIPAA breach notification requirements? Why or why not?</p>
       <textarea class="report-field" id="rpt-hipaa" style="min-height:80px;"></textarea>
@@ -797,12 +797,12 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>8. Appendix — Completed IR Playbook</h3>
-      <p style="color:#8b949e; font-size:13px;">Your IR Playbook from Phase 5 is automatically included as an appendix to this report. Ensure it is complete before exporting to PDF.</p>
+      <p style="color:#a8b8d0; font-size:13px;">Your IR Playbook from Phase 5 is automatically included as an appendix to this report. Ensure it is complete before exporting to PDF.</p>
       <div class="alert alert-blue" style="margin-top:10px;">Your Phase 5 playbook entries will be referenced here in a complete submission. Review Phase 5 to ensure all fields are filled out.</div>
     </div>
 
     <div style="text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid #30363d;">
-      <p style="color:#8b949e; font-size:13px; margin-bottom:14px;">When your report is complete, save it as a PDF using your browser's print function.</p>
+      <p style="color:#a8b8d0; font-size:13px; margin-bottom:14px;">When your report is complete, save it as a PDF using your browser's print function.</p>
       <button class="btn btn-primary" style="font-size:14px; padding:10px 28px;" onclick="window.print()">Export to PDF (Print)</button>
     </div>
   </div>
@@ -818,7 +818,7 @@ failed_attempts = {}
     <h2>Analyst Notebook</h2>
     <p>Use this space to take notes throughout your investigation. This page is for your eyes only — it is <strong style="color:#f0f6fc;">not graded</strong> and will not appear in your PDF report. Think of it as your scratch paper.</p>
     <br>
-    <p style="color:#8b949e; font-size:13px;">All notes are autosaved with the rest of your work. You can come back here at any point during the investigation.</p>
+    <p style="color:#a8b8d0; font-size:13px;">All notes are autosaved with the rest of your work. You can come back here at any point during the investigation.</p>
   </div>
 
   <div class="card">
@@ -864,77 +864,77 @@ failed_attempts = {}
     <h3>Common Errors &amp; Fixes</h3>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">SIEM — "Database not loaded yet"</p>
-    <p style="color:#8b949e; font-size:13px;">The SIEM requires an internet connection to load the database engine. Check your connection and refresh the page. If you're in a restricted network environment, ask your instructor.</p>
+    <p style="color:#a8b8d0; font-size:13px;">The SIEM requires an internet connection to load the database engine. Check your connection and refresh the page. If you're in a restricted network environment, ask your instructor.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">SIEM — Query returns no rows when you expect results</p>
-    <p style="color:#8b949e; font-size:13px;">Check your spelling, capitalization, and quotes. SQLite string comparisons are case-sensitive. Try <code>SHOW TABLES;</code> first to confirm the database loaded correctly.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Check your spelling, capitalization, and quotes. SQLite string comparisons are case-sensitive. Try <code>SHOW TABLES;</code> first to confirm the database loaded correctly.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Python — <code>python: command not found</code></p>
-    <p style="color:#8b949e; font-size:13px;">Try <code>python3</code> instead of <code>python</code>. On Windows, try <code>py</code>. If none work, Python may not be installed — ask your instructor.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Try <code>python3</code> instead of <code>python</code>. On Windows, try <code>py</code>. If none work, Python may not be installed — ask your instructor.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Python — <code>FileNotFoundError: auth.log</code></p>
-    <p style="color:#8b949e; font-size:13px;">Your script and <code>auth.log</code> must be in the same folder. In your terminal, use <code>cd</code> to navigate to that folder before running the script. Use <code>ls</code> (Mac/Linux) or <code>dir</code> (Windows) to confirm both files are there.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Your script and <code>auth.log</code> must be in the same folder. In your terminal, use <code>cd</code> to navigate to that folder before running the script. Use <code>ls</code> (Mac/Linux) or <code>dir</code> (Windows) to confirm both files are there.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Python — Script runs but prints nothing</p>
-    <p style="color:#8b949e; font-size:13px;">This usually means your filtering condition isn't matching anything, or your threshold is set too high. Add a temporary <code>print(line)</code> inside your loop to verify lines are being read. Check what you're searching for against actual lines in the file.</p>
+    <p style="color:#a8b8d0; font-size:13px;">This usually means your filtering condition isn't matching anything, or your threshold is set too high. Add a temporary <code>print(line)</code> inside your loop to verify lines are being read. Check what you're searching for against actual lines in the file.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">PDF export — content gets cut off</p>
-    <p style="color:#8b949e; font-size:13px;">In your browser's print dialog, set margins to "Minimum" or "None" and make sure "Background graphics" is enabled. If text fields are too long, they may wrap across pages — that's normal.</p>
+    <p style="color:#a8b8d0; font-size:13px;">In your browser's print dialog, set margins to "Minimum" or "None" and make sure "Background graphics" is enabled. If text fields are too long, they may wrap across pages — that's normal.</p>
   </div>
 
   <!-- GLOSSARY -->
   <div class="card">
     <h3>Glossary</h3>
-    <p style="color:#8b949e; font-size:13px; margin-bottom:14px;">Terms you may encounter during this investigation.</p>
+    <p style="color:#a8b8d0; font-size:13px; margin-bottom:14px;">Terms you may encounter during this investigation.</p>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Brute Force Attack</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">An attack where an adversary tries many passwords in rapid succession hoping one will work. Detected by large volumes of failed login attempts from the same source.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An attack where an adversary tries many passwords in rapid succession hoping one will work. Detected by large volumes of failed login attempts from the same source.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Persistence</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">A technique attackers use to maintain access to a system even after a reboot or password change. Common methods include scheduled tasks, backdoor accounts, and startup scripts.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A technique attackers use to maintain access to a system even after a reboot or password change. Common methods include scheduled tasks, backdoor accounts, and startup scripts.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Cron Job</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">A scheduled task on a Linux system that runs a command automatically at a set interval. Stored in files under <code>/etc/cron.d/</code> or via the <code>crontab</code> command. Attackers use these for persistence.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A scheduled task on a Linux system that runs a command automatically at a set interval. Stored in files under <code>/etc/cron.d/</code> or via the <code>crontab</code> command. Attackers use these for persistence.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">C2 / Command &amp; Control</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">A server controlled by an attacker that receives connections from compromised systems. An infected machine "beacons" out to C2 regularly to receive instructions or exfiltrate data.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A server controlled by an attacker that receives connections from compromised systems. An infected machine "beacons" out to C2 regularly to receive instructions or exfiltrate data.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Reverse Shell</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">A technique where the compromised machine initiates a connection back to the attacker, giving them an interactive shell. This bypasses inbound firewall rules since the connection goes outbound.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A technique where the compromised machine initiates a connection back to the attacker, giving them an interactive shell. This bypasses inbound firewall rules since the connection goes outbound.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Exfiltration</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Unauthorized transfer of data out of a network. In this investigation, look at what data was queried from the database and whether it could have been sent to an external destination.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Unauthorized transfer of data out of a network. In this investigation, look at what data was queried from the database and whether it could have been sent to an external destination.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">IOC — Indicator of Compromise</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Evidence that a system has been attacked or breached. Examples: suspicious IP addresses, unexpected user accounts, unusual processes, modified files, or anomalous network traffic.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Evidence that a system has been attacked or breached. Examples: suspicious IP addresses, unexpected user accounts, unusual processes, modified files, or anomalous network traffic.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Privilege Escalation</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Gaining higher-level permissions than originally obtained. On Linux, this often means moving from a regular user to root. Watch for accounts added to the <code>sudo</code> group.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Gaining higher-level permissions than originally obtained. On Linux, this often means moving from a regular user to root. Watch for accounts added to the <code>sudo</code> group.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">PHI — Protected Health Information</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Any health-related information that can identify an individual. Includes names, dates of birth, diagnoses, insurance IDs, and billing records. Protected under HIPAA in the United States.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Any health-related information that can identify an individual. Includes names, dates of birth, diagnoses, insurance IDs, and billing records. Protected under HIPAA in the United States.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Anti-Forensics</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Techniques used by attackers to hide their activity or hinder investigation. Common examples: deleting log files, clearing shell history, renaming malicious files to look legitimate.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Techniques used by attackers to hide their activity or hinder investigation. Common examples: deleting log files, clearing shell history, renaming malicious files to look legitimate.</p>
       </div>
       <div style="padding:10px 12px; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Least Privilege</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">A security principle stating that users and systems should only have the minimum access needed to do their job. Violations create unnecessary risk if an account is compromised.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A security principle stating that users and systems should only have the minimum access needed to do their job. Violations create unnecessary risk if an account is compromised.</p>
       </div>
       <div style="padding:10px 12px;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Network Segmentation</p>
-        <p style="color:#8b949e; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so that a breach in one area doesn't automatically give access to everything else. A flat network (no segmentation) means one compromised host can reach all others.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so that a breach in one area doesn't automatically give access to everything else. A flat network (no segmentation) means one compromised host can reach all others.</p>
       </div>
     </div>
   </div>
@@ -942,7 +942,7 @@ failed_attempts = {}
   <!-- HIPAA PRIMER -->
   <div class="card">
     <h3>HIPAA Breach Notification — What You Need to Know</h3>
-    <p style="color:#8b949e; font-size:13px; margin-bottom:12px;">You will need to address HIPAA obligations in your final report. Here are the key facts — you'll need to apply them to this specific incident yourself.</p>
+    <p style="color:#a8b8d0; font-size:13px; margin-bottom:12px;">You will need to address HIPAA obligations in your final report. Here are the key facts — you'll need to apply them to this specific incident yourself.</p>
 
     <div style="display:flex; flex-direction:column; gap:10px;">
       <div class="alert alert-blue" style="font-size:13px;">
@@ -965,22 +965,22 @@ failed_attempts = {}
     <h3>Tips for Writing Your Report</h3>
 
     <p style="color:#f0f6fc; font-size:13px; margin:12px 0 6px;">Executive Summary</p>
-    <p style="color:#8b949e; font-size:13px;">Write this last, after you've completed everything else. Pretend you're explaining the incident to a business owner who is not technical — they need to know what happened, how bad it is, and what happens next. Avoid jargon. 3–5 sentences is enough.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Write this last, after you've completed everything else. Pretend you're explaining the incident to a business owner who is not technical — they need to know what happened, how bad it is, and what happens next. Avoid jargon. 3–5 sentences is enough.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Attack Timeline</p>
-    <p style="color:#8b949e; font-size:13px;">Use your SIEM data and terminal findings together. The SIEM gives you timestamps for most events — use those as anchors. For things you found in the terminal that don't have a SIEM timestamp, use file timestamps or context clues to place them in order.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Use your SIEM data and terminal findings together. The SIEM gives you timestamps for most events — use those as anchors. For things you found in the terminal that don't have a SIEM timestamp, use file timestamps or context clues to place them in order.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Technical Findings</p>
-    <p style="color:#8b949e; font-size:13px;">Each finding should answer three questions: <em>What did you find? Where did you find it? Why does it matter?</em> Don't just list facts — connect them to the impact on the organization.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Each finding should answer three questions: <em>What did you find? Where did you find it? Why does it matter?</em> Don't just list facts — connect them to the impact on the organization.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">NIST CSF Mapping</p>
-    <p style="color:#8b949e; font-size:13px;">For each of the five functions, ask: what did ClearPath do (or fail to do) in this area? Use your interview with Jordan to inform Identify and Protect. Use your SIEM and terminal findings for Detect. Your playbook covers Respond and Recover.</p>
+    <p style="color:#a8b8d0; font-size:13px;">For each of the five functions, ask: what did ClearPath do (or fail to do) in this area? Use your interview with Jordan to inform Identify and Protect. Use your SIEM and terminal findings for Detect. Your playbook covers Respond and Recover.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Recommendations</p>
-    <p style="color:#8b949e; font-size:13px;">Be specific. "Improve security" is not a recommendation. "Implement MFA on all remote access methods within 30 days" is. Immediate recommendations should address the active threat. Short-term closes the gaps. Long-term builds a sustainable posture.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Be specific. "Improve security" is not a recommendation. "Implement MFA on all remote access methods within 30 days" is. Immediate recommendations should address the active threat. Short-term closes the gaps. Long-term builds a sustainable posture.</p>
 
     <p style="color:#f0f6fc; font-size:13px; margin:14px 0 6px;">Ethics Section</p>
-    <p style="color:#8b949e; font-size:13px;">Think about your role as the analyst. You have access to sensitive data, logs, and systems. What obligations come with that? Consider confidentiality, scope of your investigation, and what you do if you discover something unexpected.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Think about your role as the analyst. You have access to sensitive data, logs, and systems. What obligations come with that? Consider confidentiality, scope of your investigation, and what you do if you discover something unexpected.</p>
   </div>
 
   <!-- NIST CSF QUICK REFERENCE -->
@@ -989,23 +989,23 @@ failed_attempts = {}
     <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
       <div style="display:flex; gap:12px; align-items:flex-start; padding:10px; background:#1c2128; border-radius:6px;">
         <span class="badge badge-blue" style="min-width:70px; text-align:center; margin-top:1px;">IDENTIFY</span>
-        <p style="color:#8b949e; font-size:13px;">Understand your assets, risks, and environment. Who has access to what? What data do you hold? What are your most critical systems?</p>
+        <p style="color:#a8b8d0; font-size:13px;">Understand your assets, risks, and environment. Who has access to what? What data do you hold? What are your most critical systems?</p>
       </div>
       <div style="display:flex; gap:12px; align-items:flex-start; padding:10px; background:#1c2128; border-radius:6px;">
         <span class="badge badge-green" style="min-width:70px; text-align:center; margin-top:1px;">PROTECT</span>
-        <p style="color:#8b949e; font-size:13px;">Implement safeguards to limit the impact of an incident. Access controls, MFA, encryption, training, and patching all live here.</p>
+        <p style="color:#a8b8d0; font-size:13px;">Implement safeguards to limit the impact of an incident. Access controls, MFA, encryption, training, and patching all live here.</p>
       </div>
       <div style="display:flex; gap:12px; align-items:flex-start; padding:10px; background:#1c2128; border-radius:6px;">
         <span class="badge badge-yellow" style="min-width:70px; text-align:center; margin-top:1px;">DETECT</span>
-        <p style="color:#8b949e; font-size:13px;">Identify when an incident is occurring. Logging, monitoring, alerting, and anomaly detection. Ask: how quickly was this attack noticed?</p>
+        <p style="color:#a8b8d0; font-size:13px;">Identify when an incident is occurring. Logging, monitoring, alerting, and anomaly detection. Ask: how quickly was this attack noticed?</p>
       </div>
       <div style="display:flex; gap:12px; align-items:flex-start; padding:10px; background:#1c2128; border-radius:6px;">
         <span class="badge badge-red" style="min-width:70px; text-align:center; margin-top:1px;">RESPOND</span>
-        <p style="color:#8b949e; font-size:13px;">Take action during and after an incident. Containment, eradication, communication, and execution of the IR plan.</p>
+        <p style="color:#a8b8d0; font-size:13px;">Take action during and after an incident. Containment, eradication, communication, and execution of the IR plan.</p>
       </div>
       <div style="display:flex; gap:12px; align-items:flex-start; padding:10px; background:#1c2128; border-radius:6px;">
         <span class="badge badge-blue" style="min-width:70px; text-align:center; margin-top:1px;">RECOVER</span>
-        <p style="color:#8b949e; font-size:13px;">Restore systems and operations. Validate that systems are clean before bringing them back online. Document lessons learned.</p>
+        <p style="color:#a8b8d0; font-size:13px;">Restore systems and operations. Validate that systems are clean before bringing them back online. Document lessons learned.</p>
       </div>
     </div>
   </div>
@@ -1020,7 +1020,7 @@ failed_attempts = {}
       <input type="password" id="inst-pw" class="report-field" placeholder="Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter')checkInstructorPw()">
       <button class="btn btn-blue" onclick="checkInstructorPw()">Unlock</button>
       <p id="inst-pw-err" style="color:#ff7b72; font-size:12px; margin-top:8px; display:none;">Incorrect password.</p>
-      <p style="color:#8b949e; font-size:12px; margin-top:12px;">Default password: <code>clearpath2026</code> — change this before distributing to students.</p>
+      <p style="color:#a8b8d0; font-size:12px; margin-top:12px;">Default password: <code>clearpath2026</code> — change this before distributing to students.</p>
     </div>
   </div>
 
@@ -1068,7 +1068,7 @@ failed_attempts = {}
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:13px;">
         <div>
           <p style="color:#f0f6fc; margin-bottom:8px;">Critical IOCs students must identify:</p>
-          <ul style="color:#8b949e; line-height:2;">
+          <ul style="color:#a8b8d0; line-height:2;">
             <li>Attacker IP: <code>185.220.101.42</code></li>
             <li>Backdoor account: <code>svc_backup</code></li>
             <li>Malicious cron: <code>/etc/cron.d/svc_backup_task</code></li>
@@ -1080,7 +1080,7 @@ failed_attempts = {}
         </div>
         <div>
           <p style="color:#f0f6fc; margin-bottom:8px;">Controls/Framework terms expected:</p>
-          <ul style="color:#8b949e; line-height:2;">
+          <ul style="color:#a8b8d0; line-height:2;">
             <li>MFA / multi-factor authentication</li>
             <li>Account lockout / fail2ban</li>
             <li>Principle of least privilege</li>
@@ -1096,18 +1096,18 @@ failed_attempts = {}
 
     <div class="card">
       <h3>Export Scores</h3>
-      <p style="color:#8b949e; font-size:13px; margin-bottom:12px;">Copy a CSV row to paste into your gradebook. Includes student name, per-phase scores, total, and timestamp.</p>
+      <p style="color:#a8b8d0; font-size:13px; margin-bottom:12px;">Copy a CSV row to paste into your gradebook. Includes student name, per-phase scores, total, and timestamp.</p>
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button class="btn btn-blue" onclick="copyScoresCSV()">Copy CSV Row</button>
         <button class="btn btn-gray" onclick="copyCSVHeader()">Copy CSV Header</button>
         <span id="csv-copy-status" style="color:#3fb950; font-size:13px; display:none;">Copied to clipboard!</span>
       </div>
-      <pre id="csv-preview" style="background:#010409; border:1px solid #30363d; border-radius:6px; padding:10px; font-size:11px; color:#8b949e; margin-top:12px; overflow-x:auto; white-space:pre;"></pre>
+      <pre id="csv-preview" style="background:#010409; border:1px solid #30363d; border-radius:6px; padding:10px; font-size:11px; color:#a8b8d0; margin-top:12px; overflow-x:auto; white-space:pre;"></pre>
     </div>
 
     <div class="card">
       <h3>Student Submission Preview</h3>
-      <p style="font-size:13px; color:#8b949e; margin-bottom:16px;">Review what the student wrote in each section:</p>
+      <p style="font-size:13px; color:#a8b8d0; margin-bottom:16px;">Review what the student wrote in each section:</p>
       <div id="submission-preview"></div>
     </div>
   </div>
@@ -1389,7 +1389,7 @@ async function initSiem() {
 }
 
 function siemCellFormat(v, colName) {
-  if(v === null) return '<em style="color:#8b949e">NULL</em>';
+  if(v === null) return '<em style="color:#a8b8d0">NULL</em>';
   const cell = String(v);
   if(colName === 'severity') {
     const map = { critical:'badge-red', high:'badge-yellow', medium:'badge-blue', low:'badge-green' };
@@ -1462,10 +1462,10 @@ function renderFakeResult(fake) {
   html += '</tr></thead><tbody>';
   rows.forEach(row => {
     html += '<tr>';
-    row.forEach(v => html += `<td>${v === null ? '<em style="color:#8b949e">NULL</em>' : String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td>`);
+    row.forEach(v => html += `<td>${v === null ? '<em style="color:#a8b8d0">NULL</em>' : String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td>`);
     html += '</tr>';
   });
-  html += `</tbody></table></div><p style="color:#8b949e; font-size:11px; margin-top:6px;">${rows.length} row(s) returned.</p>`;
+  html += `</tbody></table></div><p style="color:#a8b8d0; font-size:11px; margin-top:6px;">${rows.length} row(s) returned.</p>`;
   return html;
 }
 
@@ -1514,7 +1514,7 @@ function runSiemQuery() {
         row.forEach((v, ci) => html += `<td>${siemCellFormat(v, r.columns[ci])}</td>`);
         html += '</tr>';
       });
-      html += `</tbody></table></div><p style="color:#8b949e; font-size:11px; margin-top:6px; padding-bottom:8px;">${r.values.length} row(s) returned.</p>`;
+      html += `</tbody></table></div><p style="color:#a8b8d0; font-size:11px; margin-top:6px; padding-bottom:8px;">${r.values.length} row(s) returned.</p>`;
     });
     results.innerHTML = html;
     if(status) status.textContent = `Query completed in ${elapsed}ms — ${totalRows} row(s) returned`;
@@ -1526,7 +1526,7 @@ function runSiemQuery() {
 
 function clearSiemQuery() {
   document.getElementById('siem-input').value = '';
-  document.getElementById('siem-results').innerHTML = '<span style="color:#8b949e;">Run a query to see results.</span>';
+  document.getElementById('siem-results').innerHTML = '<span style="color:#a8b8d0;">Run a query to see results.</span>';
   document.getElementById('siem-status-bar').textContent = 'Ready';
 }
 
@@ -2302,7 +2302,7 @@ function autoSave() {
       const t = new Date();
       el.textContent = `Autosaved ${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
       el.style.color = '#3fb950';
-      setTimeout(() => { if(el) el.style.color = '#8b949e'; }, 2000);
+      setTimeout(() => { if(el) el.style.color = '#a8b8d0'; }, 2000);
     }
   } catch(e) { /* localStorage may be unavailable */ }
 }
