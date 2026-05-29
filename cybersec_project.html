@@ -1580,7 +1580,7 @@ let termHistIdx = -1;
 let termCwd = '~';
 
 const termDirs = {
-  '~':              { visible: ['logs'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/' },
+  '~':              { visible: ['logs','notes.txt','Desktop','Documents'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/' },
   '/':              { visible: ['etc','tmp','var','home','bin','usr'], hidden: [], parent: '/' },
   '/etc':           { visible: ['passwd','shadow','crontab','cron.d'], hidden: [], parent: '/' },
   '/etc/cron.d':    { visible: ['anacron','php','svc_backup_task'], hidden: [], parent: '/etc' },
@@ -1588,9 +1588,14 @@ const termDirs = {
   '/var':           { visible: ['log'], hidden: [], parent: '/' },
   '/var/log':       { visible: ['auth.log','syslog'], hidden: [], parent: '/var' },
   '/home':          { visible: ['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], hidden: [], parent: '/' },
-  '/home/analyst':  { visible: ['logs'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/home' },
-  '/home/jreyes':   { visible: [], hidden: ['.bash_history','.bashrc'], parent: '/home' },
-  '/home/svc_backup':{ visible: [], hidden: ['.bash_history','.ssh'], parent: '/home' },
+  '/home/analyst':        { visible: ['logs','notes.txt','Desktop','Documents'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/home' },
+  '/home/analyst/logs':   { visible: ['access.log','error.log'], hidden: [], parent: '/home/analyst' },
+  '/home/jreyes':         { visible: [], hidden: ['.bash_history','.bashrc'], parent: '/home' },
+  '/home/svc_backup':     { visible: [], hidden: ['.bash_history','.ssh'], parent: '/home' },
+  '/home/billing_svc':    { visible: [], hidden: ['.bashrc'], parent: '/home' },
+  '/home/dev_marcus':     { visible: [], hidden: ['.bashrc','.bash_history'], parent: '/home' },
+  '/bin':                 { visible: ['bash','sh','ls','cat','grep','ps','netstat'], hidden: [], parent: '/' },
+  '/usr':                 { visible: ['bin','sbin','local'], hidden: [], parent: '/' },
 };
 // helper: all children for cd resolution
 Object.values(termDirs).forEach(d => { d.children = [...d.visible, ...d.hidden]; });
@@ -1814,6 +1819,28 @@ TIP: 'ls' only shows visible files. Try 'ls -a' to reveal hidden files (dot file
   'cd /home': () => { termCwd = '/home'; updatePromptLabel(); return null; },
   'cd /home/analyst': () => { termCwd = '/home/analyst'; updatePromptLabel(); return null; },
   'clear': () => { document.getElementById('terminal-output').innerHTML = ''; return null; },
+  'cat /home/analyst/logs/access.log': () => `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
+10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
+185.220.101.42 - - [18/May/2026:02:15:01 +0000] "GET /admin HTTP/1.1" 403 512
+185.220.101.42 - - [18/May/2026:02:15:03 +0000] "GET /phpmyadmin HTTP/1.1" 404 209
+185.220.101.42 - - [18/May/2026:02:15:08 +0000] "POST /admin/login HTTP/1.1" 302 0`,
+  'cat notes.txt': () => `SOC Investigation Notes — analyst
+Started: Mon May 18 08:31
+- Received alert about multiple failed SSH logins overnight
+- Need to check auth.log and cron jobs
+- Jordan says backups run at 2am — verify if legit`,
+  'cat ~/notes.txt': () => `SOC Investigation Notes — analyst
+Started: Mon May 18 08:31
+- Received alert about multiple failed SSH logins overnight
+- Need to check auth.log and cron jobs
+- Jordan says backups run at 2am — verify if legit`,
+  'cat ~/logs/access.log': () => `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
+10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
+185.220.101.42 - - [18/May/2026:02:15:01 +0000] "GET /admin HTTP/1.1" 403 512
+185.220.101.42 - - [18/May/2026:02:15:03 +0000] "GET /phpmyadmin HTTP/1.1" 404 209
+185.220.101.42 - - [18/May/2026:02:15:08 +0000] "POST /admin/login HTTP/1.1" 302 0`,
+  'cat /home/analyst/logs/error.log': () => `[Mon May 18 02:15:08 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/admin
+[Mon May 18 02:15:09 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/phpmyadmin`,
   'exit': () => 'Session remains open for investigation.',
   'sudo su': () => 'sudo: This incident is under investigation. Privilege escalation has been restricted.',
   'sudo -l': () => '[sudo] password for analyst: \nSorry, user analyst may not run sudo on clearpath-prod-01.',
