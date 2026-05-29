@@ -1862,17 +1862,15 @@ function runTermCmd(cmd) {
   const trimmed = cmd.trim();
   const lower = trimmed.toLowerCase();
 
-  // --- pwd: always reflect actual cwd ---
-  if(lower === 'pwd') {
-    return termCwd === '~' ? '/home/analyst' : termCwd;
-  }
+  // --- pwd ---
+  if(lower === 'pwd') return termCwd === '~' ? '/home/analyst' : termCwd;
 
-  // --- ls variants with no argument: use cwd ---
-  if(/^ls(\s+-[a-z]+)*$/.test(lower)) {
+  // --- ls variants (no path argument) ---
+  if(/^ls(\s+-[a-zA-Z]+)*$/.test(trimmed)) {
     const dir = termDirs[termCwd];
     if(!dir) return `ls: cannot access '${termCwd}': No such file or directory`;
-    const showHidden = lower.includes('-a') || lower.includes('-la') || lower.includes('-al');
-    const longFmt   = lower.includes('-l') || lower.includes('-la') || lower.includes('-al');
+    const showHidden = lower.includes('-a');
+    const longFmt    = lower.includes('-l');
     const files = showHidden ? [...dir.visible, ...dir.hidden] : dir.visible;
     if(!longFmt) return files.length ? files.join('  ') : '';
     const now = 'May 18 08:31';
@@ -1880,38 +1878,58 @@ function runTermCmd(cmd) {
       'drwxr-xr-x 1 analyst analyst 4096 ' + now + ' .\n' +
       'drwxr-xr-x 1 root    root    4096 ' + now + ' ..\n' +
       files.map(c => {
-        const isDir = termDirs[termCwd === '~' ? '/home/analyst/'+c : termCwd+'/'+c] !== undefined;
-        const perm = c.startsWith('.') ? (isDir ? 'drwx------' : '-rw-------') : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+        const absPath = termCwd === '~' ? '/home/analyst/'+c : termCwd+'/'+c;
+        const isDir = termDirs[absPath] !== undefined;
+        const perm  = c.startsWith('.') ? (isDir ? 'drwx------' : '-rw-------') : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
         const owner = (c === '.update_check') ? 'root    root  ' : 'analyst analyst';
         return `${perm} 1 ${owner}  512 ${now} ${c}`;
       }).join('\n');
   }
 
-  // --- cd with relative path: resolve against cwd ---
+  // --- cd (handle all forms here) ---
+  if(lower === 'cd' || lower === 'cd ~') {
+    termCwd = '~'; updatePromptLabel(); return null;
+  }
+  if(lower === 'cd /') {
+    termCwd = '/'; updatePromptLabel(); return null;
+  }
+  if(lower === 'cd ..') {
+    const parent = termDirs[termCwd] ? termDirs[termCwd].parent : '/';
+    termCwd = (parent === termCwd) ? '/' : parent;
+    updatePromptLabel(); return null;
+  }
   if(/^cd\s+/.test(lower)) {
     const arg = trimmed.substring(3).trim();
     // absolute path
-    if(arg.startsWith('/') || arg === '~') {
-      if(termCommands['cd ' + arg]) { termCommands['cd ' + arg](); return null; }
+    if(arg.startsWith('/')) {
       if(termDirs[arg]) { termCwd = arg; updatePromptLabel(); return null; }
       return `bash: cd: ${arg}: No such file or directory`;
     }
-    // relative: check if it's a child of cwd
+    // relative: check children of cwd
     const cwdDir = termDirs[termCwd];
     if(cwdDir && cwdDir.children && cwdDir.children.includes(arg)) {
-      const resolved = termCwd === '/' ? '/' + arg : (termCwd === '~' ? '/home/analyst/' + arg : termCwd + '/' + arg);
+      const base = termCwd === '~' ? '/home/analyst' : termCwd;
+      const resolved = base === '/' ? '/' + arg : base + '/' + arg;
       if(termDirs[resolved]) { termCwd = resolved; updatePromptLabel(); return null; }
-      // child exists in listing but no dir entry = leaf file
       return `bash: cd: ${arg}: Not a directory`;
     }
     return `bash: cd: ${arg}: No such file or directory`;
   }
 
-  // exact match first
+  // --- exact command lookup (handles all cat, grep, nmap, etc.) ---
   if(termCommands[trimmed] !== undefined) return typeof termCommands[trimmed] === 'function' ? termCommands[trimmed]() : termCommands[trimmed];
-  if(termCommands[lower] !== undefined) return typeof termCommands[lower] === 'function' ? termCommands[lower]() : termCommands[lower];
+  if(termCommands[lower]   !== undefined) return typeof termCommands[lower]   === 'function' ? termCommands[lower]()   : termCommands[lower];
   for(const k of Object.keys(termCommands)) {
     if(lower === k.toLowerCase()) return typeof termCommands[k] === 'function' ? termCommands[k]() : termCommands[k];
+  }
+
+  // --- cat with relative path: resolve against cwd ---
+  if(/^cat\s+/.test(lower)) {
+    const arg = trimmed.substring(4).trim();
+    const base = termCwd === '~' ? '/home/analyst' : termCwd;
+    const resolved = arg.startsWith('/') ? arg : (base === '/' ? '/'+arg : base+'/'+arg);
+    if(termCommands['cat ' + resolved]) return typeof termCommands['cat ' + resolved] === 'function' ? termCommands['cat ' + resolved]() : termCommands['cat ' + resolved];
+    return `cat: ${arg}: No such file or directory`;
   }
 
   return `bash: ${trimmed.split(' ')[0]}: command not found`;
