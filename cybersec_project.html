@@ -1580,18 +1580,20 @@ let termHistIdx = -1;
 let termCwd = '~';
 
 const termDirs = {
-  '~':              { children: ['logs','.bash_history','.bashrc','.bash_logout'], parent: '/' },
-  '/':              { children: ['etc','tmp','var','home','bin','usr'], parent: '/' },
-  '/etc':           { children: ['passwd','shadow','crontab','cron.d'], parent: '/' },
-  '/etc/cron.d':    { children: ['anacron','php','svc_backup_task'], parent: '/etc' },
-  '/tmp':           { children: ['.update_check','tmpPzQ3x1'], parent: '/' },
-  '/var':           { children: ['log'], parent: '/' },
-  '/var/log':       { children: ['auth.log','syslog'], parent: '/var' },
-  '/home':          { children: ['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], parent: '/' },
-  '/home/analyst':  { children: ['logs','.bash_history','.bashrc','.bash_logout'], parent: '/home' },
-  '/home/jreyes':   { children: ['.bash_history','.bashrc'], parent: '/home' },
-  '/home/svc_backup':{ children: ['.bash_history'], parent: '/home' },
+  '~':              { visible: ['logs'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/' },
+  '/':              { visible: ['etc','tmp','var','home','bin','usr'], hidden: [], parent: '/' },
+  '/etc':           { visible: ['passwd','shadow','crontab','cron.d'], hidden: [], parent: '/' },
+  '/etc/cron.d':    { visible: ['anacron','php','svc_backup_task'], hidden: [], parent: '/etc' },
+  '/tmp':           { visible: ['tmpPzQ3x1'], hidden: ['.update_check'], parent: '/' },
+  '/var':           { visible: ['log'], hidden: [], parent: '/' },
+  '/var/log':       { visible: ['auth.log','syslog'], hidden: [], parent: '/var' },
+  '/home':          { visible: ['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], hidden: [], parent: '/' },
+  '/home/analyst':  { visible: ['logs'], hidden: ['.bash_history','.bashrc','.bash_logout'], parent: '/home' },
+  '/home/jreyes':   { visible: [], hidden: ['.bash_history','.bashrc'], parent: '/home' },
+  '/home/svc_backup':{ visible: [], hidden: ['.bash_history','.ssh'], parent: '/home' },
 };
+// helper: all children for cd resolution
+Object.values(termDirs).forEach(d => { d.children = [...d.visible, ...d.hidden]; });
 
 function termPrompt() { return `analyst@clearpath-prod-01:${termCwd}$`; }
 
@@ -1787,13 +1789,14 @@ Try: nmap localhost  or  nmap -sV localhost  or  nmap -sV -sC localhost`,
   'nmap -h': () => `Usage: nmap [options] target
 Try: nmap localhost  or  nmap -sV localhost  or  nmap -sV -sC localhost`,
   'help': () => `Available commands (try others too — some will work, some won't):
-whoami, pwd, ls, ls -la, ls /tmp, ls -la /tmp, cat /etc/passwd,
+whoami, pwd, ls, ls -a, ls -la, ls /tmp, ls -la /tmp, cat /etc/passwd,
 cat /var/log/auth.log, grep -i "failed" /var/log/auth.log,
 grep -i "accepted" /var/log/auth.log, crontab -l, cat /etc/crontab,
 ls /etc/cron.d, cat /etc/cron.d/svc_backup_task, last, last -20,
 ps aux, netstat -an, ss -tuln, strings /tmp/.update_check,
 file /tmp/.update_check, history, uptime, date, hostname, uname -a, id,
-nmap localhost, nmap -sV localhost, nmap -sV -sC localhost`,
+nmap localhost, nmap -sV localhost, nmap -sV -sC localhost
+TIP: 'ls' only shows visible files. Try 'ls -a' to reveal hidden files (dot files).`,
   'cd': () => { termCwd = '~'; updatePromptLabel(); return null; },
   'cd ~': () => { termCwd = '~'; updatePromptLabel(); return null; },
   'cd /': () => { termCwd = '/'; updatePromptLabel(); return null; },
@@ -1864,18 +1867,24 @@ function runTermCmd(cmd) {
     return termCwd === '~' ? '/home/analyst' : termCwd;
   }
 
-  // --- ls / ls -la with no argument: use cwd ---
-  if(lower === 'ls' || lower === 'ls -la' || lower === 'ls -l' || lower === 'ls -a') {
+  // --- ls variants with no argument: use cwd ---
+  if(/^ls(\s+-[a-z]+)*$/.test(lower)) {
     const dir = termDirs[termCwd];
     if(!dir) return `ls: cannot access '${termCwd}': No such file or directory`;
-    const children = dir.children || [];
-    if(lower === 'ls') return children.join('  ');
-    // ls -la style
+    const showHidden = lower.includes('-a') || lower.includes('-la') || lower.includes('-al');
+    const longFmt   = lower.includes('-l') || lower.includes('-la') || lower.includes('-al');
+    const files = showHidden ? [...dir.visible, ...dir.hidden] : dir.visible;
+    if(!longFmt) return files.length ? files.join('  ') : '';
     const now = 'May 18 08:31';
-    return 'total ' + (children.length * 4 + 8) + '\n' +
+    return 'total ' + (files.length * 4 + 8) + '\n' +
       'drwxr-xr-x 1 analyst analyst 4096 ' + now + ' .\n' +
       'drwxr-xr-x 1 root    root    4096 ' + now + ' ..\n' +
-      children.map(c => `-rw-r--r-- 1 analyst analyst  512 ${now} ${c}`).join('\n');
+      files.map(c => {
+        const isDir = termDirs[termCwd === '~' ? '/home/analyst/'+c : termCwd+'/'+c] !== undefined;
+        const perm = c.startsWith('.') ? (isDir ? 'drwx------' : '-rw-------') : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+        const owner = (c === '.update_check') ? 'root    root  ' : 'analyst analyst';
+        return `${perm} 1 ${owner}  512 ${now} ${c}`;
+      }).join('\n');
   }
 
   // --- cd with relative path: resolve against cwd ---
@@ -2232,6 +2241,7 @@ const termHints = [
   "A thorough system investigation covers several areas: who has access, what is running, what is scheduled, and what files exist that shouldn't. Think about what an attacker would need to do to maintain access after breaking in.",
   "Consider the full lifecycle of an intrusion: gaining access, establishing persistence, and covering tracks. Each stage leaves different kinds of artifacts in different places on the system.",
   "Look beyond the obvious places. Attackers don't always leave files in home directories — think about where a process would need to be to run automatically, and where temporary files are typically stored on Linux.",
+  "On Linux, files that start with a dot (.) are hidden from a normal 'ls' listing. Try 'ls -a' in directories like /tmp and home folders — you might find something that plain 'ls' doesn't show.",
 ];
 
 const pyHints = [
