@@ -216,7 +216,7 @@
   <button class="nav-btn" onclick="goTo(6)" id="nb6"><span class="phase-num">6</span>Final Report</button>
   <button class="nav-btn" onclick="goTo(7)" id="nb7"><span class="phase-num">7</span>Notebook</button>
   <button class="nav-btn" onclick="goTo(8)" id="nb8"><span class="phase-num">?</span>Resources</button>
-  <button class="nav-btn" onclick="goTo(9)" id="nb9" style="margin-left:auto; color:#e3b341;"><span class="phase-num" style="background:#2d2a1b; color:#e3b341;">I</span>Instructor</button>
+  <button class="nav-btn" onclick="goTo(9)" id="nb9" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
   <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
@@ -1011,104 +1011,228 @@ failed_attempts = {}
   </div>
 </div>
 
-<!-- ===================== PAGE 9: INSTRUCTOR / GRADING ===================== -->
+<!-- ===================== PAGE 9: GRADING RUBRIC ===================== -->
 <div class="page" id="page9">
-  <div id="instructor-gate">
-    <div class="card" style="max-width:420px; margin:60px auto;">
-      <h2>Instructor Access</h2>
-      <p style="margin-bottom:16px;">Enter the instructor password to view the grading rubric and answer key.</p>
-      <input type="password" id="inst-pw" class="report-field" placeholder="Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter')checkInstructorPw()">
-      <button class="btn btn-blue" onclick="checkInstructorPw()">Unlock</button>
-      <p id="inst-pw-err" style="color:#ff7b72; font-size:12px; margin-top:8px; display:none;">Incorrect password.</p>
-      <p style="color:#a8b8d0; font-size:12px; margin-top:12px;">Default password: <code>clearpath2026</code> — change this before distributing to students.</p>
+  <div class="card" style="border-color:var(--accent);">
+    <h2 style="color:var(--text-bright);">Grading Rubric</h2>
+    <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 6 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
+    <div style="margin-top:16px; display:flex; gap:20px; flex-wrap:wrap; font-size:13px;">
+      <span><span style="color:var(--green); font-weight:bold;">Phase 1</span> Interview — 10 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 2</span> SIEM Notes — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 3</span> Terminal Notes — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 4</span> Python Task — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 5</span> Playbook — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 6</span> Final Report — 40 pts</span>
     </div>
   </div>
 
-  <div id="instructor-content" style="display:none;">
-    <div class="card" style="border-color:#e3b341;">
-      <h2 style="color:#e3b341;">Instructor View — Grading Rubric &amp; Answer Key</h2>
-      <p style="font-size:13px;">This page is not included in PDF exports. Scores are computed from student field entries.</p>
-      <div style="margin-top:16px; display:flex; align-items:baseline; gap:8px;">
-        <span class="score-total" id="score-earned">—</span>
-        <span class="score-denom">/ 100 points</span>
-        <button class="btn btn-blue" style="margin-left:16px;" onclick="runGrading()">Calculate Score</button>
-      </div>
-      <div class="progress-bar-wrap" style="margin-top:12px;">
-        <div class="progress-bar" id="score-bar" style="width:0%"></div>
+  <div class="card">
+    <h3>Phase 1 — Jordan Interview (10 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">10 pts</div>
+      <div class="rubric-label">Topics uncovered during the Jordan interview
+        <div class="rubric-note">1 point per topic, up to 10 topics. Explore all of Jordan's dialogue options and ask about every relevant security concern to maximize your score.</div>
       </div>
     </div>
+  </div>
 
-    <div class="card">
-      <h3>Phase 1 — Interview (10 pts)</h3>
-      <div id="rubric-interview"></div>
+  <div class="card">
+    <h3>Phase 2 — SIEM Notes (15 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Identified the attacker's source IP address from the SIEM logs</div>
     </div>
-    <div class="card">
-      <h3>Phase 2 — SIEM Notes (15 pts)</h3>
-      <div id="rubric-siem"></div>
-    </div>
-    <div class="card">
-      <h3>Phase 3 — Terminal Notes (15 pts)</h3>
-      <div id="rubric-terminal"></div>
-    </div>
-    <div class="card">
-      <h3>Phase 4 — Python Task (15 pts)</h3>
-      <div id="rubric-python"></div>
-    </div>
-    <div class="card">
-      <h3>Phase 5 — Playbook (15 pts)</h3>
-      <div id="rubric-playbook"></div>
-    </div>
-    <div class="card">
-      <h3>Phase 6 — Final Report (30 pts)</h3>
-      <div id="rubric-report"></div>
-    </div>
-
-    <div class="card">
-      <h3>Answer Key — Key Terms Expected</h3>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:13px;">
-        <div>
-          <p style="color:#f0f6fc; margin-bottom:8px;">Critical IOCs students must identify:</p>
-          <ul style="color:#a8b8d0; line-height:2;">
-            <li>Attacker IP: <code>185.220.101.42</code></li>
-            <li>Backdoor account: <code>svc_backup</code></li>
-            <li>Malicious cron: <code>/etc/cron.d/svc_backup_task</code></li>
-            <li>Payload file: <code>/tmp/.update_check</code></li>
-            <li>C2 port: <code>4444</code></li>
-            <li>47 failed SSH attempts + 1 success</li>
-            <li>3 flagged DB queries pulling PHI</li>
-          </ul>
-        </div>
-        <div>
-          <p style="color:#f0f6fc; margin-bottom:8px;">Controls/Framework terms expected:</p>
-          <ul style="color:#a8b8d0; line-height:2;">
-            <li>MFA / multi-factor authentication</li>
-            <li>Account lockout / fail2ban</li>
-            <li>Principle of least privilege</li>
-            <li>NIST CSF (Identify/Protect/Detect/Respond/Recover)</li>
-            <li>HIPAA / breach notification</li>
-            <li>PHI / protected health information</li>
-            <li>Network segmentation / firewall</li>
-            <li>Log retention / monitoring</li>
-          </ul>
-        </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Identified the brute force pattern and the total number of failed login attempts
+        <div class="rubric-note">Your notes should name the attack type and include the specific count.</div>
       </div>
     </div>
-
-    <div class="card">
-      <h3>Export Scores</h3>
-      <p style="color:#a8b8d0; font-size:13px; margin-bottom:12px;">Copy a CSV row to paste into your gradebook. Includes student name, per-phase scores, total, and timestamp.</p>
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <button class="btn btn-blue" onclick="copyScoresCSV()">Copy CSV Row</button>
-        <button class="btn btn-gray" onclick="copyCSVHeader()">Copy CSV Header</button>
-        <span id="csv-copy-status" style="color:#3fb950; font-size:13px; display:none;">Copied to clipboard!</span>
-      </div>
-      <pre id="csv-preview" style="background:#010409; border:1px solid #30363d; border-radius:6px; padding:10px; font-size:11px; color:#a8b8d0; margin-top:12px; overflow-x:auto; white-space:pre;"></pre>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Noted the suspicious account that appeared in the logs after the breach</div>
     </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Identified the database queries that accessed sensitive patient records</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Noted the suspicious outbound connection and the port used for C2 communication</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">SIEM notes are substantive
+        <div class="rubric-note">Brief, one-word entries will not receive credit. Write complete observations.</div>
+      </div>
+    </div>
+  </div>
 
-    <div class="card">
-      <h3>Student Submission Preview</h3>
-      <p style="font-size:13px; color:#a8b8d0; margin-bottom:16px;">Review what the student wrote in each section:</p>
-      <div id="submission-preview"></div>
+  <div class="card">
+    <h3>Phase 3 — Terminal Notes (15 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Identified the backdoor user account created on the server</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Found and documented the malicious scheduled task (cron job)</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Identified the malicious payload file dropped on the compromised system</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Noted evidence of anti-forensics (command history tampering)</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Ran a port scan and noted any exposed or unexpected services</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Identified strings or indicators associated with the reverse shell / C2 beacon</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Terminal notes are substantive
+        <div class="rubric-note">Document what commands you ran and what each finding means, not just the raw output.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Phase 4 — Python Task (15 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">4 pts</div>
+      <div class="rubric-label">Script output correctly identifies the attacker's IP address</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Script output shows the correct number of failed login attempts</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Bug explanations describe what was wrong in the original script and how each bug was fixed
+        <div class="rubric-note">Don't just say "I fixed it" — explain the specific error and the correction you made.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Q1: Correctly identifies the IP address flagged by the script</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Q2: Correctly identifies the type of attack the script detected</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Q3: Maps the detected attack to the correct NIST CSF function with justification</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Q4: Proposes a meaningful improvement to the script or detection process</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Phase 5 — NIST Playbook (15 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Incident description field completed</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Incident classification and severity level selected</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">IDENTIFY: Named the affected systems and/or accounts involved in the breach</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">IDENTIFY: Acknowledged PHI/HIPAA risk and potential data exposure</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">PROTECT: Listed the security controls that were missing and would have prevented the breach</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">DETECT: Explained how the breach was eventually detected and what monitoring gaps allowed it to go unnoticed</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">RESPOND: Documented specific containment steps taken and who should be notified
+        <div class="rubric-note">Both the containment actions and the notification plan must be filled out for full credit.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">RECOVER: Documented recovery steps and process improvements to prevent recurrence</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Phase 6 — Final Report (40 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Executive summary written
+        <div class="rubric-note">Must be at least 40 words to receive full credit.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Attack timeline includes the attacker's IP address and the key timestamp of the initial breach</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Finding 1: Brute force attack documented with supporting evidence</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Finding 2: Backdoor account documented with supporting evidence</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Finding 3: Cron-based persistence mechanism documented</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
+      <div class="rubric-label">Finding 4: Database exfiltration of patient records documented</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Finding 5: Anti-forensics / evidence tampering documented</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">6 pts</div>
+      <div class="rubric-label">NIST CSF section addresses all 5 functions: Identify, Protect, Detect, Respond, and Recover
+        <div class="rubric-note">All five functions must be present and substantive for full credit.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Control gaps section identifies the specific security controls that were missing</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Recommendations cover all three timeframes: immediate, short-term, and long-term</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">4 pts</div>
+      <div class="rubric-label">Legal section addresses HIPAA breach notification obligations
+        <div class="rubric-note">Consider: who must be notified, by when, and under what regulation.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Both ethics sections completed</div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
+      <div class="rubric-label">Analyst name filled in on the report header</div>
     </div>
   </div>
 </div>
@@ -1127,7 +1251,6 @@ function goTo(n) {
     if(i===n) b.classList.add('active');
   });
   window.scrollTo(0,0);
-  if(n===9) runGrading();
 }
 
 // ===================== JORDAN INTERVIEW =====================
@@ -1883,243 +2006,6 @@ function downloadAuthLog() {
   lines.push(`May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from ${ip} port 31338 ssh2`);
   const blob = new Blob([lines.join('\n')], {type:'text/plain'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'auth.log'; a.click();
-}
-
-// ===================== INSTRUCTOR / GRADING =====================
-const INSTRUCTOR_PW = 'clearpath2026';
-
-function checkInstructorPw() {
-  const pw = document.getElementById('inst-pw').value;
-  if(pw === INSTRUCTOR_PW) {
-    document.getElementById('instructor-gate').style.display = 'none';
-    document.getElementById('instructor-content').style.display = 'block';
-    runGrading();
-  } else {
-    document.getElementById('inst-pw-err').style.display = 'block';
-  }
-}
-
-function val(id) {
-  const el = document.getElementById(id);
-  if(!el) return '';
-  return (el.value || '').toLowerCase().trim();
-}
-
-function has(id, ...terms) {
-  const v = val(id);
-  return terms.some(t => v.includes(t.toLowerCase()));
-}
-
-function notEmpty(id) { return val(id).length > 10; }
-
-function rubricRow(label, pts, maxPts, note) {
-  const pct = maxPts > 0 ? pts/maxPts : 0;
-  let cls = pts === 0 ? 'rubric-fail' : (pct >= 1 ? 'rubric-pass' : 'rubric-partial');
-  let icon = pts === 0 ? '✗' : (pct >= 1 ? '✓' : '~');
-  return `<div class="rubric-row">
-    <div class="rubric-pts ${cls}">${icon} ${pts}/${maxPts}</div>
-    <div class="rubric-label">${label}${note ? `<div class="rubric-note">${note}</div>` : ''}</div>
-  </div>`;
-}
-
-function runGrading() {
-  if(document.getElementById('instructor-content').style.display === 'none') return;
-
-  let total = 0;
-
-  // Phase 1 — Interview (10 pts)
-  const coveredTopics = document.querySelectorAll('.finding-item.found').length;
-  const p1pts = Math.min(10, Math.round(coveredTopics));
-  total += p1pts;
-  document.getElementById('rubric-interview').innerHTML =
-    rubricRow('Topics covered in Jordan interview', p1pts, 10, `${coveredTopics}/10 topics uncovered. 1pt each.`);
-
-  // Phase 2 — SIEM (15 pts)
-  let s = 0;
-  const siemRows = [
-    [has('siem-notes','185.220.101.42'), 3, 'Identified attacker IP 185.220.101.42'],
-    [has('siem-notes','brute','brute force','failed','47'), 3, 'Identified brute force / 47 failed attempts'],
-    [has('siem-notes','svc_backup'), 2, 'Noted backdoor account svc_backup'],
-    [has('siem-notes','exfil','database','query','patient','phi','select'), 3, 'Identified DB exfiltration queries'],
-    [has('siem-notes','4444','outbound','beacon','firewall'), 2, 'Noted outbound C2 connection on port 4444'],
-    [notEmpty('siem-notes'), 2, 'Notes are substantive (>10 chars)'],
-  ];
-  let siemHtml = '';
-  siemRows.forEach(([pass, pts, label]) => {
-    const earned = pass ? pts : 0;
-    s += earned;
-    siemHtml += rubricRow(label, earned, pts);
-  });
-  total += s;
-  document.getElementById('rubric-siem').innerHTML = siemHtml;
-
-  // Phase 3 — Terminal (15 pts)
-  let t = 0;
-  const termRows = [
-    [has('terminal-notes','svc_backup'), 3, 'Found backdoor account svc_backup'],
-    [has('terminal-notes','cron','crontab','/etc/cron'), 3, 'Found malicious cron job'],
-    [has('terminal-notes','.update_check','update_check'), 2, 'Identified /tmp/.update_check payload'],
-    [has('terminal-notes','bash_history','history','deleted','cleared'), 2, 'Noted deleted bash history'],
-    [has('terminal-notes','nmap','22','3306','port'), 2, 'Ran nmap and noted open ports / MySQL exposure'],
-    [has('terminal-notes','4444','reverse shell','beacon','/dev/tcp'), 1, 'Identified reverse shell strings'],
-    [notEmpty('terminal-notes'), 2, 'Notes are substantive'],
-  ];
-  let termHtml = '';
-  termRows.forEach(([pass, pts, label]) => {
-    const earned = pass ? pts : 0;
-    t += earned;
-    termHtml += rubricRow(label, earned, pts);
-  });
-  total += t;
-  document.getElementById('rubric-terminal').innerHTML = termHtml;
-
-  // Phase 4 — Python (15 pts)
-  let py = 0;
-  const pyRows = [
-    [has('python-output','185.220.101.42'), 4, 'Script output correctly identifies 185.220.101.42'],
-    [has('python-output','47') || has('python-output','47'), 2, 'Script output shows correct count (~47)'],
-    [notEmpty('python-bugs') && has('python-bugs','failed password','accepted','wrong','bug','fixed','instead','index'), 3, 'Bug explanations: describes what was wrong and how it was fixed'],
-    [has('python-q1','185.220.101.42'), 1, 'Q1: Correctly identifies flagged IP'],
-    [has('python-q2','brute','brute force','ssh','credential'), 2, 'Q2: Correctly identifies brute force attack type'],
-    [has('python-q3','nist','protect','detect','mfa','lockout','fail2ban','monitor'), 2, 'Q3: Maps to NIST CSF function correctly'],
-    [has('python-q4','alert','email','automat','monitor','real','siem','threshold'), 1, 'Q4: Meaningful improvement suggestion'],
-  ];
-  let pyHtml = '';
-  pyRows.forEach(([pass, pts, label]) => {
-    const earned = pass ? pts : 0;
-    py += earned;
-    pyHtml += rubricRow(label, earned, pts);
-  });
-  total += py;
-  document.getElementById('rubric-python').innerHTML = pyHtml;
-
-  // Phase 5 — Playbook (15 pts)
-  let pb = 0;
-  const pbRows = [
-    [notEmpty('pb-desc'), 1, 'Incident description filled out'],
-    [val('pb-class') !== '' && val('pb-severity') !== '', 1, 'Classification and severity selected'],
-    [has('pb-identify','svc_backup') || has('pb-identify','server') || has('pb-identify','database'), 2, 'IDENTIFY: named affected systems/accounts'],
-    [has('pb-phi','phi','hipaa','patient','health','billing'), 2, 'IDENTIFY: PHI/HIPAA risk acknowledged'],
-    [has('pb-protect','mfa','multi-factor','password','lockout','segmentation'), 2, 'PROTECT: lists missing controls'],
-    [notEmpty('pb-detect-how') && notEmpty('pb-detect-miss'), 2, 'DETECT: explains detection and gaps'],
-    [has('pb-respond','isolate','disable','remove','notify','cron') && notEmpty('pb-notify'), 3, 'RESPOND: containment steps + notification plan'],
-    [notEmpty('pb-recover') && notEmpty('pb-improve'), 2, 'RECOVER: recovery and improvement steps'],
-  ];
-  let pbHtml = '';
-  pbRows.forEach(([pass, pts, label]) => {
-    const earned = pass ? pts : 0;
-    pb += earned;
-    pbHtml += rubricRow(label, earned, pts);
-  });
-  total += pb;
-  document.getElementById('rubric-playbook').innerHTML = pbHtml;
-
-  // Phase 6 — Final Report (30 pts)
-  let rpt = 0;
-  const rptRows = [
-    [notEmpty('rpt-exec'), 3, 'Executive summary written'],
-    [has('rpt-timeline','185.220.101.42') && has('rpt-timeline','02:14') || has('rpt-timeline','2:14'), 3, 'Timeline includes attacker IP and timestamp'],
-    [has('rpt-f1','brute','47','185.220.101.42'), 2, 'Finding 1: Brute force documented'],
-    [has('rpt-f2','svc_backup','sudo','backdoor'), 2, 'Finding 2: Backdoor account documented'],
-    [has('rpt-f3','cron','crontab','.update_check'), 2, 'Finding 3: Cron persistence documented'],
-    [has('rpt-f4','select','patient','database','query','exfil'), 2, 'Finding 4: DB exfil documented'],
-    [has('rpt-f5','history','deleted','bash_history','cleared'), 1, 'Finding 5: Anti-forensics documented'],
-    [has('rpt-nist','identify') && has('rpt-nist','protect') && has('rpt-nist','detect') && has('rpt-nist','respond') && has('rpt-nist','recover'), 4, 'NIST CSF: all 5 functions addressed'],
-    [has('rpt-controls','mfa') && has('rpt-controls','password') && notEmpty('rpt-controls'), 3, 'Control gaps: MFA + password policy mentioned'],
-    [notEmpty('rpt-rec-imm') && notEmpty('rpt-rec-short') && notEmpty('rpt-rec-long'), 3, 'Recommendations: all three timeframes filled'],
-    [has('rpt-hipaa','hipaa','breach notification','hhs','60 day','60-day','phi'), 2, 'Legal: HIPAA notification obligation addressed'],
-    [notEmpty('rpt-ethics') && notEmpty('rpt-ethical-reasoning'), 1, 'Ethics sections completed'],
-    [notEmpty('rpt-analyst'), 1, 'Analyst name filled in (report header)'],
-    [notEmpty('rpt-exec') && val('rpt-exec').split(' ').length > 40, 1, 'Executive summary has sufficient depth (40+ words)'],
-  ];
-  let rptHtml = '';
-  rptRows.forEach(([pass, pts, label]) => {
-    const earned = pass ? pts : 0;
-    rpt += earned;
-    rptHtml += rubricRow(label, earned, pts);
-  });
-  total += rpt;
-  document.getElementById('rubric-report').innerHTML = rptHtml;
-
-  // Score display
-  document.getElementById('score-earned').textContent = total;
-  document.getElementById('score-bar').style.width = total + '%';
-  document.getElementById('score-bar').style.background = total >= 80 ? '#3fb950' : total >= 60 ? '#d29922' : '#da3633';
-
-  // Submission preview
-  const fields = [
-    ['siem-notes','SIEM Notes'],['terminal-notes','Terminal Notes'],
-    ['python-output','Python Output'],['python-q1','Python Q1'],['python-q2','Python Q2'],
-    ['python-q3','Python Q3'],['python-q4','Python Q4'],
-    ['pb-desc','Playbook: Description'],['pb-identify','Playbook: Identify'],
-    ['pb-protect','Playbook: Protect'],['pb-respond','Playbook: Respond'],
-    ['pb-notify','Playbook: Notify'],['pb-recover','Playbook: Recover'],
-    ['rpt-exec','Report: Executive Summary'],['rpt-timeline','Report: Timeline'],
-    ['rpt-f1','Report: Finding 1'],['rpt-f2','Report: Finding 2'],
-    ['rpt-f3','Report: Finding 3'],['rpt-f4','Report: Finding 4'],
-    ['rpt-nist','Report: NIST Mapping'],['rpt-controls','Report: Control Gaps'],
-    ['rpt-rec-imm','Report: Immediate Recs'],['rpt-hipaa','Report: HIPAA'],['rpt-ethics','Report: Ethics'],
-  ];
-  let preview = '';
-  fields.forEach(([id, label]) => {
-    const v = document.getElementById(id) ? document.getElementById(id).value : '';
-    preview += `<div style="margin-bottom:14px;">
-      <div style="color:#58a6ff; font-size:12px; margin-bottom:4px;">${label}</div>
-      <div style="background:#010409; border:1px solid #30363d; border-radius:4px; padding:8px 12px; font-size:12px; color:#c9d1d9; white-space:pre-wrap; min-height:32px;">${v || '<span style="color:#3d444d">empty</span>'}</div>
-    </div>`;
-  });
-  document.getElementById('submission-preview').innerHTML = preview;
-}
-
-// ===================== CSV EXPORT =====================
-let lastScores = {};
-
-function copyCSVHeader() {
-  const header = 'Student Name,Date,Phase 1 Interview,Phase 2 SIEM,Phase 3 Terminal,Phase 4 Python,Phase 5 Playbook,Phase 6 Report,Total,Max,Percent,Graded At';
-  navigator.clipboard.writeText(header).then(() => flashCsvStatus());
-}
-
-function copyScoresCSV() {
-  // Re-run grading to get fresh scores
-  runGrading();
-  const name = (document.getElementById('rpt-analyst').value || 'unknown').replace(/,/g,'');
-  const date = (document.getElementById('rpt-date').value || '').replace(/,/g,'');
-  const now = new Date().toLocaleString();
-
-  // Extract scores from rubric DOM
-  function phaseScore(rubricId) {
-    const rows = document.getElementById(rubricId).querySelectorAll('.rubric-pts');
-    let earned = 0;
-    rows.forEach(r => {
-      const m = r.textContent.match(/(\d+)\/\d+/);
-      if(m) earned += parseInt(m[1]);
-    });
-    return earned;
-  }
-
-  const p1 = phaseScore('rubric-interview');
-  const p2 = phaseScore('rubric-siem');
-  const p3 = phaseScore('rubric-terminal');
-  const p4 = phaseScore('rubric-python');
-  const p5 = phaseScore('rubric-playbook');
-  const p6 = phaseScore('rubric-report');
-  const total = p1+p2+p3+p4+p5+p6;
-  const pct = total + '%';
-
-  const row = [name, date, p1, p2, p3, p4, p5, p6, total, 100, pct, now].join(',');
-  const preview = document.getElementById('csv-preview');
-  if(preview) preview.textContent = row;
-
-  navigator.clipboard.writeText(row).then(() => flashCsvStatus()).catch(() => {
-    if(preview) preview.textContent = 'Could not copy automatically. Select the text above and copy manually.\n' + row;
-  });
-}
-
-function flashCsvStatus() {
-  const el = document.getElementById('csv-copy-status');
-  if(!el) return;
-  el.style.display = 'inline';
-  setTimeout(() => { el.style.display = 'none'; }, 2500);
 }
 
 // ===================== SAVE MY WORK =====================
