@@ -859,6 +859,84 @@ failed_attempts = {}
     <p>Use this page if you get stuck. It won't tell you what to find — but it will help you understand what you're looking at and fix common technical problems.</p>
   </div>
 
+  <!-- SAMPLE REPORT -->
+  <div class="card">
+    <h3>Sample Incident Report — Reference Only</h3>
+    <div class="alert alert-blue" style="margin-bottom:16px;">This is a <strong>fully written fictional example</strong> based on a completely different incident at a different company. Read it to understand what a finished, professional report looks like — the depth, the tone, and how each section connects. It has nothing to do with this exercise.</div>
+
+    <div style="background:#020810; border:1px solid var(--border2); border-radius:8px; padding:24px 28px; font-size:13px; line-height:1.9; color:var(--text);">
+
+      <p style="color:var(--text-bright); font-weight:bold; font-size:16px; margin-bottom:4px; letter-spacing:0.5px;">INCIDENT REPORT — INC-2026-0041</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:12px; color:var(--text-dim); margin-bottom:24px; border-bottom:1px solid var(--border); padding-bottom:14px;">
+        <span><strong style="color:var(--text);">Analyst:</strong> Alex Chen, SOC II</span>
+        <span><strong style="color:var(--text);">Date:</strong> March 3, 2026</span>
+        <span><strong style="color:var(--text);">Client:</strong> Meridian Retail Group</span>
+        <span><strong style="color:var(--text);">Classification:</strong> Confidential — Internal Use Only</span>
+        <span><strong style="color:var(--text);">Incident Type:</strong> Business Email Compromise / Financial Fraud</span>
+        <span><strong style="color:var(--text);">Severity:</strong> High</span>
+      </div>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Executive Summary</p>
+      <p style="margin-bottom:12px;">On February 28, 2026, a targeted phishing campaign against Meridian Retail Group's accounts payable department resulted in the theft of an employee's Active Directory credentials and subsequent unauthorized access to the company's internal invoicing system. The attacker, operating from IP address 91.108.4.200, used the stolen credentials to authenticate to the corporate VPN and gain access to the invoicing platform, where they modified two vendor payment records to redirect a combined $42,000 to an external bank account under their control.</p>
+      <p style="margin-bottom:12px;">The breach went undetected for approximately 22 hours. Although a SIEM alert fired on the anomalous VPN login within minutes of the attacker's entry, it was not reviewed until the following morning — at which point the financial team had already flagged the discrepancy through routine reconciliation. The compromised account was disabled and the VPN session terminated by 9:45 AM on March 1, approximately 6 hours after detection.</p>
+      <p style="margin-bottom:20px;">A wire recall was initiated through Meridian's banking partner on March 1. As of the date of this report, $28,000 has been recovered. The remaining $14,000 is being pursued through the bank's fraud resolution process. No customer personal data, payment card data, or other regulated information was accessed during the incident. This report documents the full timeline, technical findings, control failures, and recommended remediation actions.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Attack Timeline</p>
+      <div style="border-left:2px solid var(--border2); padding-left:16px; margin-bottom:20px;">
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:14 AM</span> — A phishing email purportedly from Meridian's IT helpdesk arrived in the inbox of J. Torres, an accounts payable specialist. The email claimed that Torres's account password was expiring and directed them to a spoofed login page hosted at <code>meridian-it-support[.]com</code> — a domain registered just four days earlier. Torres entered their Active Directory username and password on the spoofed page.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:31 AM</span> — Attacker authenticates to Meridian's corporate VPN from IP 91.108.4.200 (geolocation: Eastern Europe) using Torres's stolen credentials. A SIEM alert fires — "Off-hours VPN login from new geolocation" — but is queued for next-morning review with no real-time escalation configured.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:44 AM</span> — Attacker connects to the internal invoicing platform using Torres's account. Because Torres's account had read/write access to all vendor payment records (not just those in their own queue), the attacker has full access to the payment system.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:02 AM</span> — Attacker modifies two pending vendor payment records, changing the routing and account numbers on both to an attacker-controlled account. The changes are logged in the application audit trail but no alert fires on payment record modifications.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:09 AM</span> — Attacker logs out of VPN. Total dwell time on network: approximately 38 minutes.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:15 AM</span> — Finance team member R. Okafor flags two vendor payments during morning reconciliation: the routing numbers do not match those on file for either vendor. IT Security is notified immediately.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:22 AM</span> — Security team reviews the overnight SIEM queue and finds the anomalous VPN alert from the previous morning. Torres's account is immediately disabled and the incident is formally opened.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 09:45 AM</span> — Incident declared contained. Banking partner notified; wire recall initiated for both payments. Payment records restored from application backup.</p>
+      </div>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Findings</p>
+
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 1 — Credential Phishing via Spoofed Domain</strong></p>
+      <p style="margin-bottom:16px;">The attacker registered the domain <code>meridian-it-support[.]com</code> on February 24, 2026 — four days before the attack — and hosted a convincing replica of Meridian's internal IT portal. The phishing email was sent from this domain and passed basic spam filter checks because the domain had no prior reputation score and the sending infrastructure had not been previously flagged. The email used urgency language ("your password expires in 24 hours") to pressure the recipient into acting quickly without scrutinizing the URL. J. Torres, who had not received phishing awareness training since their onboarding in 2024, did not recognize the spoofed domain. This is the initial access vector for the entire incident.</p>
+
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 2 — No Multi-Factor Authentication on VPN</strong></p>
+      <p style="margin-bottom:16px;">Meridian's corporate VPN required only a username and password for authentication. Once the attacker obtained Torres's credentials from the phishing page, there was no additional verification step to prevent access. Had MFA been enabled, the attacker would have been blocked at this stage even with valid credentials — a stolen password alone would have been insufficient. This is the most critical control failure in this incident. It converted a phishing success into full network access.</p>
+
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 3 — Excessive Account Privileges (Principle of Least Privilege Violation)</strong></p>
+      <p style="margin-bottom:16px;">J. Torres's role in accounts payable required access to a specific subset of vendor payments assigned to their queue. However, their account was provisioned with read/write access to all vendor payment records in the invoicing system — including those managed by other team members and other departments. This over-provisioning meant that once the attacker had Torres's account, they could access and modify any payment record in the system, not just those Torres would legitimately touch. Had least-privilege principles been enforced, the blast radius of this incident would have been significantly smaller.</p>
+
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 4 — SIEM Alert Not Actioned in Real Time</strong></p>
+      <p style="margin-bottom:16px;">The SIEM correctly flagged the attacker's VPN login at 10:31 AM on February 28 — within 17 minutes of the phishing email being clicked. The alert described "off-hours VPN login from new geolocation" and was accurate. However, the alert was placed in a review queue that the security team only checked the following morning. By the time it was reviewed, the attacker had been and gone. There was no escalation policy for this alert type, no on-call rotation for medium-severity alerts, and no automated response (such as triggering an additional authentication challenge or temporarily locking the session). This is a detection gap, not a tool gap — the SIEM did its job; the response process did not.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">NIST Cybersecurity Framework Analysis</p>
+
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Identify:</strong> Meridian had not formally classified its invoicing system as a high-risk asset despite the fact that it processes vendor payments totaling over $2M per month. The sensitivity of the data in the system — payment routing numbers, vendor bank accounts, pending financial transactions — was not reflected in the access controls applied to it. Had a formal asset risk assessment been completed, the invoicing system would likely have been flagged as requiring stronger authentication and tighter privilege controls.</p>
+
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Protect:</strong> Three protective controls were either absent or insufficient. First, MFA was not enforced on VPN, leaving credential theft as a complete bypass of network access controls. Second, role-based access control in the invoicing system was not implemented in alignment with actual job responsibilities, violating least privilege. Third, phishing awareness training had not been refreshed since onboarding, leaving staff unprepared to recognize a convincing spoofed email. Each of these failures independently contributed to the outcome.</p>
+
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Detect:</strong> The SIEM generated a valid, relevant alert within minutes. However, the detection capability was undermined by the response process: no escalation path existed for this alert type during non-business hours, and no additional detection layer (such as alerts on changes to payment routing numbers) was configured at the application level. Detection tools were in place; detection processes were not.</p>
+
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Respond:</strong> Once the incident was identified through the finance team's reconciliation — not through the SIEM alert — the response was fast and effective. The compromised account was disabled within 7 minutes of the security team being notified. The banking partner was contacted within 2 hours. Forensic preservation of logs and application audit trails was initiated within the first hour. The response process functioned well once triggered; the problem was the 22-hour delay in triggering it.</p>
+
+      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Recover:</strong> Payment records were restored from the application's nightly backup with no data loss. Both vendors whose payment records were modified were notified directly and asked to verify their banking information on file. The wire recall process was initiated with the bank; $28,000 of the $42,000 transferred has been recovered as of this report. The remaining balance is in dispute resolution. Torres's account was re-provisioned with correctly scoped permissions after review, and Torres returned to work the following day. No systems required rebuilding or reimaging.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Security Control Gaps</p>
+      <p style="margin-bottom:20px;">The most significant gap in this incident was the absence of MFA on the corporate VPN. A single set of credentials — obtained through a phishing page in less than two minutes — was sufficient for complete network access. This is a foundational control failure. The second major gap was the lack of least-privilege enforcement in the invoicing system: access provisioning appears to have been done for convenience rather than necessity, and no periodic access review had been conducted to right-size permissions. The third gap is in the SIEM response workflow: the tool detected the intrusion in real time, but the absence of an escalation path for medium-severity off-hours alerts meant that detection did not translate into a timely response. Finally, the lapse in phishing training left staff without the knowledge to identify a relatively straightforward social engineering attempt. These gaps did not independently cause the breach — they compounded each other. Closing any one of them would likely have prevented or significantly limited the incident.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Recommendations</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Immediate (0–7 days):</strong> Enable MFA on all VPN accounts without exception. This is the single highest-priority action and should not wait. Additionally, force a password reset for all accounts that may share credentials with the phishing page domain (anyone who may have been targeted by this or similar campaigns). Conduct an emergency audit of invoicing system permissions and revoke any access that exceeds what each role actually requires. Preserve all logs, application audit trails, and VPN records related to this incident in tamper-evident storage for potential legal proceedings.</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Short-term (1–30 days):</strong> Define and implement a real-time escalation policy for SIEM alerts involving off-hours access to sensitive systems. Configure application-level alerts for changes to vendor payment routing data. Launch a company-wide phishing awareness training session and establish a recurring annual schedule. Implement DMARC, DKIM, and SPF on Meridian's email domains to reduce the effectiveness of future spoofing attempts. Conduct a broader review of account privilege assignments across business-critical applications.</p>
+      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Long-term (30–90 days):</strong> Extend MFA requirements beyond VPN to all internal systems that handle sensitive financial or operational data. Establish a formal asset classification policy that ties security controls (access restrictions, monitoring intensity, alert thresholds) to the sensitivity of the data a system holds. Implement a periodic access recertification process — every 6 months, managers should review and reconfirm the access needs of their team members. Consider engaging an external firm for a red team exercise to test phishing resilience and VPN access controls after the above changes are implemented.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Legal &amp; Compliance Considerations</p>
+      <p style="margin-bottom:20px;">Based on the forensic review conducted to date, no customer personal data, payment card numbers, or other regulated consumer information was accessed during this incident. The attacker's activity was confined to vendor payment records — commercial data — which does not trigger notification requirements under applicable state consumer breach notification laws or PCI-DSS. Legal counsel has been briefed and concurs with this assessment, pending completion of the full forensic review. All incident documentation, SIEM logs, application audit trails, and VPN records have been preserved. If the wire recovery process fails to resolve the outstanding $14,000, Meridian's legal team is prepared to file a referral with the FBI's Internet Crime Complaint Center (IC3). No employee disciplinary action is anticipated; the incident resulted from an organizational control failure, not individual misconduct.</p>
+
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Analyst Ethics Statement</p>
+      <p style="margin-bottom:8px;">J. Torres, the employee whose credentials were stolen, acted in good faith and was the victim of a well-crafted social engineering attack. This report makes no finding of negligence or misconduct on Torres's part. The failure to protect against credential theft through phishing was an organizational one — the company did not provide recent awareness training, did not enforce MFA, and did not implement account controls that would have limited the damage even if credentials were stolen. Assigning personal blame to Torres would be both factually incorrect and ethically inappropriate.</p>
+      <p>As the analyst on this case, I conducted my investigation using only data and access provided to me by the client for this purpose. I have not disclosed any findings, logs, or client information to any third party outside of this engagement. All findings in this report reflect my honest assessment of the evidence. Where uncertainty exists, I have said so explicitly rather than overstating my conclusions.</p>
+
+    </div>
+  </div>
+
   <!-- COMMON ERRORS -->
   <div class="card">
     <h3>Common Errors &amp; Fixes</h3>
@@ -1266,17 +1344,17 @@ const jordanResponses = [
     text: "We have a policy on paper — minimum 8 characters, supposed to change every 90 days. But honestly, enforcement is loose. We don't have an automated system that forces it. I'll be honest with you: some of the service accounts have had the same password for over a year. It's a small team and people push back on password changes."
   },
   {
-    keys: ['log','logs','logging','retention','log retention','siem','monitoring'],
+    keys: ['logs','logging','log retention','siem','monitoring','log file','log files'],
     topic: 'jt-logging',
     text: "We do have logging enabled on the Linux server — auth logs, syslog, that kind of thing. We set up a basic centralized log collector about 6 months ago. Retention is 30 days, which I've heard might not be enough. The SIEM alerts fire for some things but we don't have someone watching them in real time. It's more of a 'check in the morning' situation."
   },
   {
-    keys: ['backup','backups','recovery','restore','disaster recovery','dr'],
+    keys: ['backup','backups','recovery','restore','disaster recovery'],
     topic: 'jt-backup',
     text: "We do nightly backups of the database to an external drive on-site. We also have a cloud backup that runs weekly — that one is offsite at least. But I'll admit we haven't tested a full restore in probably... eight months? Maybe longer. We assume it works, but we've never validated it under pressure."
   },
   {
-    keys: ['framework','nist','cis','iso','compliance','standard','standards'],
+    keys: ['framework','nist','cis controls','iso 27001','compliance','standard','standards'],
     topic: 'jt-framework',
     text: "We adopted the NIST Cybersecurity Framework about two years ago — or at least we said we did. We did a gap assessment, made a list of things to improve, and then... life got in the way. The core functions make sense to us but implementation has been inconsistent. Some of the Protect and Detect controls just never got fully built out."
   },
@@ -1301,22 +1379,22 @@ const jordanResponses = [
     text: "We did a security awareness training session when we onboarded two years ago — it was a 45-minute video. We haven't done anything since then. I've been meaning to bring in someone for a phishing simulation but budget has been tight. Most of the staff wouldn't know what a phishing email looks like."
   },
   {
-    keys: ['vendor','third party','contractor','outside','external','third-party','software','tool'],
+    keys: ['vendor','third party','contractor','third-party','software','outside access','external access'],
     topic: 'jt-vendor',
     text: "We use a few external vendors — our cloud backup provider, an email security service, and we had a contractor do some custom SQL scripting last quarter. The contractor had full database access during their engagement. I'm not 100% sure I fully cleaned up their credentials afterward. That's been nagging at me this morning."
   },
   {
-    keys: ['what happened','breach','attack','incident','tell me','suspect','suspicious','alert','anomaly'],
+    keys: ['what happened','breach','attack','incident','suspicious activity','suspect','suspicious','alert','anomaly'],
     topic: null,
     text: "So around 7 AM I came in and noticed the SIEM had a bunch of alerts from the middle of the night — I don't have anyone watching it overnight. There were a ton of failed login attempts on SSH, and then they stopped. At first I thought it was just a scan, but then I noticed a successful login right after all the failures. That's when I called your firm. I haven't touched the server since — didn't want to make things worse."
   },
   {
-    keys: ['when','timeline','time','hours','night','overnight'],
+    keys: ['timeline','what time','what hour','hours','night','overnight','when did','when was','when were'],
     topic: null,
     text: "The alerts started around 1:52 in the morning on May 18th. The suspicious activity seems to have run through about 3 AM. Nobody should have been logged into that server at that hour — our staff work 9 to 5."
   },
   {
-    keys: ['antivirus','av','edr','endpoint','malware','virus'],
+    keys: ['antivirus','anti-virus','edr','endpoint','malware','virus'],
     topic: null,
     text: "We have basic antivirus on the Windows machines. The Linux server doesn't have any endpoint protection on it — we've been relying on the firewall and access controls. I know that's a gap."
   },
@@ -1376,8 +1454,15 @@ function askJordan() {
 
   const lower = q.toLowerCase();
   let matched = false;
+  function keyMatch(text, key) {
+    if(key.length <= 4) {
+      const re = new RegExp('(?:^|[^a-z])' + key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '(?:[^a-z]|$)');
+      return re.test(text);
+    }
+    return text.includes(key);
+  }
   for(const r of jordanResponses) {
-    if(r.keys.some(k => lower.includes(k))) {
+    if(r.keys.some(k => keyMatch(lower, k))) {
       addJordanMsg(r.text, true);
       if(r.topic) {
         jordanCovered.add(r.topic);
@@ -1389,12 +1474,16 @@ function askJordan() {
   }
   if(!matched) {
     const fallbacks = [
-      "I'm not sure I follow. Can you rephrase that?",
-      "That's not something I have a lot of visibility into, to be honest.",
-      "Hmm, good question. I'd have to look into that — I don't have that information off the top of my head.",
-      "I'm not the right person to ask about that specifically. Is there something else I can help with?",
+      "Sorry, I'm not totally following. Can you ask it a different way?",
+      "Honestly, I don't have details on that off the top of my head — this whole morning has been a blur.",
+      "That's a bit outside my wheelhouse. Is there something else about the incident I can help with?",
+      "I'm not sure I'm the right person for that one. What else do you need to know?",
+      "Good question, but I'm drawing a blank right now. Keep going — what else?",
+      "I'm not sure I have useful info on that. My head's been completely focused on the alerts and the server this morning.",
+      "Yeah, I honestly don't know enough about that to give you a straight answer. Try asking about something else and come back to it.",
+      "That's not something I've dealt with directly. Things like the network setup, staff accounts, software we use — I can speak to those.",
     ];
-    addJordanMsg(fallbacks[jordanMsgCount % fallbacks.length], true);
+    addJordanMsg(fallbacks[Math.floor(Math.random() * fallbacks.length)], true);
   }
 
 }
@@ -1424,12 +1513,14 @@ function showJordanDebriefAndProceed() {
   allTopics.forEach(t => {
     const el = document.getElementById(t);
     if(!el) return;
+    const label = el.querySelector('.fi-label');
+    if(!label) return;
     if(jordanCovered.has(t)) {
       el.classList.add('found');
-      el.querySelector('.fi-label').textContent = vagueLabels[t] + ' ✓';
+      label.textContent = vagueLabels[t] + ' ✓';
     } else {
-      el.querySelector('.fi-label').textContent = vagueLabels[t] + ' — not covered';
-      el.querySelector('.fi-label').style.color = '#ff7b72';
+      label.textContent = vagueLabels[t] + ' — not covered';
+      label.style.color = '#ff7b72';
     }
   });
 
@@ -1450,6 +1541,10 @@ function showJordanDebriefAndProceed() {
 let siemDB = null;
 
 async function initSiem() {
+  const feed = document.getElementById('siem-alert-feed');
+  const results = document.getElementById('siem-results');
+  if(feed) feed.innerHTML = '<span style="color:#a8b8d0; font-size:13px;">Loading SIEM database...</span>';
+  try {
   const SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/${f}` });
   siemDB = new SQL.Database();
 
@@ -1481,7 +1576,7 @@ async function initSiem() {
   siemDB.run(`INSERT INTO events VALUES (48,'2026-05-18 02:14:33','AUTH_SUCCESS','185.220.101.42','root','Accepted password for root from 185.220.101.42 port 31337 ssh2','critical')`);
   // account creation
   siemDB.run(`INSERT INTO events VALUES (49,'2026-05-18 02:14:51','USER_CREATED','185.220.101.42','root','New user account created: svc_backup (UID 1003, added to sudo group)','critical')`);
-  // normal events
+  // normal events — day of and nearby
   siemDB.run(`INSERT INTO events VALUES (50,'2026-05-18 08:03:11','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (51,'2026-05-17 23:41:02','AUTH_FAILURE','45.33.32.156','admin','Failed password for admin from 45.33.32.156 port 22341 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (52,'2026-05-18 02:17:44','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection allowed: 185.220.101.42:4444 (established)','high')`);
@@ -1489,14 +1584,76 @@ async function initSiem() {
   siemDB.run(`INSERT INTO events VALUES (54,'2026-05-18 07:55:00','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
   siemDB.run(`INSERT INTO events VALUES (55,'2026-05-18 03:01:09','AUTH_SUCCESS','185.220.101.42','svc_backup','Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2','critical')`);
 
-  // DB query log — exfil queries
+  // Background noise — May 14
+  siemDB.run(`INSERT INTO events VALUES (56,'2026-05-14 08:47:03','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 51204 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (57,'2026-05-14 17:31:44','AUTH_SUCCESS','10.0.0.5','jreyes','session closed for user jreyes','low')`);
+  siemDB.run(`INSERT INTO events VALUES (58,'2026-05-14 09:22:01','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 49001 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (59,'2026-05-14 17:04:19','AUTH_SUCCESS','10.0.0.12','dev_marcus','session closed for user dev_marcus','low')`);
+
+  // Background noise — May 15
+  siemDB.run(`INSERT INTO events VALUES (60,'2026-05-15 08:55:02','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 49312 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (61,'2026-05-15 09:10:44','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (62,'2026-05-15 14:22:09','AUTH_FAILURE','198.51.100.23','admin','Failed password for admin from 198.51.100.23 port 44211 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (63,'2026-05-15 14:22:11','AUTH_FAILURE','198.51.100.23','root','Failed password for root from 198.51.100.23 port 44213 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (64,'2026-05-15 14:22:14','AUTH_FAILURE','198.51.100.23','ubuntu','Failed password for ubuntu from 198.51.100.23 port 44217 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (65,'2026-05-15 17:05:33','AUTH_SUCCESS','10.0.0.12','dev_marcus','session closed for user dev_marcus','low')`);
+
+  // Background noise — May 16
+  siemDB.run(`INSERT INTO events VALUES (66,'2026-05-16 08:51:14','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 52100 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (67,'2026-05-16 09:10:03','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (68,'2026-05-16 11:33:29','FIREWALL_BLOCK','103.41.167.33','—','Inbound connection blocked: port scan detected from 103.41.167.33','low')`);
+  siemDB.run(`INSERT INTO events VALUES (69,'2026-05-16 16:08:11','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 50019 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (70,'2026-05-16 17:55:44','AUTH_SUCCESS','10.0.0.5','jreyes','session closed for user jreyes','low')`);
+
+  // Background noise — May 17
+  siemDB.run(`INSERT INTO events VALUES (71,'2026-05-17 09:00:11','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 53801 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (72,'2026-05-17 09:15:22','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (73,'2026-05-17 13:04:05','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 51233 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (74,'2026-05-17 14:30:19','FIREWALL_ALLOW','10.0.0.5','—','Outbound HTTPS to 142.250.80.46:443 (allowed)','low')`);
+  siemDB.run(`INSERT INTO events VALUES (75,'2026-05-17 15:44:21','AUTH_FAILURE','91.240.118.172','oracle','Failed password for oracle from 91.240.118.172 port 55001 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (76,'2026-05-17 15:44:24','AUTH_FAILURE','91.240.118.172','postgres','Failed password for postgres from 91.240.118.172 port 55003 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (77,'2026-05-17 15:44:27','AUTH_FAILURE','91.240.118.172','pi','Failed password for pi from 91.240.118.172 port 55007 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (78,'2026-05-17 15:44:30','AUTH_FAILURE','91.240.118.172','deploy','Failed password for deploy from 91.240.118.172 port 55009 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (79,'2026-05-17 17:02:44','AUTH_SUCCESS','10.0.0.12','dev_marcus','session closed for user dev_marcus','low')`);
+  siemDB.run(`INSERT INTO events VALUES (80,'2026-05-17 23:00:02','CRON_JOB','127.0.0.1','root','Scheduled task: logrotate completed successfully','low')`);
+  siemDB.run(`INSERT INTO events VALUES (81,'2026-05-17 23:41:05','AUTH_FAILURE','45.33.32.156','root','Failed password for root from 45.33.32.156 port 22344 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (82,'2026-05-17 23:41:08','AUTH_FAILURE','45.33.32.156','operator','Failed password for operator from 45.33.32.156 port 22347 ssh2','low')`);
+
+  // May 18 — before the attack
+  siemDB.run(`INSERT INTO events VALUES (83,'2026-05-18 00:05:02','CRON_JOB','127.0.0.1','root','Scheduled task: nightly DB backup started','low')`);
+  siemDB.run(`INSERT INTO events VALUES (84,'2026-05-18 00:07:41','CRON_JOB','127.0.0.1','root','Scheduled task: nightly DB backup completed (2.4 GB written)','low')`);
+  siemDB.run(`INSERT INTO events VALUES (85,'2026-05-18 01:10:33','FIREWALL_BLOCK','5.188.206.14','—','Inbound port scan blocked from 5.188.206.14','low')`);
+  siemDB.run(`INSERT INTO events VALUES (86,'2026-05-18 01:11:01','AUTH_FAILURE','5.188.206.14','root','Failed password for root from 5.188.206.14 port 60012 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (87,'2026-05-18 01:11:04','AUTH_FAILURE','5.188.206.14','admin','Failed password for admin from 5.188.206.14 port 60015 ssh2','low')`);
+
+  // May 18 — post-attack morning
+  siemDB.run(`INSERT INTO events VALUES (88,'2026-05-18 04:00:01','CRON_JOB','127.0.0.1','root','Scheduled task: logrotate executed','low')`);
+  siemDB.run(`INSERT INTO events VALUES (89,'2026-05-18 06:25:09','FIREWALL_ALLOW','10.0.0.8','—','Outbound connection to payment-gateway.clearpath.internal:443 (established)','low')`);
+  siemDB.run(`INSERT INTO events VALUES (90,'2026-05-18 07:48:58','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 54100 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (91,'2026-05-18 08:20:14','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 51900 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (92,'2026-05-18 08:31:02','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (93,'2026-05-18 09:05:14','AUTH_FAILURE','203.0.113.44','root','Failed password for root from 203.0.113.44 port 61100 ssh2','low')`);
+  siemDB.run(`INSERT INTO events VALUES (94,'2026-05-18 09:05:17','AUTH_FAILURE','203.0.113.44','admin','Failed password for admin from 203.0.113.44 port 61103 ssh2','low')`);
+
+  // DB query log — malicious exfil queries (flagged)
   siemDB.run(`INSERT INTO db_query_log VALUES (1,'2026-05-18 02:19:04','root','SELECT * FROM patients LIMIT 1000',1000,1)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (2,'2026-05-18 02:19:41','root','SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = \"active\"',847,1)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (3,'2026-05-18 02:20:13','root','SELECT * FROM billing_records WHERE created_at > \"2026-01-01\"',2341,1)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (4,'2026-05-18 08:10:22','billing_svc','SELECT invoice_id, amount FROM billing_records WHERE status = \"pending\"',44,0)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (5,'2026-05-17 14:33:01','jreyes','SELECT COUNT(*) FROM patients',1,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (6,'2026-05-18 02:21:05','root','SHOW TABLES',8,1)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (7,'2026-05-18 02:21:33','root','SELECT * FROM user_credentials',12,1)`);
+
+  // DB query log — normal business queries (not flagged)
+  siemDB.run(`INSERT INTO db_query_log VALUES (4,'2026-05-16 09:11:03','billing_svc','SELECT invoice_id, amount, status FROM billing_records WHERE due_date = CURDATE()',12,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (5,'2026-05-16 10:44:22','dev_marcus','SELECT COUNT(*), created_at FROM patients GROUP BY DATE(created_at) ORDER BY created_at DESC LIMIT 30',30,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (8,'2026-05-16 14:05:01','billing_svc','UPDATE billing_records SET status = \"processed\" WHERE due_date < \"2026-05-16\" AND status = \"pending\"',8,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (9,'2026-05-17 09:16:44','billing_svc','SELECT p.name, b.invoice_id, b.amount FROM patients p JOIN billing_records b ON p.id = b.patient_id WHERE b.status = \"pending\"',44,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (10,'2026-05-17 11:30:09','jreyes','SELECT username, last_login, is_admin FROM user_accounts ORDER BY last_login DESC',6,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (11,'2026-05-17 14:33:01','jreyes','SELECT COUNT(*) FROM patients',1,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (12,'2026-05-17 14:55:22','dev_marcus','SELECT * FROM patients WHERE created_at > \"2026-04-01\" LIMIT 50',50,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (13,'2026-05-17 16:02:18','billing_svc','INSERT INTO billing_records (patient_id, amount, status, due_date) VALUES (1142, 340.00, \"pending\", \"2026-06-01\")',1,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (14,'2026-05-18 08:10:22','billing_svc','SELECT invoice_id, amount FROM billing_records WHERE status = \"pending\"',44,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (15,'2026-05-18 08:45:03','dev_marcus','SELECT id, name, created_at FROM patients ORDER BY created_at DESC LIMIT 100',100,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (16,'2026-05-18 09:02:11','jreyes','SELECT * FROM user_accounts',6,0)`);
 
   // User accounts
   const accounts = [
@@ -1506,9 +1663,17 @@ async function initSiem() {
     ['dev_marcus','2022-01-10 10:00:00','2026-05-12 16:44:00',0,'active'],
     ['svc_backup','2026-05-18 02:14:51','2026-05-18 03:01:09',1,'active'],
     ['contractor_q1','2026-01-15 09:00:00','2026-02-28 17:30:00',0,'active'],
+    ['svc_monitor','2021-03-12 00:00:00','2026-05-18 00:07:00',0,'active'],
+    ['svc_email','2021-06-01 00:00:00','2026-05-17 23:59:01',0,'active'],
   ];
   accounts.forEach(a => siemDB.run(`INSERT INTO user_accounts VALUES (?,?,?,?,?)`, a));
   buildAlertFeed();
+  } catch(e) {
+    siemDB = null;
+    const errMsg = '<span class="siem-error">Could not load the SIEM database engine. Check your internet connection and refresh the page. If you\'re on a restricted network, try a different connection.</span>';
+    if(feed) feed.innerHTML = errMsg;
+    if(results) results.innerHTML = errMsg;
+  }
 }
 
 function siemCellFormat(v, colName) {
@@ -1844,13 +2009,13 @@ function handleTerminal(e) {
     if(result !== null && result !== undefined) appendTermLine(result, 'term-output');
   } else if(e.key === 'ArrowUp') {
     e.preventDefault();
-    if(termHistIdx < termHistory.length - 1) termHistIdx++;
-    document.getElementById('terminal-input').value = termHistory[termHistIdx] || '';
+    if(termHistory.length > 0 && termHistIdx < termHistory.length - 1) termHistIdx++;
+    document.getElementById('terminal-input').value = termHistIdx >= 0 ? (termHistory[termHistIdx] || '') : '';
   } else if(e.key === 'ArrowDown') {
     e.preventDefault();
     if(termHistIdx > 0) termHistIdx--;
     else termHistIdx = -1;
-    document.getElementById('terminal-input').value = termHistIdx >= 0 ? termHistory[termHistIdx] : '';
+    document.getElementById('terminal-input').value = termHistIdx >= 0 ? (termHistory[termHistIdx] || '') : '';
   }
 }
 
@@ -2009,7 +2174,10 @@ function downloadAuthLog() {
 }
 
 // ===================== SAVE MY WORK =====================
-function saveMyWork() {
+async function saveMyWork() {
+  const statusEl = document.getElementById('autosave-status');
+  if(statusEl) statusEl.textContent = 'Exporting...';
+
   const fieldIds = [
     'siem-notes','terminal-notes',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
@@ -2038,26 +2206,39 @@ function saveMyWork() {
       }
     }
   });
-  // restore Jordan covered topics from jordanCovered set
   const coveredArr = Array.from(jordanCovered);
   prefillScript += `  var jc = ${JSON.stringify(coveredArr)};\n`;
   prefillScript += `  jc.forEach(function(t){ var el = document.getElementById(t); if(el) el.classList.add('found'); });\n`;
   prefillScript += `  window._restoredJordanCovered = jc;\n`;
   prefillScript += '});\n<\/script>';
 
-  // Get current HTML and inject the prefill script before </body>
-  const html = document.documentElement.outerHTML;
-  // Remove any existing prefill script
+  // Fetch the clean source file rather than serializing the live DOM,
+  // which blocks the main thread on a large page with sql.js loaded.
+  let html;
+  try {
+    const resp = await fetch(location.href, { cache: 'no-store' });
+    html = await resp.text();
+  } catch(e) {
+    // Fallback for local/offline use — yield first so the UI can update
+    await new Promise(r => setTimeout(r, 0));
+    html = document.documentElement.outerHTML;
+  }
+
   const cleaned = html.replace(/<script id="prefill-data">[\s\S]*?<\/script>/g, '');
   const saved = cleaned.replace('</body>', prefillScript + '\n</body>');
 
   const blob = new Blob([saved], {type:'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  const name = document.getElementById('rpt-analyst').value.trim().replace(/\s+/g,'_') || 'student';
+  const name = (document.getElementById('rpt-analyst').value || '').trim().replace(/\s+/g,'_') || 'student';
   a.download = `operation_silent_pivot_${name}.html`;
   a.click();
   URL.revokeObjectURL(a.href);
+
+  if(statusEl) {
+    statusEl.textContent = 'Exported!';
+    setTimeout(() => { statusEl.textContent = 'Autosave active'; }, 2000);
+  }
 }
 
 // ===================== PHASE HINTS =====================
@@ -2162,9 +2343,9 @@ function clearSave() {
     localStorage.removeItem(SAVE_KEY);
     ALL_FIELD_IDS.forEach(id => {
       const el = document.getElementById(id);
-      if(el && el.tagName !== 'INPUT' || (el && !['rpt-client','rpt-class','pb-name'].includes(id))) {
-        if(el && el.tagName === 'SELECT') el.selectedIndex = 0;
-        else if(el) el.value = '';
+      if(el) {
+        if(el.tagName === 'SELECT') el.selectedIndex = 0;
+        else el.value = '';
       }
     });
     document.getElementById('autosave-status').textContent = 'Progress cleared';
