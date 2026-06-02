@@ -430,6 +430,7 @@
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM events\nWHERE severity IN (\'critical\',\'high\')\nORDER BY timestamp ASC;')">Critical & high alerts</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM user_accounts\nORDER BY created_at DESC;')">User accounts</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM db_query_log\nORDER BY timestamp ASC;')">Database query log</button>
+          <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM process_log\nORDER BY timestamp ASC;')">Process log</button>
         </div>
       </div>
 
@@ -441,18 +442,28 @@
           <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             id, timestamp, event_type<br>source_ip, username<br>description, severity
           </div>
+          <div style="font-size:10px; color:#e3b341; margin-top:3px;">logins, firewall, cron alerts</div>
         </div>
         <div style="margin-bottom:12px;">
           <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">db_query_log</p>
           <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             id, timestamp, username<br>query_text, rows_returned<br>flagged
           </div>
+          <div style="font-size:10px; color:#e3b341; margin-top:3px;">what data was queried and by whom</div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">process_log</p>
+          <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
+            id, timestamp, hostname<br>pid, username<br>command, flagged
+          </div>
+          <div style="font-size:10px; color:#e3b341; margin-top:3px;">commands run on the server</div>
         </div>
         <div>
           <p style="color:#79c0ff; font-size:12px; font-weight:bold; margin-bottom:4px;">user_accounts</p>
           <div style="font-size:11px; color:#a8b8d0; line-height:1.9;">
             username, created_at<br>last_login, is_admin<br>account_status
           </div>
+          <div style="font-size:10px; color:#e3b341; margin-top:3px;">who has an account and when it was created</div>
         </div>
       </div>
     </div>
@@ -1688,17 +1699,20 @@ async function initSiem() {
     siemDB.run(`INSERT INTO events VALUES (?,?,?,?,?,?,?)`,
       [i+1, ts, 'AUTH_FAILURE', bruteIp, 'root', `Failed password for root from ${bruteIp} port ${30000+i} ssh2`, 'medium']);
   }
-  // successful login
+  // successful login — critical, still in events (entry point)
   siemDB.run(`INSERT INTO events VALUES (48,'2026-05-18 02:14:33','AUTH_SUCCESS','185.220.101.42','root','Accepted password for root from 185.220.101.42 port 31337 ssh2','critical')`);
-  // account creation
-  siemDB.run(`INSERT INTO events VALUES (49,'2026-05-18 02:14:51','USER_CREATED','185.220.101.42','root','New user account created: service_backup (UID 1003, added to sudo group)','critical')`);
+  // account creation REMOVED from events — only discoverable in process_log and user_accounts
   // normal events — day of and nearby
   siemDB.run(`INSERT INTO events VALUES (50,'2026-05-18 08:03:11','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (51,'2026-05-17 23:41:02','AUTH_FAILURE','45.33.32.156','admin','Failed password for admin from 45.33.32.156 port 22341 ssh2','low')`);
-  siemDB.run(`INSERT INTO events VALUES (52,'2026-05-18 02:17:44','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection allowed: 185.220.101.42:4444 (established)','high')`);
-  siemDB.run(`INSERT INTO events VALUES (53,'2026-05-18 02:22:15','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection allowed: 185.220.101.42:4444 (established)','high')`);
+  // outbound connections — vague, requires process_log to understand what was transferred
+  siemDB.run(`INSERT INTO events VALUES (52,'2026-05-18 02:17:44','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection established to external host (port 4444)','medium')`);
+  siemDB.run(`INSERT INTO events VALUES (53,'2026-05-18 02:22:15','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection established to external host (port 4444)','medium')`);
   siemDB.run(`INSERT INTO events VALUES (54,'2026-05-18 07:55:00','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
-  siemDB.run(`INSERT INTO events VALUES (55,'2026-05-18 03:01:09','AUTH_SUCCESS','185.220.101.42','service_backup','Accepted password for service_backup from 185.220.101.42 port 31338 ssh2','critical')`);
+  // service_backup login — high not critical; requires user_accounts query to flag as suspicious
+  siemDB.run(`INSERT INTO events VALUES (55,'2026-05-18 03:01:09','AUTH_SUCCESS','185.220.101.42','service_backup','Accepted password for service_backup from 185.220.101.42 port 31338 ssh2','high')`);
+  // data access alert — vague; requires db_query_log query to see what was actually accessed
+  siemDB.run(`INSERT INTO events VALUES (49,'2026-05-18 02:19:00','DATA_ACCESS','127.0.0.1','root','Elevated database activity detected: multiple queries executed in rapid succession','high')`);
 
   // Background noise — May 14
   siemDB.run(`INSERT INTO events VALUES (56,'2026-05-14 08:47:03','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 51204 ssh2','low')`);
