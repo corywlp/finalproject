@@ -2003,29 +2003,20 @@ function buildAlertFeed() {
       if(el) el.textContent = counts[s];
     });
 
-    // Alert feed — latest 10 from events, plus critical flagged entries from other tables, sorted by time
-    const evRows = siemDB.exec("SELECT id, timestamp, event_type, source_ip, username, description, severity FROM events ORDER BY timestamp DESC LIMIT 10;");
-    const dbRows = siemDB.exec("SELECT id, timestamp, 'DB_QUERY' as event_type, username, username, query_text, 'critical' FROM db_query_log WHERE flagged=1;");
-    const procRows = siemDB.exec("SELECT id, timestamp, 'PROCESS_EXEC' as event_type, username, username, command, 'critical' FROM process_log WHERE flagged=1;");
-
-    let allRows = [];
-    if(evRows.length) allRows = allRows.concat(evRows[0].values.map(r => ({ts:r[1],type:r[2],ip:r[3],user:r[4],desc:r[5],sev:r[6],id:r[0],source:'events'})));
-    if(dbRows.length) dbRows[0].values.forEach(r => allRows.push({ts:r[1],type:'DB_QUERY',ip:'127.0.0.1',user:r[3],desc:r[5],sev:'critical',id:'db-'+r[0],source:'db_query_log'}));
-    if(procRows.length) procRows[0].values.forEach(r => allRows.push({ts:r[1],type:'PROCESS_EXEC',ip:'—',user:r[3],desc:r[5],sev:'critical',id:'proc-'+r[0],source:'process_log'}));
-    allRows.sort((a,b) => b.ts.localeCompare(a.ts));
-    allRows = allRows.slice(0,10);
-
+    // Alert feed — latest 10 from events only
+    const feedRes = siemDB.exec("SELECT id, timestamp, event_type, source_ip, username, description, severity FROM events ORDER BY timestamp DESC LIMIT 10;");
     const feed = document.getElementById('siem-alert-feed');
-    if(!feed) return;
+    if(!feed || !feedRes.length) return;
     feed.innerHTML = '';
-    allRows.forEach(({id,ts,type,ip,user,desc,sev,source}) => {
+    feedRes[0].values.forEach(row => {
+      const [id, ts, type, ip, user, desc, sev] = row;
       const shortTs = ts ? ts.substring(5) : '';
       const div = document.createElement('div');
       div.className = `siem-alert-item sev-${sev}`;
       div.innerHTML = `
         <div class="siem-alert-ts">${shortTs}</div>
         <div class="siem-alert-body">
-          <div class="siem-alert-type"><span class="badge badge-${sev==='critical'?'red':sev==='high'?'yellow':sev==='medium'?'blue':'green'}">${sev}</span> &nbsp;${type.replace(/_/g,' ')} <span style="color:#555;font-size:10px;">[${source}]</span></div>
+          <div class="siem-alert-type"><span class="badge badge-${sev==='critical'?'red':sev==='high'?'yellow':sev==='medium'?'blue':'green'}">${sev}</span> &nbsp;${type.replace(/_/g,' ')}</div>
           <div class="siem-alert-desc">${desc ? desc.replace(/</g,'&lt;').replace(/>/g,'&gt;').substring(0,80)+'...' : ''}</div>
           <div class="siem-alert-expand">
             <div><strong>ID:</strong> ${id} &nbsp; <strong>Source IP:</strong> ${ip||'—'} &nbsp; <strong>User:</strong> ${user||'—'}</div>
