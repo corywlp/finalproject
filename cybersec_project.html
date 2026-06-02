@@ -2040,7 +2040,7 @@ const termFS = {
   '/var':                 { v:['log'],                                         h:[],                                      p:'/' },
   '/var/log':             { v:['auth.log','syslog','dpkg.log'],                h:[],                                      p:'/var' },
   '/home':                { v:['analyst','jreyes','billing_service','dev_marcus','service_backup','service_monitor','service_email'], h:[],  p:'/' },
-  '/home/analyst':        { v:['logs','notes.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
+  '/home/analyst':        { v:['logs','notes.txt','pii.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
   '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
   '/home/service_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
@@ -2114,6 +2114,63 @@ cat /etc/passwd
 history -c`,
   '/home/billing_service/.bashrc': '# ~/.bashrc — billing_service\nexport PATH=/usr/local/bin:/usr/bin:/bin\nexport BILLING_ENV=production\nexport DB_HOST=127.0.0.1',
   '/home/analyst/.bashrc': '# ~/.bashrc: executed by bash(1) for non-login shells.',
+  '/home/analyst/pii.txt': `ClearPath Medical Billing — PII/PHI Reference Sheet
+Prepared by: Jordan Reyes, IT Manager
+Last updated: January 2026
+========================================
+
+WHAT WE STORE
+-------------
+ClearPath processes medical billing records on behalf of 12 regional healthcare
+providers. The following data types are stored on our production server:
+
+  - Patient full names
+  - Dates of birth
+  - Social Security Numbers (SSNs)
+  - Dates of service and procedure codes (ICD-10/CPT)
+  - Diagnosis information
+  - Health insurance provider and member ID numbers
+  - Payment and billing records
+
+All of the above are classified as Protected Health Information (PHI) under
+HIPAA. PHI is any information that could be used to identify a patient AND
+relates to their health, treatment, or payment for healthcare.
+
+WHAT IS HIPAA?
+--------------
+HIPAA (Health Insurance Portability and Accountability Act, 1996) is a federal
+law that sets national standards for protecting sensitive patient health data.
+
+As a medical billing company, ClearPath is classified as a HIPAA Business
+Associate — meaning we are legally bound to protect PHI even though we are
+not a hospital or clinic.
+
+WHAT HAPPENS IF PHI IS BREACHED?
+---------------------------------
+If PHI is accessed, stolen, or exposed without authorization, HIPAA requires us to:
+
+  1. Report the breach to the U.S. Dept. of Health & Human Services (HHS)
+     within 60 days of discovery.
+
+  2. Notify every affected patient in writing — including what happened,
+     what data was involved, and what steps they should take.
+
+  3. If more than 500 patients are affected, we must also notify major
+     media outlets in the affected region.
+
+Penalties range from $100 to $50,000 per violation, up to $1.9 million
+per violation category per year. Criminal charges are possible for
+intentional violations.
+
+NOTE FOR ANALYSTS
+-----------------
+If your investigation finds evidence that PHI may have left this network
+(e.g., outbound data transfers, unauthorized database queries), treat this
+as a CRITICAL severity incident and flag it for mandatory breach reporting.
+Do not downgrade severity based on uncertainty — if you can't confirm PHI
+was NOT accessed, assume it was.
+`,
+
   '/home/analyst/notes.txt': `SOC Investigation Notes — analyst
 Started: Mon May 18 08:31
 
