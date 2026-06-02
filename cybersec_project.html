@@ -2319,6 +2319,7 @@ function runTermCmd(raw) {
     const files = showHidden ? [...dir.v, ...dir.h] : dir.v;
     if(!longFmt) return files.length ? files.join('  ') : '(empty directory)';
     const now = 'May 18 08:31';
+    if(!files.length) return 'total 8\ndrwxr-xr-x 1 root    root    4096 ' + now + ' .\ndrwxr-xr-x 1 root    root    4096 ' + now + ' ..';
     return 'total ' + (files.length * 4 + 8) + '\n' +
       'drwxr-xr-x 1 root    root    4096 ' + now + ' .\n' +
       'drwxr-xr-x 1 root    root    4096 ' + now + ' ..\n' +
@@ -2362,10 +2363,23 @@ function runTermCmd(raw) {
   // ── grep ──────────────────────────────────────────────────────────────────
   if(verb === 'grep') {
     const gLower = lower;
-    if(gLower.includes('failed') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\nMay 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2\nMay 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2\n[... 44 more failed attempts from 185.220.101.42 ...]\nMay 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2`;
-    if(gLower.includes('accept') && gLower.includes('auth.log')) return `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2\nMay 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`;
-    if(gLower.includes('service_backup') && gLower.includes('auth.log')) return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
-    if(gLower.includes('185.220') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\n[... 46 more lines from 185.220.101.42 ...]\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
+    // auth.log specific patterns
+    if(gLower.includes('auth.log')) {
+      if(gLower.includes('failed'))        return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\nMay 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2\nMay 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2\n[... 44 more failed attempts from 185.220.101.42 ...]\nMay 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2`;
+      if(gLower.includes('accept'))        return `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2\nMay 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`;
+      if(gLower.includes('service_backup'))return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0\nMay 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'service_backup' to group 'sudo'\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
+      if(gLower.includes('185.220'))       return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\n[... 46 more lines from 185.220.101.42 ...]\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
+      if(gLower.includes('useradd') || gLower.includes('usermod') || gLower.includes('new user')) return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0\nMay 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'service_backup' to group 'sudo'`;
+      return `grep: no matches found in auth.log`;
+    }
+    // grep against any file in termFiles
+    const fileArg = parts[parts.length - 1];
+    const filePath = resolvePath(fileArg);
+    const pattern = parts.slice(1, -1).filter(p => !p.startsWith('-')).join(' ').toLowerCase().replace(/['"]/g,'');
+    if(termFiles[filePath] !== undefined) {
+      const matches = termFiles[filePath].split('\n').filter(l => l.toLowerCase().includes(pattern));
+      return matches.length ? matches.join('\n') : `grep: no matches found`;
+    }
     return `grep: no matches found`;
   }
 
