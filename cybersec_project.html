@@ -427,7 +427,6 @@
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM events ORDER BY timestamp ASC;')">All events by time</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT event_type, COUNT(*) as count\nFROM events\nGROUP BY event_type\nORDER BY count DESC;')">Event type summary</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT source_ip, COUNT(*) as attempts\nFROM events\nWHERE event_type = \'AUTH_FAILURE\'\nGROUP BY source_ip\nORDER BY attempts DESC;')">Failed logins by IP</button>
-          <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM events\nWHERE severity IN (\'critical\',\'high\')\nORDER BY timestamp ASC;')">Critical & high alerts</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM user_accounts\nORDER BY created_at DESC;')">User accounts</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM db_query_log\nORDER BY timestamp ASC;')">Database query log</button>
           <button class="siem-saved-search" onclick="loadSearch('SELECT * FROM process_log\nORDER BY timestamp ASC;')">Process log</button>
