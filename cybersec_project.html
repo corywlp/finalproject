@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operation: Silent Pivot — SOC Analyst Final Project</title>
+<title>Operation: Graveyard Shift — SOC Analyst Final Project</title>
 <style>
   :root {
     --accent:    #00d4ff;
@@ -201,7 +201,7 @@
 
 <div id="pdf-cover">
   <div class="cover-top">Incident Analysis Report</div>
-  <div class="cover-title">Operation: Silent Pivot</div>
+  <div class="cover-title">Operation: Graveyard Shift</div>
   <div class="cover-subtitle">ClearPath Medical Billing, LLC — May 18, 2026</div>
   <div class="cover-meta">
     <div class="cover-meta-row"><span class="label">Prepared by</span><span class="value" id="cv-analyst"></span></div>
@@ -242,7 +242,7 @@
 <div class="page active" id="page0">
   <div class="card" style="border-color:#da3633;">
     <div class="alert alert-red" style="margin-bottom:16px;">CONFIDENTIAL — FOR AUTHORIZED ANALYSTS ONLY</div>
-    <h2 style="color:#ff7b72; font-size:22px;">Operation: Silent Pivot</h2>
+    <h2 style="color:#ff7b72; font-size:22px;">Operation: Graveyard Shift</h2>
     <p style="color:#a8b8d0; margin-top:6px; font-size:13px;">SOC Analyst Final Assessment &mdash; Estimated time: 5&ndash;7 hours</p>
   </div>
 
@@ -707,7 +707,7 @@ failed_attempts = {}
     <div class="report-section">
       <h3>Incident Summary</h3>
       <p class="field-label">Incident Name / Case ID</p>
-      <input class="report-field" id="pb-name" value="Operation: Silent Pivot — Case #2026-0518">
+      <input class="report-field" id="pb-name" value="Operation: Graveyard Shift — Case #2026-0518">
       <p class="field-label">Date/Time of Detection</p>
       <input class="report-field" id="pb-datetime" placeholder="e.g., May 18, 2026 at approximately 02:14 AM">
       <p class="field-label">Analyst Name</p>
@@ -2657,7 +2657,7 @@ async function saveMyWork() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   const name = (document.getElementById('rpt-analyst').value || '').trim().replace(/\s+/g,'_') || 'student';
-  a.download = `operation_silent_pivot_${name}.html`;
+  a.download = `operation_graveyard_shift_${name}.html`;
   a.click();
   URL.revokeObjectURL(a.href);
 
@@ -2755,7 +2755,7 @@ function showHint(containerId, hints) {
 }
 
 // ===================== AUTOSAVE =====================
-const SAVE_KEY = 'op_silent_pivot_save';
+const SAVE_KEY = 'op_graveyard_shift_save';
 const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
