@@ -261,9 +261,10 @@
       <li><strong style="color:#f0f6fc;">Phase 1 — Interview:</strong> Talk to Jordan Reyes to understand the company's security posture, controls, and what they were doing (or not doing) before the incident.</li>
       <li><strong style="color:#f0f6fc;">Phase 2 — SIEM Analysis:</strong> Query the company's alert database to identify suspicious events and build a timeline.</li>
       <li><strong style="color:#f0f6fc;">Phase 3 — Terminal Investigation:</strong> Examine the compromised Linux server for artifacts left behind by the attacker.</li>
-      <li><strong style="color:#f0f6fc;">Phase 4 — Python Task:</strong> Write a Python script to automate detection of the brute force pattern in the raw log file.</li>
-      <li><strong style="color:#f0f6fc;">Phase 5 — Playbook:</strong> Document your incident response steps using the NIST CSF framework.</li>
-      <li><strong style="color:#f0f6fc;">Phase 6 — Final Report:</strong> Produce a professional analyst report with findings, control gaps, and recommendations.</li>
+      <li><strong style="color:#f0f6fc;">Phase 4 — Threat Intelligence:</strong> Research the attacker's IP address using open-source tools and document what you find.</li>
+      <li><strong style="color:#f0f6fc;">Phase 5 — Python Task:</strong> Fix a broken Python script to automate detection of the brute force pattern in the raw log file.</li>
+      <li><strong style="color:#f0f6fc;">Phase 6 — Playbook:</strong> Document your incident response steps using the NIST CSF framework.</li>
+      <li><strong style="color:#f0f6fc;">Phase 7 — Final Report:</strong> Produce a professional analyst report with findings, control gaps, and recommendations.</li>
     </ol>
   </div>
 
@@ -291,7 +292,7 @@
 
   <div class="card">
     <h2>Deliverable</h2>
-    <p>At the end of this project, you will submit your completed <strong style="color:#f0f6fc;">Final Report (Phase 6)</strong> as a PDF. This report is your portfolio artifact and should demonstrate:</p>
+    <p>At the end of this project, you will submit your completed <strong style="color:#f0f6fc;">Final Report (Phase 7)</strong> as a PDF. This report is your portfolio artifact and should demonstrate:</p>
     <ul style="margin-top:10px;">
       <li>Your ability to analyze security event data</li>
       <li>Technical investigation skills (log analysis, system forensics)</li>
@@ -543,14 +544,14 @@
 <div class="page" id="page4">
   <div class="card">
     <h2>Phase 4 — Threat Intelligence</h2>
-    <p>By now you've identified a suspicious IP address that appears repeatedly across the SIEM logs and terminal artifacts: <strong style="color:#f0f6fc;">185.220.101.42</strong>. Before writing your incident report, a real SOC analyst would research this IP to understand who or what they're dealing with.</p>
+    <p>By now you've identified a suspicious IP address that appears repeatedly across the SIEM logs and terminal artifacts. Before writing your incident report, a real SOC analyst would research this IP to understand who or what they're dealing with.</p>
     <br>
-    <p style="color:#a8b8d0; font-size:13px;">Open a new browser tab and search for this IP address. Try Googling it, or use a threat intelligence tool like <strong>AbuseIPDB</strong> or <strong>Shodan</strong>. Document what you find below.</p>
+    <p style="color:#a8b8d0; font-size:13px;">Open a new browser tab and search for the IP address you identified. Try Googling it, or use a threat intelligence tool like <strong>AbuseIPDB</strong> or <strong>Shodan</strong>. Document what you find below.</p>
   </div>
 
   <div class="card">
     <h3>What did you find?</h3>
-    <p class="field-label">Search the IP address <code style="color:#f0f6fc;">185.220.101.42</code> and summarize what the results tell you. What kind of infrastructure is this? Has it been reported before? For what activity?</p>
+    <p class="field-label">Search the IP address you identified and summarize what the results tell you. What kind of infrastructure is this? Has it been reported before? For what activity?</p>
     <textarea class="report-field" id="intel-what" placeholder="e.g., The IP showed up on AbuseIPDB with over 400 abuse reports. It has been flagged for SSH brute force attacks and port scanning..."></textarea>
   </div>
 
@@ -766,7 +767,7 @@ failed_attempts = {}
 <!-- ===================== PAGE 6: FINAL REPORT ===================== -->
 <div class="page" id="page7">
   <div class="card">
-    <h2>Phase 6 — Final Analyst Report</h2>
+    <h2>Phase 7 — Final Analyst Report</h2>
     <p>This is your portfolio deliverable. Write a professional incident analysis report that you could present to a client or include in a job application. Use your findings from all previous phases.</p>
     <br>
     <p style="color:#a8b8d0; font-size:13px;">When complete, use your browser's Print function (<code>Ctrl+P</code> / <code>Cmd+P</code>) and select "Save as PDF" to export your report.</p>
@@ -1193,14 +1194,15 @@ failed_attempts = {}
 <div class="page" id="page11">
   <div class="card" style="border-color:var(--accent);">
     <h2 style="color:var(--text-bright);">Grading Rubric</h2>
-    <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 6 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
+    <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 7 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
     <div style="margin-top:16px; display:flex; gap:20px; flex-wrap:wrap; font-size:13px;">
       <span><span style="color:var(--green); font-weight:bold;">Phase 1</span> Interview — 10 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 2</span> SIEM Notes — 15 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 3</span> Terminal Notes — 15 pts</span>
-      <span><span style="color:var(--green); font-weight:bold;">Phase 4</span> Python Task — 15 pts</span>
-      <span><span style="color:var(--green); font-weight:bold;">Phase 5</span> Playbook — 15 pts</span>
-      <span><span style="color:var(--green); font-weight:bold;">Phase 6</span> Final Report — 40 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 4</span> Threat Intel — ungraded</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 5</span> Python Task — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 6</span> Playbook — 15 pts</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 7</span> Final Report — 40 pts</span>
     </div>
   </div>
 
@@ -1331,7 +1333,7 @@ failed_attempts = {}
   </div>
 
   <div class="card">
-    <h3>Phase 6 — Final Report (40 pts)</h3>
+    <h3>Phase 7 — Final Report (40 pts)</h3>
     <div class="rubric-row">
       <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
       <div class="rubric-label">Executive summary written
