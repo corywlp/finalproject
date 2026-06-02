@@ -212,7 +212,9 @@
   <div class="cover-footer">This report was prepared as part of a cybersecurity analyst assessment. Contains simulated incident data.</div>
 </div>
 
-<div id="nav">
+<div style="display:flex; align-items:stretch; background:var(--bg2); border-bottom:1px solid var(--border);">
+  <button onclick="document.getElementById('nav').scrollBy({left:-160,behavior:'smooth'})" style="background:none; border:none; border-right:1px solid var(--border); color:var(--yellow); font-size:18px; padding:0 12px; cursor:pointer; flex-shrink:0;">&#8249;</button>
+  <div id="nav" style="border-bottom:none; flex:1; min-width:0;">
   <button class="nav-btn active" onclick="goTo(0)" id="nb0"><span class="phase-num">0</span>Briefing</button>
   <button class="nav-btn" onclick="goTo(1)" id="nb1"><span class="phase-num">1</span>Interview</button>
   <button class="nav-btn" onclick="goTo(2)" id="nb2"><span class="phase-num">2</span>SIEM</button>
@@ -225,10 +227,12 @@
   <button class="nav-btn" onclick="goTo(9)" id="nb9"><span class="phase-num">?</span>Resources</button>
   <button class="nav-btn" onclick="goTo(10)" id="nb10"><span class="phase-num">S</span>Sample Texts</button>
   <button class="nav-btn" onclick="goTo(11)" id="nb11" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
+  </div>
+  <button onclick="document.getElementById('nav').scrollBy({left:160,behavior:'smooth'})" style="background:none; border:none; border-left:1px solid var(--border); color:var(--yellow); font-size:18px; padding:0 12px; cursor:pointer; flex-shrink:0;">&#8250;</button>
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
   <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
-  <span style="color:#a8b8d0; font-size:11px;">↕ scroll up/down &nbsp;|&nbsp; ← → scroll nav left/right</span>
+  <span style="color:#a8b8d0; font-size:11px;">↕ scroll page up/down</span>
   <button class="btn btn-gray" style="font-size:12px;" onclick="autoSave()">Save Now</button>
   <button class="btn btn-gray" style="font-size:12px;" onclick="saveMyWork()">Export .html</button>
   <button class="btn btn-gray" style="font-size:12px; color:#ff7b72;" onclick="clearSave()">Clear Progress</button>
