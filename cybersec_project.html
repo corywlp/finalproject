@@ -277,7 +277,7 @@
         <p class="field-label" style="margin-top:10px;">Size</p>
         <p>14 employees, 1 IT staff (Jordan)</p>
         <p class="field-label" style="margin-top:10px;">Data handled</p>
-        <p>PHI, patient records, insurance billing data</p>
+        <p>Patient names, dates of service, diagnosis codes, insurance information, and Social Security Numbers — all classified as <strong style="color:#f0f6fc;">Protected Health Information (PHI)</strong></p>
       </div>
       <div>
         <p class="field-label">Claimed framework</p>
@@ -288,6 +288,20 @@
         <p>1 Linux server (Ubuntu 22.04), 1 Windows workstation server, cloud email</p>
       </div>
     </div>
+  </div>
+
+  <div class="card" style="border-color:#388bfd; background:#0d1b2e;">
+    <h2 style="color:#388bfd;">⚑ Why HIPAA Matters Here</h2>
+    <p>HIPAA (the Health Insurance Portability and Accountability Act) is a federal law that requires any organization handling patient health data to keep it private and secure. ClearPath is legally required to comply.</p>
+    <br>
+    <p><strong style="color:#f0f6fc;">If PHI is stolen or exposed, HIPAA requires ClearPath to:</strong></p>
+    <ul style="margin-top:8px;">
+      <li>Report the breach to the U.S. Department of Health &amp; Human Services (HHS)</li>
+      <li>Notify every affected patient in writing within 60 days</li>
+      <li>Publicly announce the breach if more than 500 patients are affected</li>
+    </ul>
+    <br>
+    <p>Penalties can reach <strong style="color:#f0f6fc;">$1.9 million per violation category per year</strong>. This is why data exfiltration — data leaving the network without authorization — is treated as a Critical severity incident in healthcare environments.</p>
   </div>
 
   <div class="card">
@@ -701,16 +715,18 @@ failed_attempts = {}
       <input class="report-field" id="pb-datetime" placeholder="e.g., May 18, 2026 at approximately 02:14 AM">
       <p class="field-label">Analyst Name</p>
       <input class="report-field" id="pb-analyst" placeholder="Your name">
-      <p class="field-label">Incident Classification <span style="color:#888; font-size:12px;">(select all that apply)</span></p>
-      <div id="pb-class-boxes" style="display:flex; flex-wrap:wrap; gap:10px 24px; margin:6px 0 10px;">
+      <p class="field-label">Incident Classification <span style="color:#888; font-size:12px;">(choose your best 2)</span></p>
+      <div id="pb-class-boxes" style="display:flex; flex-wrap:wrap; gap:10px 24px; margin:6px 0 4px;">
         <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Unauthorized Access" onchange="syncClassField()"> Unauthorized Access</label>
-        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Brute Force Attack" onchange="syncClassField()"> Brute Force Attack</label>
         <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Data Exfiltration" onchange="syncClassField()"> Data Exfiltration</label>
-        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Malware / Backdoor" onchange="syncClassField()"> Malware / Backdoor</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Denial of Service (DoS)" onchange="syncClassField()"> Denial of Service (DoS)</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Phishing / Social Engineering" onchange="syncClassField()"> Phishing / Social Engineering</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Ransomware" onchange="syncClassField()"> Ransomware</label>
         <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Insider Threat" onchange="syncClassField()"> Insider Threat</label>
-        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Privilege Escalation" onchange="syncClassField()"> Privilege Escalation</label>
       </div>
       <input type="hidden" id="pb-class" value="">
+      <p class="field-label" style="margin-top:10px;">Explain why you chose both classifications</p>
+      <textarea class="report-field" id="pb-class-explain" style="min-height:70px;" placeholder="e.g., I selected Unauthorized Access because..."></textarea>
       <p class="field-label">Incident Severity</p>
       <select class="report-field" id="pb-severity">
         <option value="">-- Select --</option>
@@ -2371,7 +2387,7 @@ async function saveMyWork() {
   const fieldIds = [
     'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
-    'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
+    'pb-name','pb-datetime','pb-analyst','pb-class','pb-class-explain','pb-severity','pb-desc',
     'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2',
     'pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4',
     'pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6',
@@ -2529,7 +2545,7 @@ const SAVE_KEY = 'op_silent_pivot_save';
 const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
-  'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
+  'pb-name','pb-datetime','pb-analyst','pb-class','pb-class-explain','pb-severity','pb-desc',
   'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2',
   'pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4',
   'pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6',
