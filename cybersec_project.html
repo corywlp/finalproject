@@ -701,16 +701,16 @@ failed_attempts = {}
       <input class="report-field" id="pb-datetime" placeholder="e.g., May 18, 2026 at approximately 02:14 AM">
       <p class="field-label">Analyst Name</p>
       <input class="report-field" id="pb-analyst" placeholder="Your name">
-      <p class="field-label">Incident Classification</p>
-      <select class="report-field" id="pb-class">
-        <option value="">-- Select --</option>
-        <option>Unauthorized Access</option>
-        <option>Brute Force Attack</option>
-        <option>Data Exfiltration</option>
-        <option>Malware / Backdoor</option>
-        <option>Insider Threat</option>
-        <option>Multiple (describe below)</option>
-      </select>
+      <p class="field-label">Incident Classification <span style="color:#888; font-size:12px;">(select all that apply)</span></p>
+      <div id="pb-class-boxes" style="display:flex; flex-wrap:wrap; gap:10px 24px; margin:6px 0 10px;">
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Unauthorized Access" onchange="syncClassField()"> Unauthorized Access</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Brute Force Attack" onchange="syncClassField()"> Brute Force Attack</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Data Exfiltration" onchange="syncClassField()"> Data Exfiltration</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Malware / Backdoor" onchange="syncClassField()"> Malware / Backdoor</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Insider Threat" onchange="syncClassField()"> Insider Threat</label>
+        <label style="display:flex; align-items:center; gap:6px; color:#eef2ff; font-size:13px; cursor:pointer;"><input type="checkbox" value="Privilege Escalation" onchange="syncClassField()"> Privilege Escalation</label>
+      </div>
+      <input type="hidden" id="pb-class" value="">
       <p class="field-label">Incident Severity</p>
       <select class="report-field" id="pb-severity">
         <option value="">-- Select --</option>
@@ -725,8 +725,25 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>DEBRIEF — What did Jordan tell you?</h3>
-      <p class="field-label">For each topic you uncovered, summarize what you learned and why it created risk:</p>
-      <textarea class="report-field" id="pb-recon-gaps" style="min-height:200px;" placeholder="1.&#10;2.&#10;3.&#10;4.&#10;5.&#10;6.&#10;7.&#10;8."></textarea>
+      <p class="field-label">For each topic you uncovered in the interview, note the control area and describe what you learned and why it created risk:</p>
+      <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+        <thead>
+          <tr style="background:#1a2234;">
+            <th style="padding:8px 12px; text-align:left; color:#a8b8d0; font-weight:600; width:30%; border:1px solid #2a3f5f;">Topic / Control Area</th>
+            <th style="padding:8px 12px; text-align:left; color:#a8b8d0; font-weight:600; border:1px solid #2a3f5f;">What you learned and why this created risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-1" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;" placeholder="e.g. MFA"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-1" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;" placeholder="e.g. Never set up — stolen password alone was enough to log in"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-2" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-2" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-3" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-3" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-4" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-4" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-5" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-5" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-6" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-6" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-7" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-7" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-8" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-8" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="report-section">
@@ -2352,10 +2369,14 @@ async function saveMyWork() {
   if(statusEl) statusEl.textContent = 'Exporting...';
 
   const fieldIds = [
-    'siem-notes','terminal-notes',
+    'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
     'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-    'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+    'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2',
+    'pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4',
+    'pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6',
+    'pb-recon-topic-7','pb-recon-risk-7','pb-recon-topic-8','pb-recon-risk-8',
+    'pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
     'pb-respond','pb-notify','pb-recover','pb-improve',
     'rpt-analyst','rpt-date','rpt-client','rpt-class',
     'rpt-exec','rpt-timeline','rpt-resume',
@@ -2379,6 +2400,8 @@ async function saveMyWork() {
       }
     }
   });
+  const pbClassVal = document.getElementById('pb-class') ? document.getElementById('pb-class').value : '';
+  if(pbClassVal) prefillScript += `  if(typeof restoreClassField === 'function') restoreClassField(${JSON.stringify(pbClassVal)});\n`;
   const coveredArr = Array.from(jordanCovered);
   prefillScript += `  var jc = ${JSON.stringify(coveredArr)};\n`;
   prefillScript += `  jc.forEach(function(t){ var el = document.getElementById(t); if(el) el.classList.add('found'); });\n`;
@@ -2507,16 +2530,34 @@ const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
   'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-  'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+  'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2',
+  'pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4',
+  'pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6',
+  'pb-recon-topic-7','pb-recon-risk-7','pb-recon-topic-8','pb-recon-risk-8',
+  'pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
   'pb-respond','pb-notify','pb-recover','pb-improve',
   'rpt-analyst','rpt-date','rpt-client','rpt-class',
-  'rpt-exec','rpt-timeline',
+  'rpt-exec','rpt-timeline','rpt-resume',
   'rpt-f1','rpt-f2','rpt-f3','rpt-f4','rpt-f5',
   'rpt-nist',
   'rpt-rec-imm','rpt-rec-short','rpt-rec-long',
   'rpt-hipaa','rpt-ethics','rpt-ethical-reasoning',
   'nb-freeform','nb-iocs','nb-timeline','nb-questions','nb-controls',
 ];
+
+function syncClassField() {
+  const checked = Array.from(document.querySelectorAll('#pb-class-boxes input[type="checkbox"]:checked')).map(cb => cb.value);
+  const h = document.getElementById('pb-class');
+  if(h) { h.value = checked.join(', '); autoSave(); }
+}
+
+function restoreClassField(val) {
+  if(!val) return;
+  const vals = val.split(', ');
+  document.querySelectorAll('#pb-class-boxes input[type="checkbox"]').forEach(cb => {
+    cb.checked = vals.includes(cb.value);
+  });
+}
 
 function autoSave() {
   const data = { savedAt: new Date().toISOString() };
@@ -2548,6 +2589,7 @@ function autoRestore() {
         if(el) { el.value = data[id]; restored++; }
       }
     });
+    if(data['pb-class']) restoreClassField(data['pb-class']);
     if(restored > 0 && data.savedAt) {
       const el = document.getElementById('autosave-status');
       const t = new Date(data.savedAt);
