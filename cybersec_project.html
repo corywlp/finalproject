@@ -465,9 +465,10 @@
 
       <!-- Hints -->
       <div class="card" style="padding:14px;">
-        <h3 style="margin-bottom:8px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+        <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+        <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
         <div id="siem-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
-        <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('siem-hints', siemHints)">Show Next Hint</button>
+        <button class="btn btn-gray hint-btn" data-hint-id="siem-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('siem-hints', siemHints)">Use a Hint (1 of 3 remaining)</button>
       </div>
     </div>
   </div>
@@ -510,9 +511,10 @@
   </div>
 
   <div class="card">
-    <h3>Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
     <div id="terminal-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
-    <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('terminal-hints', termHints)">Show Next Hint</button>
+    <button class="btn btn-gray hint-btn" data-hint-id="terminal-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('terminal-hints', termHints)">Use a Hint (1 of 3 remaining)</button>
   </div>
 
   <div class="card">
@@ -623,9 +625,10 @@ failed_attempts = {}
   </div>
 
   <div class="card">
-    <h3>Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
     <div id="python-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
-    <button class="btn btn-gray" style="font-size:12px; margin-top:8px;" onclick="showHint('python-hints', pyHints)">Show Next Hint</button>
+    <button class="btn btn-gray hint-btn" data-hint-id="python-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('python-hints', pyHints)">Use a Hint (1 of 3 remaining)</button>
   </div>
 
   <div class="card">
@@ -1205,31 +1208,21 @@ failed_attempts = {}
   <div class="card">
     <h3>Phase 2 — SIEM Notes (15 pts)</h3>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Identified the attacker's source IP address from the SIEM logs</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Identified the brute force pattern and the total number of failed login attempts
-        <div class="rubric-note">Your notes should name the attack type and include the specific count.</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Identified and documented suspicious events in the logs
+        <div class="rubric-note">Notes should reference specific events, timestamps, or values from the data — not general descriptions.</div>
       </div>
     </div>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Noted the suspicious account that appeared in the logs after the breach</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Distinguished suspicious activity from normal background noise
+        <div class="rubric-note">Explain why specific events stood out — what made them different from legitimate activity?</div>
+      </div>
     </div>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Identified the database queries that accessed sensitive patient records</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Noted the suspicious outbound connection and the port used for C2 communication</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">SIEM notes are substantive
-        <div class="rubric-note">Brief, one-word entries will not receive credit. Write complete observations.</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Notes are thorough and substantive
+        <div class="rubric-note">A strong submission documents multiple findings across multiple tables, not just one event.</div>
       </div>
     </div>
   </div>
@@ -1237,33 +1230,21 @@ failed_attempts = {}
   <div class="card">
     <h3>Phase 3 — Terminal Notes (15 pts)</h3>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Identified the backdoor user account created on the server</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Identified and documented suspicious artifacts on the system
+        <div class="rubric-note">Notes should include specific file paths, usernames, commands, or timestamps from the terminal.</div>
+      </div>
     </div>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Found and documented the malicious scheduled task (cron job)</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Explained what each finding means in the context of the investigation
+        <div class="rubric-note">Don't just list what you found — explain why it's suspicious and what an attacker would use it for.</div>
+      </div>
     </div>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Identified the malicious payload file dropped on the compromised system</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Noted evidence of anti-forensics (command history tampering)</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Ran a port scan and noted any exposed or unexpected services</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
-      <div class="rubric-label">Identified strings or indicators associated with the reverse shell / C2 beacon</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Terminal notes are substantive
-        <div class="rubric-note">Document what commands you ran and what each finding means, not just the raw output.</div>
+      <div class="rubric-pts" style="color:var(--accent);">5 pts</div>
+      <div class="rubric-label">Notes reflect a thorough investigation of the system
+        <div class="rubric-note">A strong submission shows evidence of exploring multiple directories and commands, not just the obvious ones.</div>
       </div>
     </div>
   </div>
@@ -1350,27 +1331,15 @@ failed_attempts = {}
     </div>
     <div class="rubric-row">
       <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
-      <div class="rubric-label">Attack timeline includes the attacker's IP address and the key timestamp of the initial breach</div>
+      <div class="rubric-label">Attack timeline is chronological and grounded in specific evidence
+        <div class="rubric-note">Should reference actual data from your investigation, not a general summary.</div>
+      </div>
     </div>
     <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Finding 1: Brute force attack documented with supporting evidence</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Finding 2: Backdoor account documented with supporting evidence</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Finding 3: Cron-based persistence mechanism documented</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">2 pts</div>
-      <div class="rubric-label">Finding 4: Database exfiltration of patient records documented</div>
-    </div>
-    <div class="rubric-row">
-      <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
-      <div class="rubric-label">Finding 5: Anti-forensics / evidence tampering documented</div>
+      <div class="rubric-pts" style="color:var(--accent);">9 pts</div>
+      <div class="rubric-label">Findings section documents at least 5 distinct findings, each supported by specific evidence
+        <div class="rubric-note">2 pts per finding. Each finding should name what you discovered and cite the specific data that supports it (log entry, file path, timestamp, etc.).</div>
+      </div>
     </div>
     <div class="rubric-row">
       <div class="rubric-pts" style="color:var(--accent);">6 pts</div>
@@ -2414,8 +2383,35 @@ const pyHints = [
   "One bug makes the script produce no output even when it runs. Think about the threshold: if the correct number of attempts is somewhere between 10 and 100, what threshold would cause the script to silently skip every result? The last bug is about what gets printed — is a count on its own useful to an analyst?",
 ];
 
+const HINT_BUDGET = 3;
+let hintsUsed = 0;
+const hintUsedFor = new Set(); // tracks which phases have used a hint
+
+function updateHintDisplay() {
+  const remaining = HINT_BUDGET - hintsUsed;
+  document.querySelectorAll('.hint-budget-display').forEach(el => {
+    el.textContent = `Hints remaining: ${remaining}/${HINT_BUDGET}`;
+    el.style.color = remaining === 0 ? 'var(--red)' : remaining === 1 ? 'var(--yellow)' : '#a8b8d0';
+  });
+  document.querySelectorAll('.hint-btn').forEach(btn => {
+    if(remaining === 0) {
+      btn.disabled = true;
+      btn.style.opacity = '0.4';
+      btn.title = 'No hints remaining';
+    }
+  });
+}
+
 const hintCounters = {};
 function showHint(containerId, hints) {
+  if(hintUsedFor.has(containerId)) {
+    // already used hint for this phase — do nothing (button should be hidden)
+    return;
+  }
+  if(hintsUsed >= HINT_BUDGET) {
+    alert('You have used all 3 of your hints.');
+    return;
+  }
   if(!hintCounters[containerId]) hintCounters[containerId] = 0;
   const idx = hintCounters[containerId];
   if(idx >= hints.length) {
@@ -2431,9 +2427,15 @@ function showHint(containerId, hints) {
   const div = document.createElement('div');
   div.className = 'alert alert-yellow';
   div.style.fontSize = '13px';
-  div.innerHTML = `<strong>Hint ${idx + 1}:</strong> ${hints[idx]}`;
+  div.innerHTML = `<strong>Hint:</strong> ${hints[0]}`;
   container.appendChild(div);
   hintCounters[containerId]++;
+  hintsUsed++;
+  hintUsedFor.add(containerId);
+  // hide the button for this phase
+  const btn = document.querySelector(`button.hint-btn[data-hint-id="${containerId}"]`);
+  if(btn) btn.style.display = 'none';
+  updateHintDisplay();
 }
 
 // ===================== AUTOSAVE =====================
@@ -2508,8 +2510,9 @@ function clearSave() {
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded', () => {
   initSiem();
-  autoRestore();   // restore fields first
-  jordanOpen();    // then init Jordan (reads restored fields if any)
+  autoRestore();
+  jordanOpen();
+  updateHintDisplay();
   // populate PDF cover from report fields on print
   window.addEventListener('beforeprint', () => {
     document.getElementById('cv-analyst').textContent = document.getElementById('rpt-analyst').value || '(not filled)';
