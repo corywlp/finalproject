@@ -1194,12 +1194,12 @@ failed_attempts = {}
 <div class="page" id="page11">
   <div class="card" style="border-color:var(--accent);">
     <h2 style="color:var(--text-bright);">Grading Rubric</h2>
-    <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 7 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
+    <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">120 points</strong> across 7 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
     <div style="margin-top:16px; display:flex; gap:20px; flex-wrap:wrap; font-size:13px;">
       <span><span style="color:var(--green); font-weight:bold;">Phase 1</span> Interview — 10 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 2</span> SIEM Notes — 15 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 3</span> Terminal Notes — 15 pts</span>
-      <span><span style="color:var(--green); font-weight:bold;">Phase 4</span> Threat Intel — ungraded</span>
+      <span><span style="color:var(--green); font-weight:bold;">Phase 4</span> Threat Intel — 10 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 5</span> Python Task — 15 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 6</span> Playbook — 15 pts</span>
       <span><span style="color:var(--green); font-weight:bold;">Phase 7</span> Final Report — 40 pts</span>
@@ -1261,7 +1261,28 @@ failed_attempts = {}
   </div>
 
   <div class="card">
-    <h3>Phase 4 — Python Task (15 pts)</h3>
+    <h3>Phase 4 — Threat Intelligence (10 pts)</h3>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">4 pts</div>
+      <div class="rubric-label">Correctly identified and researched the suspicious IP address from the investigation
+        <div class="rubric-note">Must reference what you found — not just that you searched it.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Explained what the findings mean in the context of this investigation
+        <div class="rubric-note">Connect what you found externally to what you observed in the SIEM and terminal.</div>
+      </div>
+    </div>
+    <div class="rubric-row">
+      <div class="rubric-pts" style="color:var(--accent);">3 pts</div>
+      <div class="rubric-label">Explained in your own words why threat intelligence matters to a SOC analyst</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Phase 5 — Python Task (15 pts)</h3>
+
     <div class="rubric-row">
       <div class="rubric-pts" style="color:var(--accent);">4 pts</div>
       <div class="rubric-label">Script output correctly identifies the attacker's IP address</div>
@@ -1295,7 +1316,7 @@ failed_attempts = {}
   </div>
 
   <div class="card">
-    <h3>Phase 5 — NIST Playbook (15 pts)</h3>
+    <h3>Phase 6 — NIST Playbook (15 pts)</h3>
     <div class="rubric-row">
       <div class="rubric-pts" style="color:var(--accent);">1 pt</div>
       <div class="rubric-label">Incident description field completed</div>
