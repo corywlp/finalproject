@@ -99,6 +99,8 @@
   #jordan-input-row { display: flex; gap: 8px; }
   #jordan-input { flex: 1; background: #020810; border: 1px solid var(--border2); border-radius: 6px; color: var(--text-bright); font-family: inherit; font-size: 13px; padding: 8px 12px; outline: none; }
   #jordan-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,212,255,0.15); }
+  .jordan-check { font-size:16px; color:#333; transition: color 0.3s; cursor:default; user-select:none; }
+  .jordan-check.lit { color:#3fb950; }
   .hint-box { background: rgba(255,211,42,0.08); border: 1px solid var(--yellow); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: var(--yellow); margin-top: 10px; display: none; }
 
   /* REPORT / PLAYBOOK */
@@ -173,7 +175,7 @@
     #pdf-cover .cover-meta-row .value { color:#1a1a2e; font-weight:bold; }
     #pdf-cover .cover-footer { margin-top:60px; font-size:11px; color:#aaa; }
     .page { display: block !important; }
-    #page0, #page1, #page2, #page3, #page4, #page5, #page7, #page8, #page9 { display: none !important; }
+    #page0, #page1, #page2, #page3, #page4, #page5, #page7, #page8, #page9, #page10 { display: none !important; }
     #page6 { display: block !important; }
     .no-print { display: none !important; }
     textarea.report-field { border:1px solid #ccc; background:#fff; color:#000; font-family: Georgia, serif; font-size:12px; height:auto; min-height:0; overflow:visible; resize:none; }
@@ -216,7 +218,8 @@
   <button class="nav-btn" onclick="goTo(6)" id="nb6"><span class="phase-num">6</span>Final Report</button>
   <button class="nav-btn" onclick="goTo(7)" id="nb7"><span class="phase-num">7</span>Notebook</button>
   <button class="nav-btn" onclick="goTo(8)" id="nb8"><span class="phase-num">?</span>Resources</button>
-  <button class="nav-btn" onclick="goTo(9)" id="nb9" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
+  <button class="nav-btn" onclick="goTo(9)" id="nb9"><span class="phase-num">S</span>Sample Texts</button>
+  <button class="nav-btn" onclick="goTo(10)" id="nb10" style="margin-left:auto;"><span class="phase-num">R</span>Rubric</button>
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
   <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
@@ -308,7 +311,6 @@
     <h2>Phase 1 — Stakeholder Interview</h2>
     <p>You are sitting across from <strong style="color:#f0f6fc;">Jordan Reyes</strong>, IT Manager at ClearPath Medical Billing. Jordan is cooperative but visibly stressed. Ask questions to understand the company's security posture before you begin your technical investigation.</p>
     <br>
-    <p style="color:#a8b8d0; font-size:13px;">Type your questions naturally. Jordan will respond based on what you ask. Try to uncover information about passwords, backups, MFA, logging, frameworks, the database, network setup, and more. You need this context for your final report.</p>
   </div>
 
   <div class="card" style="padding:16px;">
@@ -319,6 +321,17 @@
         <div style="color:#a8b8d0; font-size:12px;">IT Manager, ClearPath Medical Billing</div>
       </div>
       <div style="margin-left:auto;"><span class="badge badge-yellow">Interview in progress</span></div>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:12px; flex-wrap:wrap;">
+      <span style="color:#a8b8d0; font-size:11px; margin-right:4px;">Topics covered:</span>
+      <span class="jordan-check" id="jc-mfa"       data-jt="jt-mfa">✓</span>
+      <span class="jordan-check" id="jc-passwords"  data-jt="jt-passwords">✓</span>
+      <span class="jordan-check" id="jc-logging"    data-jt="jt-logging">✓</span>
+      <span class="jordan-check" id="jc-backup"     data-jt="jt-backup">✓</span>
+      <span class="jordan-check" id="jc-framework"  data-jt="jt-framework">✓</span>
+      <span class="jordan-check" id="jc-incident"   data-jt="jt-incident">✓</span>
+      <span class="jordan-check" id="jc-database"   data-jt="jt-database">✓</span>
+      <span class="jordan-check" id="jc-network"    data-jt="jt-network">✓</span>
     </div>
     <div id="jordan-chat"></div>
     <div id="jordan-input-row">
@@ -340,8 +353,6 @@
       <div class="finding-item" id="jt-incident"><span class="fi-label">Incident response plan</span></div>
       <div class="finding-item" id="jt-database"><span class="fi-label">Database &amp; data access</span></div>
       <div class="finding-item" id="jt-network"><span class="fi-label">Network / firewall</span></div>
-      <div class="finding-item" id="jt-training"><span class="fi-label">Security training</span></div>
-      <div class="finding-item" id="jt-vendor"><span class="fi-label">Third-party / vendors</span></div>
     </div>
     <p id="jordan-debrief-score" style="margin-top:14px; font-size:13px; color:#a8b8d0;"></p>
   </div>
@@ -862,84 +873,6 @@ failed_attempts = {}
     <p>Use this page if you get stuck. It won't tell you what to find — but it will help you understand what you're looking at and fix common technical problems.</p>
   </div>
 
-  <!-- SAMPLE REPORT -->
-  <div class="card">
-    <h3>Sample Incident Report — Reference Only</h3>
-    <div class="alert alert-blue" style="margin-bottom:16px;">This is a <strong>fully written fictional example</strong> based on a completely different incident at a different company. Read it to understand what a finished, professional report looks like — the depth, the tone, and how each section connects. It has nothing to do with this exercise.</div>
-
-    <div style="background:#020810; border:1px solid var(--border2); border-radius:8px; padding:24px 28px; font-size:13px; line-height:1.9; color:var(--text);">
-
-      <p style="color:var(--text-bright); font-weight:bold; font-size:16px; margin-bottom:4px; letter-spacing:0.5px;">INCIDENT REPORT — INC-2026-0041</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:12px; color:var(--text-dim); margin-bottom:24px; border-bottom:1px solid var(--border); padding-bottom:14px;">
-        <span><strong style="color:var(--text);">Analyst:</strong> Alex Chen, SOC II</span>
-        <span><strong style="color:var(--text);">Date:</strong> March 3, 2026</span>
-        <span><strong style="color:var(--text);">Client:</strong> Meridian Retail Group</span>
-        <span><strong style="color:var(--text);">Classification:</strong> Confidential — Internal Use Only</span>
-        <span><strong style="color:var(--text);">Incident Type:</strong> Business Email Compromise / Financial Fraud</span>
-        <span><strong style="color:var(--text);">Severity:</strong> High</span>
-      </div>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Executive Summary</p>
-      <p style="margin-bottom:12px;">On February 28, 2026, a targeted phishing campaign against Meridian Retail Group's accounts payable department resulted in the theft of an employee's Active Directory credentials and subsequent unauthorized access to the company's internal invoicing system. The attacker, operating from IP address 91.108.4.200, used the stolen credentials to authenticate to the corporate VPN and gain access to the invoicing platform, where they modified two vendor payment records to redirect a combined $42,000 to an external bank account under their control.</p>
-      <p style="margin-bottom:12px;">The breach went undetected for approximately 22 hours. Although a SIEM alert fired on the anomalous VPN login within minutes of the attacker's entry, it was not reviewed until the following morning — at which point the financial team had already flagged the discrepancy through routine reconciliation. The compromised account was disabled and the VPN session terminated by 9:45 AM on March 1, approximately 6 hours after detection.</p>
-      <p style="margin-bottom:20px;">A wire recall was initiated through Meridian's banking partner on March 1. As of the date of this report, $28,000 has been recovered. The remaining $14,000 is being pursued through the bank's fraud resolution process. No customer personal data, payment card data, or other regulated information was accessed during the incident. This report documents the full timeline, technical findings, control failures, and recommended remediation actions.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Attack Timeline</p>
-      <div style="border-left:2px solid var(--border2); padding-left:16px; margin-bottom:20px;">
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:14 AM</span> — A phishing email purportedly from Meridian's IT helpdesk arrived in the inbox of J. Torres, an accounts payable specialist. The email claimed that Torres's account password was expiring and directed them to a spoofed login page hosted at <code>meridian-it-support[.]com</code> — a domain registered just four days earlier. Torres entered their Active Directory username and password on the spoofed page.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:31 AM</span> — Attacker authenticates to Meridian's corporate VPN from IP 91.108.4.200 (geolocation: Eastern Europe) using Torres's stolen credentials. A SIEM alert fires — "Off-hours VPN login from new geolocation" — but is queued for next-morning review with no real-time escalation configured.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:44 AM</span> — Attacker connects to the internal invoicing platform using Torres's account. Because Torres's account had read/write access to all vendor payment records (not just those in their own queue), the attacker has full access to the payment system.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:02 AM</span> — Attacker modifies two pending vendor payment records, changing the routing and account numbers on both to an attacker-controlled account. The changes are logged in the application audit trail but no alert fires on payment record modifications.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:09 AM</span> — Attacker logs out of VPN. Total dwell time on network: approximately 38 minutes.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:15 AM</span> — Finance team member R. Okafor flags two vendor payments during morning reconciliation: the routing numbers do not match those on file for either vendor. IT Security is notified immediately.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:22 AM</span> — Security team reviews the overnight SIEM queue and finds the anomalous VPN alert from the previous morning. Torres's account is immediately disabled and the incident is formally opened.</p>
-        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 09:45 AM</span> — Incident declared contained. Banking partner notified; wire recall initiated for both payments. Payment records restored from application backup.</p>
-      </div>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Findings</p>
-
-      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 1 — Credential Phishing via Spoofed Domain</strong></p>
-      <p style="margin-bottom:16px;">The attacker registered the domain <code>meridian-it-support[.]com</code> on February 24, 2026 — four days before the attack — and hosted a convincing replica of Meridian's internal IT portal. The phishing email was sent from this domain and passed basic spam filter checks because the domain had no prior reputation score and the sending infrastructure had not been previously flagged. The email used urgency language ("your password expires in 24 hours") to pressure the recipient into acting quickly without scrutinizing the URL. J. Torres, who had not received phishing awareness training since their onboarding in 2024, did not recognize the spoofed domain. This is the initial access vector for the entire incident.</p>
-
-      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 2 — No Multi-Factor Authentication on VPN</strong></p>
-      <p style="margin-bottom:16px;">Meridian's corporate VPN required only a username and password for authentication. Once the attacker obtained Torres's credentials from the phishing page, there was no additional verification step to prevent access. Had MFA been enabled, the attacker would have been blocked at this stage even with valid credentials — a stolen password alone would have been insufficient. This is the most critical control failure in this incident. It converted a phishing success into full network access.</p>
-
-      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 3 — Excessive Account Privileges (Principle of Least Privilege Violation)</strong></p>
-      <p style="margin-bottom:16px;">J. Torres's role in accounts payable required access to a specific subset of vendor payments assigned to their queue. However, their account was provisioned with read/write access to all vendor payment records in the invoicing system — including those managed by other team members and other departments. This over-provisioning meant that once the attacker had Torres's account, they could access and modify any payment record in the system, not just those Torres would legitimately touch. Had least-privilege principles been enforced, the blast radius of this incident would have been significantly smaller.</p>
-
-      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 4 — SIEM Alert Not Actioned in Real Time</strong></p>
-      <p style="margin-bottom:16px;">The SIEM correctly flagged the attacker's VPN login at 10:31 AM on February 28 — within 17 minutes of the phishing email being clicked. The alert described "off-hours VPN login from new geolocation" and was accurate. However, the alert was placed in a review queue that the security team only checked the following morning. By the time it was reviewed, the attacker had been and gone. There was no escalation policy for this alert type, no on-call rotation for medium-severity alerts, and no automated response (such as triggering an additional authentication challenge or temporarily locking the session). This is a detection gap, not a tool gap — the SIEM did its job; the response process did not.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">NIST Cybersecurity Framework Analysis</p>
-
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Identify:</strong> Meridian had not formally classified its invoicing system as a high-risk asset despite the fact that it processes vendor payments totaling over $2M per month. The sensitivity of the data in the system — payment routing numbers, vendor bank accounts, pending financial transactions — was not reflected in the access controls applied to it. Had a formal asset risk assessment been completed, the invoicing system would likely have been flagged as requiring stronger authentication and tighter privilege controls.</p>
-
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Protect:</strong> Three protective controls were either absent or insufficient. First, MFA was not enforced on VPN, leaving credential theft as a complete bypass of network access controls. Second, role-based access control in the invoicing system was not implemented in alignment with actual job responsibilities, violating least privilege. Third, phishing awareness training had not been refreshed since onboarding, leaving staff unprepared to recognize a convincing spoofed email. Each of these failures independently contributed to the outcome.</p>
-
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Detect:</strong> The SIEM generated a valid, relevant alert within minutes. However, the detection capability was undermined by the response process: no escalation path existed for this alert type during non-business hours, and no additional detection layer (such as alerts on changes to payment routing numbers) was configured at the application level. Detection tools were in place; detection processes were not.</p>
-
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Respond:</strong> Once the incident was identified through the finance team's reconciliation — not through the SIEM alert — the response was fast and effective. The compromised account was disabled within 7 minutes of the security team being notified. The banking partner was contacted within 2 hours. Forensic preservation of logs and application audit trails was initiated within the first hour. The response process functioned well once triggered; the problem was the 22-hour delay in triggering it.</p>
-
-      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Recover:</strong> Payment records were restored from the application's nightly backup with no data loss. Both vendors whose payment records were modified were notified directly and asked to verify their banking information on file. The wire recall process was initiated with the bank; $28,000 of the $42,000 transferred has been recovered as of this report. The remaining balance is in dispute resolution. Torres's account was re-provisioned with correctly scoped permissions after review, and Torres returned to work the following day. No systems required rebuilding or reimaging.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Security Control Gaps</p>
-      <p style="margin-bottom:20px;">The most significant gap in this incident was the absence of MFA on the corporate VPN. A single set of credentials — obtained through a phishing page in less than two minutes — was sufficient for complete network access. This is a foundational control failure. The second major gap was the lack of least-privilege enforcement in the invoicing system: access provisioning appears to have been done for convenience rather than necessity, and no periodic access review had been conducted to right-size permissions. The third gap is in the SIEM response workflow: the tool detected the intrusion in real time, but the absence of an escalation path for medium-severity off-hours alerts meant that detection did not translate into a timely response. Finally, the lapse in phishing training left staff without the knowledge to identify a relatively straightforward social engineering attempt. These gaps did not independently cause the breach — they compounded each other. Closing any one of them would likely have prevented or significantly limited the incident.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Recommendations</p>
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Immediate (0–7 days):</strong> Enable MFA on all VPN accounts without exception. This is the single highest-priority action and should not wait. Additionally, force a password reset for all accounts that may share credentials with the phishing page domain (anyone who may have been targeted by this or similar campaigns). Conduct an emergency audit of invoicing system permissions and revoke any access that exceeds what each role actually requires. Preserve all logs, application audit trails, and VPN records related to this incident in tamper-evident storage for potential legal proceedings.</p>
-      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Short-term (1–30 days):</strong> Define and implement a real-time escalation policy for SIEM alerts involving off-hours access to sensitive systems. Configure application-level alerts for changes to vendor payment routing data. Launch a company-wide phishing awareness training session and establish a recurring annual schedule. Implement DMARC, DKIM, and SPF on Meridian's email domains to reduce the effectiveness of future spoofing attempts. Conduct a broader review of account privilege assignments across business-critical applications.</p>
-      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Long-term (30–90 days):</strong> Extend MFA requirements beyond VPN to all internal systems that handle sensitive financial or operational data. Establish a formal asset classification policy that ties security controls (access restrictions, monitoring intensity, alert thresholds) to the sensitivity of the data a system holds. Implement a periodic access recertification process — every 6 months, managers should review and reconfirm the access needs of their team members. Consider engaging an external firm for a red team exercise to test phishing resilience and VPN access controls after the above changes are implemented.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Legal &amp; Compliance Considerations</p>
-      <p style="margin-bottom:20px;">Based on the forensic review conducted to date, no customer personal data, payment card numbers, or other regulated consumer information was accessed during this incident. The attacker's activity was confined to vendor payment records — commercial data — which does not trigger notification requirements under applicable state consumer breach notification laws or PCI-DSS. Legal counsel has been briefed and concurs with this assessment, pending completion of the full forensic review. All incident documentation, SIEM logs, application audit trails, and VPN records have been preserved. If the wire recovery process fails to resolve the outstanding $14,000, Meridian's legal team is prepared to file a referral with the FBI's Internet Crime Complaint Center (IC3). No employee disciplinary action is anticipated; the incident resulted from an organizational control failure, not individual misconduct.</p>
-
-      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Analyst Ethics Statement</p>
-      <p style="margin-bottom:8px;">J. Torres, the employee whose credentials were stolen, acted in good faith and was the victim of a well-crafted social engineering attack. This report makes no finding of negligence or misconduct on Torres's part. The failure to protect against credential theft through phishing was an organizational one — the company did not provide recent awareness training, did not enforce MFA, and did not implement account controls that would have limited the damage even if credentials were stolen. Assigning personal blame to Torres would be both factually incorrect and ethically inappropriate.</p>
-      <p>As the analyst on this case, I conducted my investigation using only data and access provided to me by the client for this purpose. I have not disclosed any findings, logs, or client information to any third party outside of this engagement. All findings in this report reflect my honest assessment of the evidence. Where uncertainty exists, I have said so explicitly rather than overstating my conclusions.</p>
-
-    </div>
-  </div>
-
   <!-- COMMON ERRORS -->
   <div class="card">
     <h3>Common Errors &amp; Fixes</h3>
@@ -1045,9 +978,73 @@ failed_attempts = {}
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Log Correlation</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The practice of connecting events across multiple log sources to reconstruct what happened. A single log rarely tells the whole story — auth logs, process logs, firewall logs, and database logs together reveal the full attack chain.</p>
       </div>
-      <div style="padding:10px 12px;">
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Orphaned Account</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account that remains active after the person no longer needs access — a former employee, a contractor whose engagement ended, or a service account for a decommissioned system. Orphaned accounts are a common attack vector and should be disabled or removed promptly.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">MFA — Multi-Factor Authentication</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Requiring more than one form of verification to log in — typically a password plus a one-time code from an app or text message. Even if a password is stolen, MFA prevents login without the second factor.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SIEM — Security Information &amp; Event Management</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A system that aggregates logs from across an organization and allows analysts to search, correlate, and alert on security events. Think of it as a searchable database of everything that happened on your network.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Root / sudo</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">On Linux, <code>root</code> is the all-powerful administrator account. <code>sudo</code> allows a regular user to run commands with root-level privileges. Any account added to the sudo group effectively has full control of the system.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Service Account</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account created for an automated process rather than a human — backups, monitoring, scheduled scripts. They often have elevated permissions and are less scrutinized than human accounts, making them attractive targets for attackers to impersonate or create.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Firewall</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A network control that filters traffic based on rules — blocking or allowing connections by IP address, port, or protocol. Firewalls log both allowed and blocked connections; outbound connections to unusual IPs or ports can indicate a compromise.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">NIST Cybersecurity Framework</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A widely adopted framework for managing cybersecurity risk, organized into five functions: Identify, Protect, Detect, Respond, and Recover. Used by organizations to assess their security posture and by analysts to structure incident response recommendations.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Incident Response Plan</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A documented procedure for how an organization detects, contains, and recovers from a security incident. An untested or outdated IR plan is often worse than having a simple, practiced one — the plan is only useful if people know it exists and how to follow it.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Security Awareness Training</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Ongoing education for employees about cybersecurity threats and safe behavior — recognizing phishing, handling credentials, reporting suspicious activity. A one-time onboarding video does not count as ongoing training. Human error is the leading cause of breaches.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Third-Party / Vendor Access</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">External organizations or contractors that have been granted access to internal systems. Their credentials carry the same risk as employee credentials — if not revoked when the engagement ends, they become an unmonitored entry point.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SQL — Structured Query Language</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The language used to query and manipulate databases. Commands like <code>SELECT</code> retrieve data, <code>INSERT</code> adds records, <code>UPDATE</code> modifies them. In a breach, database query logs can reveal exactly what data was accessed and by whom.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Phishing</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A social engineering attack where an attacker impersonates a trusted entity to trick someone into revealing credentials or clicking a malicious link. Often delivered via email. Not all breaches start with phishing — other initial access methods include brute force, stolen credentials, and unpatched vulnerabilities.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Ransomware</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Malware that encrypts a victim's files and demands payment for the decryption key. Often deployed after the attacker has already established persistence and exfiltrated data. The ransom demand is not always the final objective — data theft may have already occurred before encryption begins.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">VPN — Virtual Private Network</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An encrypted tunnel between a remote device and a private network, allowing secure remote access. VPN login events appear in authentication logs and can be a key entry point in an investigation — especially if access originates from an unexpected location or IP.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Zero-Day</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A software vulnerability that is unknown to the vendor and has no available patch. Attackers who discover zero-days can exploit them before any defense exists. Most breaches do not involve zero-days — attackers prefer well-known, unpatched vulnerabilities because they're cheaper and more available.</p>
+      </div>
+      <div style="padding:10px 12px; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Endpoint Detection &amp; Response (EDR)</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Security software installed on individual devices that monitors for suspicious behavior in real time — unusual processes, file modifications, network connections. EDR can detect threats that traditional antivirus misses, including fileless attacks and living-off-the-land techniques.</p>
+      </div>
+      <div style="padding:10px 12px;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Social Engineering</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Manipulating people rather than systems to gain access or information. Includes phishing, pretexting (impersonating someone with authority), and vishing (voice-based deception). Technical controls alone cannot defend against social engineering — human training is required.</p>
       </div>
     </div>
   </div>
@@ -1124,8 +1121,71 @@ failed_attempts = {}
   </div>
 </div>
 
-<!-- ===================== PAGE 9: GRADING RUBRIC ===================== -->
+<!-- ===================== PAGE 9: SAMPLE TEXTS ===================== -->
 <div class="page" id="page9">
+  <div class="card">
+    <h2>Sample Texts — Reference Only</h2>
+    <p>These are fully written fictional examples from a completely different incident at a different company. Read them to understand what professional, finished work looks like — the depth, the tone, and how each section connects. They have nothing to do with this exercise.</p>
+  </div>
+
+  <div class="card">
+    <h3>Sample Incident Report — INC-2026-0041</h3>
+    <div class="alert alert-blue" style="margin-bottom:16px;">This report covers a <strong>Business Email Compromise</strong> at a retail company. The attack vector, industry, and findings are all different from yours. Use it as a model for structure and writing quality only.</div>
+    <div style="background:#020810; border:1px solid var(--border2); border-radius:8px; padding:24px 28px; font-size:13px; line-height:1.9; color:var(--text);">
+      <p style="color:var(--text-bright); font-weight:bold; font-size:16px; margin-bottom:4px; letter-spacing:0.5px;">INCIDENT REPORT — INC-2026-0041</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:12px; color:var(--text-dim); margin-bottom:24px; border-bottom:1px solid var(--border); padding-bottom:14px;">
+        <span><strong style="color:var(--text);">Analyst:</strong> Alex Chen, SOC II</span>
+        <span><strong style="color:var(--text);">Date:</strong> March 3, 2026</span>
+        <span><strong style="color:var(--text);">Client:</strong> Meridian Retail Group</span>
+        <span><strong style="color:var(--text);">Classification:</strong> Confidential — Internal Use Only</span>
+        <span><strong style="color:var(--text);">Incident Type:</strong> Business Email Compromise / Financial Fraud</span>
+        <span><strong style="color:var(--text);">Severity:</strong> High</span>
+      </div>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Executive Summary</p>
+      <p style="margin-bottom:12px;">On February 28, 2026, a targeted phishing campaign against Meridian Retail Group's accounts payable department resulted in the theft of an employee's Active Directory credentials and subsequent unauthorized access to the company's internal invoicing system. The attacker, operating from IP address 91.108.4.200, used the stolen credentials to authenticate to the corporate VPN and gain access to the invoicing platform, where they modified two vendor payment records to redirect a combined $42,000 to an external bank account under their control.</p>
+      <p style="margin-bottom:12px;">The breach went undetected for approximately 22 hours. Although a SIEM alert fired on the anomalous VPN login within minutes of the attacker's entry, it was not reviewed until the following morning — at which point the financial team had already flagged the discrepancy through routine reconciliation. The compromised account was disabled and the VPN session terminated by 9:45 AM on March 1, approximately 6 hours after detection.</p>
+      <p style="margin-bottom:20px;">A wire recall was initiated through Meridian's banking partner on March 1. As of the date of this report, $28,000 has been recovered. The remaining $14,000 is being pursued through the bank's fraud resolution process. No customer personal data, payment card data, or other regulated information was accessed during the incident. This report documents the full timeline, technical findings, control failures, and recommended remediation actions.</p>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Attack Timeline</p>
+      <div style="border-left:2px solid var(--border2); padding-left:16px; margin-bottom:20px;">
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:14 AM</span> — A phishing email purportedly from Meridian's IT helpdesk arrived in the inbox of J. Torres, an accounts payable specialist. The email claimed that Torres's account password was expiring and directed them to a spoofed login page hosted at <code>meridian-it-support[.]com</code> — a domain registered just four days earlier. Torres entered their Active Directory username and password on the spoofed page.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:31 AM</span> — Attacker authenticates to Meridian's corporate VPN from IP 91.108.4.200 using Torres's stolen credentials. A SIEM alert fires but is queued for next-morning review with no real-time escalation configured.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 10:44 AM</span> — Attacker connects to the invoicing platform using Torres's account and gains full access to all vendor payment records.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:02 AM</span> — Attacker modifies two pending vendor payment records, redirecting $42,000 to an attacker-controlled account.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Feb 28, 11:09 AM</span> — Attacker logs out of VPN. Total dwell time: approximately 38 minutes.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:15 AM</span> — Finance team flags discrepancies during morning reconciliation. IT Security notified immediately.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 08:22 AM</span> — Security team finds the overnight SIEM alert. Torres's account disabled; incident formally opened.</p>
+        <p style="margin-bottom:6px;"><span style="color:var(--yellow); font-size:12px;">Mar 1, 09:45 AM</span> — Incident declared contained. Wire recall initiated. Payment records restored from backup.</p>
+      </div>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Findings</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 1 — Credential Phishing via Spoofed Domain</strong></p>
+      <p style="margin-bottom:16px;">The attacker registered <code>meridian-it-support[.]com</code> four days before the attack and hosted a replica of Meridian's IT portal. The email used urgency language to pressure the recipient into acting quickly. J. Torres, who had not received phishing awareness training since onboarding in 2024, did not recognize the spoofed domain. This is the initial access vector for the entire incident.</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 2 — No Multi-Factor Authentication on VPN</strong></p>
+      <p style="margin-bottom:16px;">Meridian's VPN required only a username and password. Once credentials were stolen, no additional verification prevented access. Had MFA been enabled, the attacker would have been blocked even with valid credentials — this single control failure converted a phishing success into full network access.</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 3 — Excessive Account Privileges</strong></p>
+      <p style="margin-bottom:16px;">Torres's role required access to a specific subset of vendor payments, but their account had read/write access to all vendor payment records system-wide. Had least-privilege principles been enforced, the blast radius of this incident would have been significantly smaller.</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--text-bright);">Finding 4 — SIEM Alert Not Actioned in Real Time</strong></p>
+      <p style="margin-bottom:16px;">The SIEM correctly flagged the anomalous VPN login within 17 minutes. However, no escalation policy existed for this alert type during non-business hours. The SIEM did its job; the response process did not.</p>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">NIST CSF Analysis</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Identify:</strong> Meridian had not classified its invoicing system as a high-risk asset despite processing over $2M/month in vendor payments. Access controls did not reflect the sensitivity of the data.</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Protect:</strong> MFA was absent on VPN, least-privilege was not enforced in the invoicing system, and phishing training had not been refreshed since onboarding. Each failure independently contributed to the outcome.</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Detect:</strong> The SIEM generated a valid alert within minutes. Detection tools were in place; detection processes were not — no escalation path existed for off-hours medium-severity alerts.</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Respond:</strong> Once notified, the response was fast and effective — account disabled within 7 minutes, banking partner contacted within 2 hours. The problem was the 22-hour delay in triggering the response.</p>
+      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Recover:</strong> Payment records restored from nightly backup with no data loss. $28,000 of $42,000 recovered as of this report. No systems required rebuilding.</p>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Recommendations</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Immediate (0–7 days):</strong> Enable MFA on all VPN accounts. Force a password reset for potentially targeted accounts. Audit invoicing system permissions and revoke any access exceeding role requirements. Preserve all logs in tamper-evident storage.</p>
+      <p style="margin-bottom:10px;"><strong style="color:var(--text-bright);">Short-term (1–30 days):</strong> Implement real-time escalation policy for off-hours SIEM alerts. Configure alerts on payment record modifications. Launch company-wide phishing awareness training. Implement DMARC, DKIM, and SPF on Meridian's email domains.</p>
+      <p style="margin-bottom:20px;"><strong style="color:var(--text-bright);">Long-term (30–90 days):</strong> Extend MFA to all systems handling sensitive data. Establish formal asset classification policy. Implement periodic access recertification every 6 months. Consider engaging an external red team after above changes are implemented.</p>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Legal &amp; Compliance Considerations</p>
+      <p style="margin-bottom:20px;">No customer personal data, payment card numbers, or other regulated consumer information was accessed. The attacker's activity was confined to vendor payment records — commercial data — which does not trigger notification requirements under applicable state consumer breach notification laws or PCI-DSS. All incident documentation has been preserved. If the wire recovery process fails, Meridian's legal team is prepared to file a referral with the FBI's IC3.</p>
+      <p style="color:var(--accent); font-weight:bold; margin-bottom:8px; font-size:14px;">Analyst Ethics Statement</p>
+      <p style="margin-bottom:8px;">J. Torres acted in good faith and was the victim of a well-crafted social engineering attack. This report makes no finding of negligence or misconduct on Torres's part. The failure to protect against credential theft was an organizational one. Assigning personal blame to Torres would be both factually incorrect and ethically inappropriate.</p>
+      <p>I conducted my investigation using only data and access provided to me by the client for this purpose. I have not disclosed any findings or client information to any third party outside of this engagement. All findings reflect my honest assessment of the evidence. Where uncertainty exists, I have said so explicitly rather than overstating my conclusions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PAGE 10: GRADING RUBRIC ===================== -->
+<div class="page" id="page10">
   <div class="card" style="border-color:var(--accent);">
     <h2 style="color:var(--text-bright);">Grading Rubric</h2>
     <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">This project is worth <strong style="color:var(--accent);">110 points</strong> across 6 phases. Use this rubric to guide your work and make sure you've addressed every criterion before submitting.</p>
@@ -1410,12 +1470,12 @@ const jordanResponses = [
   },
   {
     keys: ['training','awareness','phishing','education','staff','employee','users'],
-    topic: 'jt-training',
+    topic: null,
     text: "We did a security awareness training session when we onboarded two years ago — it was a 45-minute video. We haven't done anything since then. I've been meaning to bring in someone for a phishing simulation but budget has been tight. Most of the staff wouldn't know what a phishing email looks like."
   },
   {
     keys: ['vendor','third party','contractor','third-party','software','outside access','external access'],
-    topic: 'jt-vendor',
+    topic: null,
     text: "We use a few external vendors — our cloud backup provider, an email security service, and we had a contractor do some custom SQL scripting last quarter. The contractor had full database access during their engagement. I'm not 100% sure I fully cleaned up their credentials afterward. That's been nagging at me this morning."
   },
   {
@@ -1462,6 +1522,8 @@ function jordanOpen() {
       jordanCovered.add(t);
       const el = document.getElementById(t);
       if(el) el.classList.add('found');
+      const chk = document.querySelector(`.jordan-check[data-jt="${t}"]`);
+      if(chk) chk.classList.add('lit');
     });
   }
   addJordanMsg("Thanks for coming in. This whole situation has me pretty rattled. I'll answer whatever I can — I just want to understand what happened and how bad it is. What do you need to know?", true);
@@ -1502,6 +1564,8 @@ function askJordan() {
       if(r.topic) {
         jordanCovered.add(r.topic);
         document.getElementById(r.topic).classList.add('found');
+        const chk = document.querySelector(`.jordan-check[data-jt="${r.topic}"]`);
+        if(chk) chk.classList.add('lit');
       }
       matched = true;
       break;
@@ -1524,7 +1588,7 @@ function askJordan() {
 }
 
 function showJordanDebriefAndProceed() {
-  const allTopics = ['jt-mfa','jt-passwords','jt-logging','jt-backup','jt-framework','jt-incident','jt-database','jt-network','jt-training','jt-vendor'];
+  const allTopics = ['jt-mfa','jt-passwords','jt-logging','jt-backup','jt-framework','jt-incident','jt-database','jt-network'];
   const covered = allTopics.filter(t => jordanCovered.has(t)).length;
 
   // Reveal debrief card
@@ -1541,8 +1605,6 @@ function showJordanDebriefAndProceed() {
     'jt-incident': 'Incident response preparedness',
     'jt-database': 'Data assets and access controls',
     'jt-network':  'Network architecture and remote access',
-    'jt-training': 'Staff security awareness',
-    'jt-vendor':   'Third-party and contractor access',
   };
 
   allTopics.forEach(t => {
