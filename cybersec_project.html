@@ -23,10 +23,14 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); min-height: 100vh; zoom: 0.92; }
 
   /* NAV */
-  #nav { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0; overflow-x: auto; box-shadow: 0 2px 20px rgba(0,212,255,0.08); }
+  #nav { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0; overflow-x: auto; box-shadow: 0 2px 20px rgba(0,212,255,0.08); scroll-behavior: smooth; }
+  #nav::-webkit-scrollbar { height: 4px; }
+  #nav::-webkit-scrollbar-track { background: var(--bg2); }
+  #nav::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
+  #nav { scrollbar-width: thin; scrollbar-color: var(--yellow) var(--bg2); }
   .nav-btn { padding: 12px 18px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-family: inherit; font-size: 14px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
   .nav-btn:hover { color: var(--text-bright); background: rgba(0,212,255,0.06); }
   .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); text-shadow: 0 0 12px rgba(0,212,255,0.6); }
@@ -224,6 +228,7 @@
 </div>
 <div style="background:#161b22; border-bottom:1px solid #30363d; padding:8px 16px; display:flex; align-items:center; gap:12px;" class="no-print">
   <span id="autosave-status" style="color:#a8b8d0; font-size:12px; flex:1;">Autosave active</span>
+  <span style="color:#a8b8d0; font-size:11px;">↕ scroll up/down &nbsp;|&nbsp; ← → scroll nav left/right</span>
   <button class="btn btn-gray" style="font-size:12px;" onclick="autoSave()">Save Now</button>
   <button class="btn btn-gray" style="font-size:12px;" onclick="saveMyWork()">Export .html</button>
   <button class="btn btn-gray" style="font-size:12px; color:#ff7b72;" onclick="clearSave()">Clear Progress</button>
