@@ -2047,7 +2047,9 @@ const termFS = {
   '/var':                 { v:['log'],                                         h:[],                                      p:'/' },
   '/var/log':             { v:['auth.log','syslog','dpkg.log'],                h:[],                                      p:'/var' },
   '/home':                { v:['analyst','jreyes','billing_service','dev_marcus','service_backup','service_monitor','service_email'], h:[],  p:'/' },
-  '/home/analyst':        { v:['logs','notes.txt','pii.txt','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
+  '/home/analyst':        { v:['logs','Desktop','Documents'],      h:['.bash_history','.bashrc','.bash_logout'], p:'/home' },
+  '/home/analyst/Documents': { v:['notes.txt','pii.txt'],           h:[],                                      p:'/home/analyst' },
+  '/home/analyst/Desktop':   { v:[],                                h:[],                                      p:'/home/analyst' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
   '/home/jreyes':         { v:[],                                              h:['.bash_history','.bashrc'],             p:'/home' },
   '/home/service_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
@@ -2122,7 +2124,7 @@ cat /etc/passwd
 history -c`,
   '/home/billing_service/.bashrc': '# ~/.bashrc — billing_service\nexport PATH=/usr/local/bin:/usr/bin:/bin\nexport BILLING_ENV=production\nexport DB_HOST=127.0.0.1',
   '/home/analyst/.bashrc': '# ~/.bashrc: executed by bash(1) for non-login shells.',
-  '/home/analyst/pii.txt': `ClearPath Medical Billing — PII/PHI Reference Sheet
+  '/home/analyst/Documents/pii.txt': `ClearPath Medical Billing — PII/PHI Reference Sheet
 Prepared by: Jordan Reyes, IT Manager
 Last updated: January 2026
 ========================================
@@ -2179,7 +2181,7 @@ Do not downgrade severity based on uncertainty — if you can't confirm PHI
 was NOT accessed, assume it was.
 `,
 
-  '/home/analyst/notes.txt': `SOC Investigation Notes — analyst
+  '/home/analyst/Documents/notes.txt': `SOC Investigation Notes — analyst
 Started: Mon May 18 08:31
 
 ALERT: Overnight SSH anomaly flagged by SIEM. Investigating.
