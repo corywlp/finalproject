@@ -354,6 +354,13 @@
     </div>
   </div>
 
+  <div class="card">
+    <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
+    <div id="jordan-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
+    <button class="btn btn-gray hint-btn" data-hint-id="jordan-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('jordan-hints', jordanHints)">Use a Hint (1 of 3 remaining)</button>
+  </div>
+
   <!-- Debrief — hidden until student proceeds -->
   <div class="card" id="jordan-debrief" style="display:none; border-color:#d29922;">
     <h3 style="color:#e3b341;">Interview Debrief</h3>
@@ -567,6 +574,13 @@
     <textarea class="report-field" id="intel-why"></textarea>
   </div>
 
+  <div class="card">
+    <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
+    <div id="intel-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
+    <button class="btn btn-gray hint-btn" data-hint-id="intel-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('intel-hints', intelHints)">Use a Hint (1 of 3 remaining)</button>
+  </div>
+
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
     <button class="btn btn-gray" onclick="goTo(3)">&larr; Back</button>
     <span style="color:#a8b8d0; font-size:12px;">Switching devices? <button class="btn btn-gray" style="font-size:11px; padding:4px 10px;" onclick="saveMyWork()">Export .html</button></span>
@@ -755,6 +769,13 @@ failed_attempts = {}
       <p class="field-label">What improvements should be made before restoring full access?</p>
       <textarea class="report-field" id="pb-improve"></textarea>
     </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:4px;">Hints <span style="color:#a8b8d0; font-size:12px; font-weight:normal;">— reveal only if stuck</span></h3>
+    <div style="font-size:12px; margin-bottom:8px;" class="hint-budget-display"></div>
+    <div id="playbook-hints" style="display:flex; flex-direction:column; gap:8px;"></div>
+    <button class="btn btn-gray hint-btn" data-hint-id="playbook-hints" style="font-size:12px; margin-top:8px;" onclick="showHint('playbook-hints', playbookHints)">Use a Hint (1 of 3 remaining)</button>
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
@@ -2396,6 +2417,18 @@ async function saveMyWork() {
 }
 
 // ===================== PHASE HINTS =====================
+const jordanHints = [
+  "Jordan is the person who knows how this company actually operates day-to-day. Ask about the systems they use, who has access to what, and what security practices are in place — or not in place.",
+];
+
+const intelHints = [
+  "Try searching the IP address you found in the SIEM on Google, or paste it directly into AbuseIPDB or Shodan. Look at how many times it's been reported, what type of activity it's associated with, and what that tells you about who might be behind this attack.",
+];
+
+const playbookHints = [
+  "The NIST CSF gives you a structure — Identify, Protect, Detect, Respond, Recover. Go phase by phase and ask: based on everything I found, what specifically happened at each stage? Use your SIEM notes, terminal findings, and Jordan interview to fill in each section.",
+];
+
 const siemHints = [
   "Think about what a SIEM is designed to do — it collects and correlates security events. What tables are available to you, and what kinds of events would you expect to see before, during, and after an unauthorized access?",
   "Consider what patterns in the data might indicate malicious behavior versus normal activity. Authentication events, user account changes, and database activity are all worth examining separately.",
