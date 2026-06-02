@@ -725,25 +725,8 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>DEBRIEF — What did Jordan tell you?</h3>
-      <p class="field-label">Control Gap Analysis — For each topic you uncovered in the interview, note the keyword or control area and describe the risk Jordan revealed:</p>
-      <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
-        <thead>
-          <tr style="background:#1a2234;">
-            <th style="padding:8px 12px; text-align:left; color:#a8b8d0; font-weight:600; width:35%; border:1px solid #2a3f5f;">Topic / Control Area</th>
-            <th style="padding:8px 12px; text-align:left; color:#a8b8d0; font-weight:600; border:1px solid #2a3f5f;">What you learned and why this created risk</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-1" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;" placeholder="e.g. MFA"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-1" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;" placeholder="e.g. MFA was never set up — a stolen password alone was enough to log in"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-2" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-2" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-3" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-3" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-4" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-4" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-5" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-5" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-6" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-6" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-7" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-7" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-          <tr><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-topic-8" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td><td style="border:1px solid #2a3f5f; padding:4px 6px;"><input type="text" id="pb-recon-risk-8" style="width:100%; background:transparent; border:none; color:#eef2ff; font-family:inherit; font-size:13px; outline:none;"></td></tr>
-        </tbody>
-      </table>
+      <p class="field-label">For each topic you uncovered, summarize what you learned and why it created risk:</p>
+      <textarea class="report-field" id="pb-recon-gaps" style="min-height:200px;" placeholder="1.&#10;2.&#10;3.&#10;4.&#10;5.&#10;6.&#10;7.&#10;8."></textarea>
     </div>
 
     <div class="report-section">
@@ -2372,7 +2355,7 @@ async function saveMyWork() {
     'siem-notes','terminal-notes',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
     'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-    'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2','pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4','pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6','pb-recon-topic-7','pb-recon-risk-7','pb-recon-topic-8','pb-recon-risk-8','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+    'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
     'pb-respond','pb-notify','pb-recover','pb-improve',
     'rpt-analyst','rpt-date','rpt-client','rpt-class',
     'rpt-exec','rpt-timeline','rpt-resume',
@@ -2524,7 +2507,7 @@ const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
   'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-  'pb-recon-topic-1','pb-recon-risk-1','pb-recon-topic-2','pb-recon-risk-2','pb-recon-topic-3','pb-recon-risk-3','pb-recon-topic-4','pb-recon-risk-4','pb-recon-topic-5','pb-recon-risk-5','pb-recon-topic-6','pb-recon-risk-6','pb-recon-topic-7','pb-recon-risk-7','pb-recon-topic-8','pb-recon-risk-8','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+  'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
   'pb-respond','pb-notify','pb-recover','pb-improve',
   'rpt-analyst','rpt-date','rpt-client','rpt-class',
   'rpt-exec','rpt-timeline',
