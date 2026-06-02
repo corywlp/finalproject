@@ -1535,8 +1535,6 @@ function jordanOpen() {
   if(window._restoredJordanCovered) {
     window._restoredJordanCovered.forEach(t => {
       jordanCovered.add(t);
-      const el = document.getElementById(t);
-      if(el) el.classList.add('found');
       const chk = document.querySelector(`.jordan-check[data-jt="${t}"]`);
       if(chk) chk.classList.add('lit');
     });
