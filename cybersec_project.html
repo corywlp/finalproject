@@ -1494,7 +1494,7 @@ const jordanResponses = [
   {
     keys: ['logs','logging','log retention','siem','monitoring','log file','log files'],
     topic: 'jt-logging',
-    text: "We do have logging enabled on the Linux server — auth logs, syslog, that kind of thing. We set up a basic centralized log collector about 6 months ago. Retention is 30 days, which I've heard might not be enough. The SIEM alerts fire for some things but we don't have someone watching them in real time. It's more of a 'check in the morning' situation."
+    text: "We do have logging enabled on the Linux server — the OS keeps records of logins, account changes, that kind of thing. We set up a basic centralized log collector about 6 months ago. Retention is 30 days, which I've heard might not be enough. The SIEM alerts fire for some things but we don't have someone watching them in real time. It's more of a 'check in the morning' situation. Honestly I never really look at the raw logs myself — that's more of an analyst thing."
   },
   {
     keys: ['backup','backups','recovery','restore','disaster recovery'],
@@ -2062,7 +2062,8 @@ const termFS = {
 
 // File contents keyed by absolute path
 const termFiles = {
-  '/etc/passwd': `root:x:0:0:root:/root:/bin/bash
+  '/etc/passwd': `# /etc/passwd — last modified: May 18 02:14:51
+root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
 # --- staff accounts (provisioned by IT, Mar 2020) ---
@@ -2192,8 +2193,8 @@ KNOWN GOOD BASELINE (from IT onboarding docs):
 - No external SSH access is authorized for service accounts
 
 TODO:
-- Check auth.log for the source IP triggering the alert
-- Verify no new accounts were created
+- The system keeps a record of every login attempt and account change. Where would those live on a Linux server?
+- Verify no new accounts were created — /etc/passwd is a good start, but when was it last modified?
 - jreyes flagged that the server felt slow around 2-3am — check if anything new was scheduled to run during that window`,
   '/home/analyst/logs/access.log': `10.0.0.5 - jreyes [18/May/2026:08:03:44 +0000] "GET /billing/dashboard HTTP/1.1" 200 4821
 10.0.0.5 - jreyes [18/May/2026:08:04:12 +0000] "GET /billing/reports HTTP/1.1" 200 9302
