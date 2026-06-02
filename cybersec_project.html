@@ -1578,7 +1578,6 @@ function askJordan() {
       addJordanMsg(r.text, true);
       if(r.topic) {
         jordanCovered.add(r.topic);
-        document.getElementById(r.topic).classList.add('found');
         const chk = document.querySelector(`.jordan-check[data-jt="${r.topic}"]`);
         if(chk) chk.classList.add('lit');
       }
