@@ -725,10 +725,7 @@ failed_attempts = {}
 
     <div class="report-section">
       <h3>RECON — What did Jordan tell you?</h3>
-      <p class="field-label">Write down all of the information you gained about the company's controls and systems from your interview with Jordan:</p>
-      <textarea class="report-field" id="pb-recon"></textarea>
-
-      <p class="field-label" style="margin-top:16px;">Control Gap Analysis — Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created:</p>
+      <p class="field-label">Control Gap Analysis — Based on your interview with Jordan and your technical findings, list the security controls that were missing or failed. For each, state the risk it created:</p>
       <textarea class="report-field" id="pb-recon-gaps"></textarea>
     </div>
 
@@ -1069,9 +1066,13 @@ failed_attempts = {}
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Ransomware</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Malware that encrypts files and demands payment. Often deployed after persistence and data theft are already complete.</p>
       </div>
-      <div style="padding:10px 12px;">
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Network Segmentation</p>
         <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so a breach in one area doesn't expose everything. A flat network gives an attacker access to all systems from one entry point.</p>
+      </div>
+      <div style="padding:10px 12px;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Backup &amp; Disaster Recovery</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Regularly copying data to a separate location so it can be restored after an incident. A backup is only useful if it has been tested — an untested backup may fail when you need it most.</p>
       </div>
     </div>
   </div>
@@ -2354,7 +2355,7 @@ async function saveMyWork() {
     'siem-notes','terminal-notes',
     'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
     'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-    'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+    'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
     'pb-respond','pb-notify','pb-recover','pb-improve',
     'rpt-analyst','rpt-date','rpt-client','rpt-class',
     'rpt-exec','rpt-timeline','rpt-resume',
@@ -2506,7 +2507,7 @@ const ALL_FIELD_IDS = [
   'siem-notes','terminal-notes','intel-what','intel-meaning','intel-why',
   'python-output','python-bugs','python-q1','python-q2','python-q3','python-q4',
   'pb-name','pb-datetime','pb-analyst','pb-class','pb-severity','pb-desc',
-  'pb-recon','pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
+  'pb-recon-gaps','pb-identify','pb-phi','pb-protect','pb-detect-how','pb-detect-miss',
   'pb-respond','pb-notify','pb-recover','pb-improve',
   'rpt-analyst','rpt-date','rpt-client','rpt-class',
   'rpt-exec','rpt-timeline',
