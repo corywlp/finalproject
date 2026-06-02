@@ -896,147 +896,107 @@ failed_attempts = {}
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Brute Force Attack</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An attack where an adversary tries many passwords in rapid succession hoping one will work. Detected by large volumes of failed login attempts from the same source.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Trying many passwords rapidly until one works. Detected by large volumes of failed login attempts from the same source in a short window.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Persistence</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A technique attackers use to maintain access to a system even after a reboot or password change. Common methods include scheduled tasks, backdoor accounts, and startup scripts.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">How attackers maintain access after the initial intrusion — even through reboots or password changes. Common methods: scheduled tasks, backdoor accounts, startup scripts.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Cron Job</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A scheduled task on a Linux system that runs a command automatically at a set interval. Stored in files under <code>/etc/cron.d/</code> or via the <code>crontab</code> command. Attackers use these for persistence.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A scheduled task on Linux that runs automatically at set intervals. Stored in <code>/etc/cron.d/</code>. Attackers use these to re-run malicious code without being present.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">C2 / Command &amp; Control</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A server controlled by an attacker that receives connections from compromised systems. An infected machine "beacons" out to C2 regularly to receive instructions or exfiltrate data.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Reverse Shell</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The compromised machine calls out to the attacker's server, giving them remote control. Bypasses inbound firewall rules because the connection goes outbound.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Reverse Shell</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A technique where the compromised machine initiates a connection back to the attacker, giving them an interactive shell. This bypasses inbound firewall rules since the connection goes outbound.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">C2 / Command &amp; Control</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A server the attacker controls that receives connections from compromised machines. The infected system "beacons" out to receive instructions or send stolen data.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Exfiltration</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Unauthorized transfer of data out of a network. In this investigation, look at what data was queried from the database and whether it could have been sent to an external destination.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Unauthorized transfer of data out of a network. Look at what was queried from the database and where outbound connections went.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">IOC — Indicator of Compromise</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Evidence that a system has been attacked or breached. Examples: suspicious IP addresses, unexpected user accounts, unusual processes, modified files, or anomalous network traffic.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Evidence of an attack: suspicious IPs, unexpected accounts, unusual processes, modified files, or anomalous network traffic.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Privilege Escalation</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Gaining higher-level permissions than originally obtained. On Linux, this often means moving from a regular user to root. Watch for accounts added to the <code>sudo</code> group.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Gaining higher permissions than originally obtained. On Linux, this means getting root access. Watch for accounts added to the <code>sudo</code> group.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">PHI — Protected Health Information</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Any health-related information that can identify an individual. Includes names, dates of birth, diagnoses, insurance IDs, and billing records. Protected under HIPAA in the United States.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Anti-Forensics</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Techniques used by attackers to hide their activity or hinder investigation. Common examples: deleting log files, clearing shell history, renaming malicious files to look legitimate.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Least Privilege</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A security principle stating that users and systems should only have the minimum access needed to do their job. Violations create unnecessary risk if an account is compromised.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Network Segmentation</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so that a breach in one area doesn't automatically give access to everything else. A flat network (no segmentation) means one compromised host can reach all others.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SSH &amp; Authorized Keys</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">SSH (Secure Shell) is a protocol for remote server access. A server can be configured to allow login via a cryptographic key instead of a password. Authorized public keys are stored in <code>~/.ssh/authorized_keys</code> — if an attacker adds their key there, they can log in without a password indefinitely.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Techniques to hide activity or hinder investigation — deleting logs, clearing shell history, renaming malicious files to look legitimate.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Backdoor Account</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account created by an attacker to maintain access after the initial intrusion. These accounts are often named to blend in with legitimate service accounts. Look for accounts created at unusual hours or with elevated privileges that don't match their apparent purpose.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An account created by an attacker to maintain access. Often named to blend in with legitimate service accounts. Look for accounts created at odd hours with elevated privileges.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SSH &amp; Authorized Keys</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">SSH is the protocol for remote server access. Keys stored in <code>~/.ssh/authorized_keys</code> allow passwordless login — if an attacker adds their key there, they can return anytime.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Package Manager / dpkg</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Software on Linux is installed through a package manager. Every installation is logged — typically in <code>/var/log/dpkg.log</code>. Unexpected software installed at odd hours can be a significant indicator of compromise.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Process Log / Audit Trail</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A record of commands or processes that ran on a system, including who ran them and when. Distinct from auth logs (which track logins) — process logs track what happened after someone was already in. Critical for reconstructing attacker behavior.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Linux software installs are logged in <code>/var/log/dpkg.log</code>. Unexpected software installed at odd hours is a red flag.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Lateral Movement</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">After gaining initial access, attackers often move to other systems or accounts within the network. Signs include logins from internal IPs at unusual times, use of service accounts for interactive sessions, or access to systems unrelated to the entry point.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Defense in Depth</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A security strategy that layers multiple controls so that if one fails, others still provide protection. No single control is assumed to be perfect. An attacker who bypasses one layer — say, a firewall — should still face authentication requirements, logging, and monitoring.</p>
-      </div>
-      <div style="padding:10px 12px; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Log Correlation</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The practice of connecting events across multiple log sources to reconstruct what happened. A single log rarely tells the whole story — auth logs, process logs, firewall logs, and database logs together reveal the full attack chain.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Process Log / Audit Trail</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Records what commands ran on a system, by whom, and when. Different from auth logs (which track logins) — process logs show what happened after someone was already in.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Orphaned Account</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account that remains active after the person no longer needs access — a former employee, a contractor whose engagement ended, or a service account for a decommissioned system. Orphaned accounts are a common attack vector and should be disabled or removed promptly.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An account left active after someone no longer needs access — former employees, expired contractors. A common and overlooked attack vector.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">MFA — Multi-Factor Authentication</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Requiring more than one form of verification to log in — typically a password plus a one-time code from an app or text message. Even if a password is stolen, MFA prevents login without the second factor.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Requiring a second verification step beyond a password — like a one-time code. A stolen password alone cannot complete login if MFA is enabled.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SIEM — Security Information &amp; Event Management</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A system that aggregates logs from across an organization and allows analysts to search, correlate, and alert on security events. Think of it as a searchable database of everything that happened on your network.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SIEM</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Security Information and Event Management — a system that aggregates logs and lets analysts search for security events. A searchable record of everything that happened on the network.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Root / sudo</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">On Linux, <code>root</code> is the all-powerful administrator account. <code>sudo</code> allows a regular user to run commands with root-level privileges. Any account added to the sudo group effectively has full control of the system.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;"><code>root</code> is Linux's all-powerful admin account. <code>sudo</code> lets a regular user run commands with root privileges. Any account in the sudo group has full system control.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Service Account</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A user account created for an automated process rather than a human — backups, monitoring, scheduled scripts. They often have elevated permissions and are less scrutinized than human accounts, making them attractive targets for attackers to impersonate or create.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Firewall</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A network control that filters traffic based on rules — blocking or allowing connections by IP address, port, or protocol. Firewalls log both allowed and blocked connections; outbound connections to unusual IPs or ports can indicate a compromise.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Filters network traffic by IP, port, or protocol. Logs both allowed and blocked connections — outbound traffic to unusual IPs can signal a breach.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Least Privilege</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Users and systems should only have the minimum access needed. Over-provisioned accounts give attackers more power when compromised.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">PHI — Protected Health Information</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Health data that can identify a person — names, DOBs, diagnoses, insurance IDs, billing records. Protected under HIPAA.</p>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">NIST Cybersecurity Framework</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A widely adopted framework for managing cybersecurity risk, organized into five functions: Identify, Protect, Detect, Respond, and Recover. Used by organizations to assess their security posture and by analysts to structure incident response recommendations.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Five functions for managing security risk: Identify, Protect, Detect, Respond, Recover. Used to structure incident response recommendations.</p>
       </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
+      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Incident Response Plan</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A documented procedure for how an organization detects, contains, and recovers from a security incident. An untested or outdated IR plan is often worse than having a simple, practiced one — the plan is only useful if people know it exists and how to follow it.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Security Awareness Training</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Ongoing education for employees about cybersecurity threats and safe behavior — recognizing phishing, handling credentials, reporting suspicious activity. A one-time onboarding video does not count as ongoing training. Human error is the leading cause of breaches.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A documented procedure for detecting, containing, and recovering from a breach. Only useful if it's current and people know it exists.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Third-Party / Vendor Access</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">External organizations or contractors that have been granted access to internal systems. Their credentials carry the same risk as employee credentials — if not revoked when the engagement ends, they become an unmonitored entry point.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SQL</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The language used to query databases. <code>SELECT</code> retrieves data. In a breach, DB query logs show exactly what was accessed and by whom.</p>
       </div>
       <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">SQL — Structured Query Language</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">The language used to query and manipulate databases. Commands like <code>SELECT</code> retrieve data, <code>INSERT</code> adds records, <code>UPDATE</code> modifies them. In a breach, database query logs can reveal exactly what data was accessed and by whom.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
         <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Phishing</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A social engineering attack where an attacker impersonates a trusted entity to trick someone into revealing credentials or clicking a malicious link. Often delivered via email. Not all breaches start with phishing — other initial access methods include brute force, stolen credentials, and unpatched vulnerabilities.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Ransomware</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Malware that encrypts a victim's files and demands payment for the decryption key. Often deployed after the attacker has already established persistence and exfiltrated data. The ransom demand is not always the final objective — data theft may have already occurred before encryption begins.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">VPN — Virtual Private Network</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">An encrypted tunnel between a remote device and a private network, allowing secure remote access. VPN login events appear in authentication logs and can be a key entry point in an investigation — especially if access originates from an unexpected location or IP.</p>
-      </div>
-      <div style="padding:10px 12px; border-bottom:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Zero-Day</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">A software vulnerability that is unknown to the vendor and has no available patch. Attackers who discover zero-days can exploit them before any defense exists. Most breaches do not involve zero-days — attackers prefer well-known, unpatched vulnerabilities because they're cheaper and more available.</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Impersonating a trusted entity to trick someone into giving up credentials or clicking a malicious link. Not how this breach started — but a common initial access method.</p>
       </div>
       <div style="padding:10px 12px; border-right:1px solid #21262d;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Endpoint Detection &amp; Response (EDR)</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Security software installed on individual devices that monitors for suspicious behavior in real time — unusual processes, file modifications, network connections. EDR can detect threats that traditional antivirus misses, including fileless attacks and living-off-the-land techniques.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Ransomware</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Malware that encrypts files and demands payment. Often deployed after persistence and data theft are already complete.</p>
       </div>
       <div style="padding:10px 12px;">
-        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Social Engineering</p>
-        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Manipulating people rather than systems to gain access or information. Includes phishing, pretexting (impersonating someone with authority), and vishing (voice-based deception). Technical controls alone cannot defend against social engineering — human training is required.</p>
+        <p style="color:#79c0ff; font-size:12px; font-weight:bold;">Network Segmentation</p>
+        <p style="color:#a8b8d0; font-size:12px; line-height:1.6;">Dividing a network into isolated zones so a breach in one area doesn't expose everything. A flat network gives an attacker access to all systems from one entry point.</p>
       </div>
     </div>
   </div>
