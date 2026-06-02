@@ -487,7 +487,7 @@
   <div class="card" style="margin-top:4px;">
     <h3>Investigation Notes — SIEM</h3>
     <p class="field-label">What suspicious events did you find? Summarize your findings below.</p>
-    <textarea class="report-field" id="siem-notes" placeholder="e.g., Found 47 failed SSH login attempts from IP 185.220.101.42 between 01:52 and 02:14 AM on May 18..."></textarea>
+    <textarea class="report-field" id="siem-notes" placeholder="e.g., Found a large number of failed SSH login attempts from the same external IP address in a short window. Then found a successful login from that same IP shortly after..."></textarea>
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
@@ -530,7 +530,7 @@
   <div class="card">
     <h3>Investigation Notes — Terminal</h3>
     <p class="field-label">What artifacts did you find on the system? What do they indicate?</p>
-    <textarea class="report-field" id="terminal-notes" placeholder="e.g., Found a suspicious cron job running every 5 minutes that beacons to 185.220.101.42. Also found a new user account 'service_backup' created at 02:14 AM..."></textarea>
+    <textarea class="report-field" id="terminal-notes" placeholder="e.g., Found a suspicious cron job running every 5 minutes pointing to an external IP. Also found a new user account created in the middle of the night with admin privileges..."></textarea>
   </div>
 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
