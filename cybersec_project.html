@@ -133,6 +133,7 @@
   .mono { font-family: 'Courier New', monospace; color: var(--accent); }
   code { background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--accent); border: 1px solid var(--border2); }
   .findings-tracker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .print-mirror { display: none; }
   .finding-item { background: var(--bg3); border-radius: 6px; padding: 10px 12px; font-size: 12px; border-left: 3px solid var(--border2); transition: border-color 0.3s; }
   .finding-item.found { border-left-color: var(--green); box-shadow: -2px 0 8px rgba(0,255,136,0.2); }
   .finding-item .fi-label { color: var(--text-dim); }
@@ -179,10 +180,11 @@
     #pdf-cover .cover-meta-row .value { color:#1a1a2e; font-weight:bold; }
     #pdf-cover .cover-footer { margin-top:60px; font-size:11px; color:#aaa; }
     .page { display: block !important; }
-    #page0, #page1, #page2, #page3, #page4, #page5, #page6, #page8, #page9, #page10, #page11 { display: none !important; }
+    #page0, #page1, #page2, #page3, #page4, #page5, #page8, #page9, #page10, #page11 { display: none !important; }
     #page7 { display: block !important; }
     .no-print { display: none !important; }
-    textarea.report-field { border:1px solid #ccc; background:#fff; color:#000; font-family: Georgia, serif; font-size:12px; height:auto; min-height:0; overflow:visible; resize:none; }
+    textarea.report-field { display: none !important; }
+    .print-mirror { display: block !important; border:1px solid #ccc; background:#fff; color:#000; font-family: Georgia, serif; font-size:12px; white-space:pre-wrap; word-break:break-word; padding:8px; min-height:20px; width:100%; box-sizing:border-box; }
     input.report-field, select.report-field { border:none; border-bottom:1px solid #ccc; background:#fff; color:#000; font-size:13px; }
     body { background:#fff; color:#000; }
     .card { background:#fff; border:none; border-bottom:1px solid #eee; border-radius:0; padding:16px 0; margin-bottom:0; }
@@ -2625,7 +2627,7 @@ async function saveMyWork() {
   fieldIds.forEach(id => {
     const el = document.getElementById(id);
     if(el) {
-      const v = el.value.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+      const v = el.value.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$').replace(/<\/script>/gi,'<\\/script>');
       if(el.tagName === 'SELECT') {
         prefillScript += `  var s = document.getElementById(${JSON.stringify(id)}); if(s) s.value = \`${v}\`;\n`;
       } else {
@@ -2852,6 +2854,23 @@ document.addEventListener('DOMContentLoaded', () => {
   jordanOpen();
   updateHintDisplay();
   // populate PDF cover from report fields on print
+function createPrintMirrors() {
+  document.querySelectorAll('textarea.report-field').forEach(function(ta) {
+    const mirror = document.createElement('div');
+    mirror.className = 'print-mirror';
+    mirror.textContent = ta.value;
+    ta.parentNode.insertBefore(mirror, ta.nextSibling);
+    ta.addEventListener('input', function() { mirror.textContent = ta.value; });
+    ta._mirror = mirror;
+  });
+}
+
+function syncPrintMirrors() {
+  document.querySelectorAll('textarea.report-field').forEach(function(ta) {
+    if(ta._mirror) ta._mirror.textContent = ta.value;
+  });
+}
+
   window.addEventListener('beforeprint', () => {
     document.getElementById('cv-analyst').textContent = document.getElementById('rpt-analyst').value || '(not filled)';
     document.getElementById('cv-date').textContent = document.getElementById('rpt-date').value || '(not filled)';
@@ -2877,6 +2896,9 @@ Last login: Sun May 18 08:03:11 2026 from 10.0.0.5
 
 Type 'help' for a list of available commands.
 </span></div>`;
+
+  createPrintMirrors();
+  setTimeout(syncPrintMirrors, 800);
 });
 </script>
 </body>
